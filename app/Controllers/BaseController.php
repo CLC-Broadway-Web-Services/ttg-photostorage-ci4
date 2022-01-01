@@ -35,7 +35,8 @@ class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = [];
+    protected $helpers = ['custom'];
+    protected $data;
 
     /**
      * Constructor.
@@ -43,7 +44,8 @@ class BaseController extends Controller
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
-        parent::initController($request, $response, $logger);
+        $this->data = array();
+        parent::initController($request, $response, $logger, $this->data);
 
         // Preload any models, libraries, etc, here.
 
