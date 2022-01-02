@@ -63,6 +63,10 @@ $routes->get('/add-client/edit/(:num)', 'Admin\ClientController::edit/$1', ['as'
 $routes->get('/abusahd', 'Admin\ClientController::edit');
 
 
+// TEST ROUTE
+$routes->get('/ahtesham', 'Admin\ClientController::edit');
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
