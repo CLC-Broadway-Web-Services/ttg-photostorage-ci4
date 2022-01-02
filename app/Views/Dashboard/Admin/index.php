@@ -1,0 +1,329 @@
+<?= $this->extend('Dashboard/layout') ?>
+
+
+<?= $this->section('content') ?>
+
+<div class="container-fluid">
+    <div class="nk-content-inner">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">Dashboard</h3>
+                    </div><!-- .nk-block-head-content -->
+                    <div class="nk-block-head-content">
+                        <div class="toggle-wrap nk-block-tools-toggle">
+                            <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                            <div class="toggle-expand-content" data-content="pageMenu">
+                                <ul class="nk-block-tools g-3">
+                                    <li>
+                                        <div class="drodown">
+                                            <a href="#" class="dropdown-toggle btn btn-white btn-dim btn-outline-light" data-toggle="dropdown"><em class="d-none d-sm-inline icon ni ni-calender-date"></em><span><span class="d-none d-md-inline">Last</span> 30 Days</span><em class="dd-indc icon ni ni-chevron-right"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="#"><span>Last 30 Days</span></a></li>
+                                                    <li><a href="#"><span>Last 6 Months</span></a></li>
+                                                    <li><a href="#"><span>Last 1 Years</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="nk-block-tools-opt"><a href="#" class="btn btn-primary"><em class="icon ni ni-reports"></em><span>Reports</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!-- .nk-block-head-content -->
+                </div><!-- .nk-block-between -->
+            </div><!-- .nk-block-head -->
+            <div class="nk-block">
+                <div class="row g-gs">
+                    <div class="col-xxl-3 col-sm-3">
+                        <div class="card">
+                            <div class="nk-ecwg nk-ecwg6">
+                                <div class="card-inner">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Today Orders</h6>
+                                        </div>
+                                    </div>
+                                    <div class="data">
+                                        <div class="data-group">
+                                            <div class="amount">1,945</div>
+                                            <div class="nk-ecwg6-ck">
+                                            </div>
+                                        </div>
+                                        <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
+                                    </div>
+                                </div><!-- .card-inner -->
+                            </div><!-- .nk-ecwg -->
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                    <div class="col-xxl-3 col-sm-3">
+                        <div class="card">
+                            <div class="nk-ecwg nk-ecwg6">
+                                <div class="card-inner">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Today Revenue</h6>
+                                        </div>
+                                    </div>
+                                    <div class="data">
+                                        <div class="data-group">
+                                            <div class="amount">$2,338</div>
+                                            <div class="nk-ecwg6-ck">
+                                            </div>
+                                        </div>
+                                        <div class="info"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>2.34%</span><span> vs. last week</span></div>
+                                    </div>
+                                </div><!-- .card-inner -->
+                            </div><!-- .nk-ecwg -->
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                    <div class="col-xxl-3 col-sm-3">
+                        <div class="card">
+                            <div class="nk-ecwg nk-ecwg6">
+                                <div class="card-inner">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Today Customers</h6>
+                                        </div>
+                                    </div>
+                                    <div class="data">
+                                        <div class="data-group">
+                                            <div class="amount">847</div>
+                                            <div class="nk-ecwg6-ck">
+                                            </div>
+                                        </div>
+                                        <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
+                                    </div>
+                                </div><!-- .card-inner -->
+                            </div><!-- .nk-ecwg -->
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                    <div class="col-xxl-3 col-sm-3">
+                        <div class="card">
+                            <div class="nk-ecwg nk-ecwg6">
+                                <div class="card-inner">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Today Visitors</h6>
+                                        </div>
+                                    </div>
+                                    <div class="data">
+                                        <div class="data-group">
+                                            <div class="amount">23,485</div>
+                                            <div class="nk-ecwg6-ck">
+                                            </div>
+                                        </div>
+                                        <div class="info"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>2.34%</span><span> vs. last week</span></div>
+                                    </div>
+                                </div><!-- .card-inner -->
+                            </div><!-- .nk-ecwg -->
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                    <div class="col-md-12 col-xxl-3">
+                        <div class="card h-100">
+                            <div class="card-inner">
+                                <div class="card-title-group">
+                                    <div class="card-title card-title-sm">
+                                        <h6 class="title">Users by Country</h6>
+                                    </div>
+                                    <div class="card-tools">
+                                        <div class="drodown">
+                                            <a href="#" class="dropdown-toggle dropdown-indicator btn btn-sm btn-outline-light btn-white" data-toggle="dropdown">30 Days</a>
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="#"><span>7 Days</span></a></li>
+                                                    <li><a href="#"><span>15 Days</span></a></li>
+                                                    <li><a href="#"><span>30 Days</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="analytics-map">
+                                    <div class="vector-map" id="worldMap"></div>
+                                    <table class="analytics-map-data-list">
+                                        <tr class="analytics-map-data">
+                                            <td class="country">United States</td>
+                                            <td class="amount">12,094</td>
+                                            <td class="percent">23.54%</td>
+                                        </tr>
+                                        <tr class="analytics-map-data">
+                                            <td class="country">India</td>
+                                            <td class="amount">7,984</td>
+                                            <td class="percent">7.16%</td>
+                                        </tr>
+                                        <tr class="analytics-map-data">
+                                            <td class="country">Turkey</td>
+                                            <td class="amount">6,338</td>
+                                            <td class="percent">6.54%</td>
+                                        </tr>
+                                        <tr class="analytics-map-data">
+                                            <td class="country">Bangladesh</td>
+                                            <td class="amount">4,749</td>
+                                            <td class="percent">5.29%</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-inner">
+                                <div class="card-title-group align-start gx-3 mb-3">
+                                    <div class="card-title">
+                                        <h6 class="title">Sales Overview</h6>
+                                    </div>
+                                    <div class="card-tools">
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
+                                            <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="#"><span>Download Mini Version</span></a></li>
+                                                    <li><a href="#"><span>Download Full Version</span></a></li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#"><em class="icon ni ni-opt-alt"></em><span>More Options</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
+                                    <div class="nk-sale-data">
+                                    </div>
+                                    <div class="nk-sale-data">
+                                    </div>
+                                </div>
+                                <div class="nk-sales-ck large pt-4">
+                                    <canvas class="sales-overview-chart" id="salesOverview"></canvas>
+                                </div>
+                            </div>
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-inner">
+                                <div class="card-title-group align-start gx-3 mb-3">
+                                    <div class="card-title">
+                                        <h6 class="title">Sales Overview</h6>
+                                    </div>
+                                    <div class="card-tools">
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
+                                            <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="#"><span>Download Mini Version</span></a></li>
+                                                    <li><a href="#"><span>Download Full Version</span></a></li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#"><em class="icon ni ni-opt-alt"></em><span>More Options</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
+                                    <div class="nk-sale-data">
+                                    </div>
+                                    <div class="nk-sale-data">
+                                    </div>
+                                </div>
+                                <div class="nk-sales-ck large pt-4">
+                                    <canvas class="sales-overview-chart" id="salesOverview2"></canvas>
+                                </div>
+                            </div>
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-inner">
+                                <div class="card-title-group align-start gx-3 mb-3">
+                                    <div class="card-title">
+                                        <h6 class="title">Sales Overview</h6>
+                                    </div>
+                                    <div class="card-tools">
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
+                                            <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="#"><span>Download Mini Version</span></a></li>
+                                                    <li><a href="#"><span>Download Full Version</span></a></li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#"><em class="icon ni ni-opt-alt"></em><span>More Options</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
+                                    <div class="nk-sale-data">
+                                    </div>
+                                    <div class="nk-sale-data">
+                                    </div>
+                                </div>
+                                <div class="nk-sales-ck large pt-4">
+                                    <canvas class="sales-overview-chart" id="salesOverview3"></canvas>
+                                </div>
+                            </div>
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card card-full overflow-hidden">
+                            <div class="nk-ecwg nk-ecwg7 h-100">
+                                <div class="card-inner flex-grow-1">
+                                    <div class="card-title-group mb-4">
+                                        <div class="card-title">
+                                            <h6 class="title">Order Statistics</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <div class="dropdown">
+                                                <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
+                                                <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                                        <li><a href="#"><span>Download Mini Version</span></a></li>
+                                                        <li><a href="#"><span>Download Full Version</span></a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="#"><em class="icon ni ni-opt-alt"></em><span>More Options</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nk-ecwg7-ck">
+                                        <canvas class="ecommerce-doughnut-s1" id="orderStatistics"></canvas>
+                                    </div>
+                                    <ul class="nk-ecwg7-legends">
+                                        <li>
+                                            <div class="title">
+                                                <span class="dot dot-lg sq" data-bg="#816bff"></span>
+                                                <span>Completed</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">
+                                                <span class="dot dot-lg sq" data-bg="#13c9f2"></span>
+                                                <span>Processing</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">
+                                                <span class="dot dot-lg sq" data-bg="#ff82b7"></span>
+                                                <span>Canclled</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div><!-- .card-inner -->
+                            </div>
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                </div><!-- .row -->
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+<?= $this->endSection() ?>
