@@ -60,6 +60,10 @@ $routes->post('/add-client', 'Admin\ClientController::index', ['as' => 'add_clie
 $routes->get('/add-client/edit/(:num)', 'Admin\ClientController::edit/$1', ['as' => 'add_client_edit']);
 
 
+// TEST ROUTE
+$routes->get('/ahtesham', 'Admin\ClientController::edit');
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
