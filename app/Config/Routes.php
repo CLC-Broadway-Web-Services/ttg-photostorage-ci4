@@ -59,6 +59,9 @@ $routes->get('/app-chats', 'Admin\DashboardController::app_chats', ['as' => 'app
 $routes->post('/add-client', 'Admin\ClientController::index', ['as' => 'add_client']);
 $routes->get('/add-client/edit/(:num)', 'Admin\ClientController::edit/$1', ['as' => 'add_client_edit']);
 
+// test route
+$routes->get('/abusahd', 'Admin\ClientController::edit');
+
 
 /*
  * --------------------------------------------------------------------
