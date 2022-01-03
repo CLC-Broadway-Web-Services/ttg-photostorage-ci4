@@ -53,8 +53,8 @@
                                             </div>
                                         </div>
                                         <div class="info">
-                                            <span class="change <?= $shipments['percentage'] > 100 ? 'up' : 'down' ?> text-danger">
-                                                <em class="icon ni ni-arrow-long-<?= $shipments['percentage'] > 100 ? 'up' : 'down' ?>"></em>
+                                            <span class="change <?= $shipments['percentage'] >= 100 ? 'up' : 'down' ?> text-danger">
+                                                <em class="icon ni ni-arrow-long-<?= $shipments['percentage'] >= 100 ? 'up' : 'down' ?>"></em>
                                                 <?= round($shipments['percentage'], 2) ?> %
                                             </span>
                                             <span> vs. last month</span>
@@ -80,8 +80,8 @@
                                             </div>
                                         </div>
                                         <div class="info">
-                                            <span class="change <?= $crns['percentage'] > 100 ? 'up' : 'down' ?> text-danger">
-                                                <em class="icon ni ni-arrow-long-<?= $crns['percentage'] > 100 ? 'up' : 'down' ?>"></em>
+                                            <span class="change <?= $crns['percentage'] >= 100 ? 'up' : 'down' ?> text-danger">
+                                                <em class="icon ni ni-arrow-long-<?= $crns['percentage'] >= 100 ? 'up' : 'down' ?>"></em>
                                                 <?= round($crns['percentage'], 2) ?> %
                                             </span>
                                             <span> vs. last month</span>
@@ -107,8 +107,8 @@
                                             </div>
                                         </div>
                                         <div class="info">
-                                            <span class="change <?= $assets['percentage'] > 100 ? 'up' : 'down' ?> text-danger">
-                                                <em class="icon ni ni-arrow-long-<?= $assets['percentage'] > 100 ? 'up' : 'down' ?>"></em>
+                                            <span class="change <?= $assets['percentage'] >= 100 ? 'up' : 'down' ?> text-danger">
+                                                <em class="icon ni ni-arrow-long-<?= $assets['percentage'] >= 100 ? 'up' : 'down' ?>"></em>
                                                 <?= round($assets['percentage'], 2) ?> %
                                             </span>
                                             <span> vs. last month</span>
@@ -134,8 +134,8 @@
                                             </div>
                                         </div>
                                         <div class="info">
-                                            <span class="change <?= $clients['percentage'] > 100 ? 'up' : 'down' ?> text-danger">
-                                                <em class="icon ni ni-arrow-long-<?= $clients['percentage'] > 100 ? 'up' : 'down' ?>"></em>
+                                            <span class="change <?= $clients['percentage'] >= 100 ? 'up' : 'down' ?> text-danger">
+                                                <em class="icon ni ni-arrow-long-<?= $clients['percentage'] >= 100 ? 'up' : 'down' ?>"></em>
                                                 <?= round($clients['percentage'], 2) ?> %
                                             </span>
                                             <span> vs. last month</span>
