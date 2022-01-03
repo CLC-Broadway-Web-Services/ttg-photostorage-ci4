@@ -8,7 +8,7 @@ class ManageShipmentModel extends Model
 {
     protected $table            = 'ttg_ship';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    // protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     // protected $useSoftDeletes   = true;
@@ -43,13 +43,14 @@ class ManageShipmentModel extends Model
         'org_ship_time',	
         'box_seal',	
         'logistic_waybill',
+        'created_at'
     ];
 
     // Dates
-    // protected $useTimestamps = true;
-    // protected $dateFormat    = 'datetime';
-    // protected $createdField  = 'created_at';
-    // protected $updatedField  = 'updated_at';
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
     // protected $deletedField  = 'deleted_at';
 
     // Validation
