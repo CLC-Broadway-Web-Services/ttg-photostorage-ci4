@@ -49,15 +49,19 @@ $routes->get('/pdf/(:any)', 'Admin\ManageDataPdfController::manage_data_pdf/$1',
 $routes->get('/excel/(:any)', 'Admin\ManageDataPdfController::manage_data_excel/$1', ['as' => 'manage_data_excel']);
 $routes->get('/manage-client', 'Admin\ManageUsersController::manage_client', ['as' => 'manage_client']);
 $routes->get('/testing-staff', 'Admin\ManageUsersController::testing_staff', ['as' => 'testing_staff']);
+$routes->post('/testing-staff/edit_testing_staff', 'Admin\ManageUsersController::edit_testing_staff', ['as' => 'edit_testing_staff']);
 $routes->get('/shipping-satff', 'Admin\ManageUsersController::shipping_satff', ['as' => 'shipping_satff']);
+$routes->post('/shipping-satff/edit_shipping_staff', 'Admin\ManageUsersController::edit_shipping_staff', ['as' => 'edit_shipping_staff']);
 $routes->get('/manage-admin', 'Admin\ManageUsersController::manage_admin', ['as' => 'manage_admin']);
+$routes->post('/manage-admin/edit_manage_admin', 'Admin\ManageUsersController::edit_manage_admin', ['as' => 'edit_manage_admin']);
 $routes->get('/creat-user', 'Admin\ManageUsersController::creat_user', ['as' => 'creat_user']);
+$routes->post('/creat-user/create', 'Admin\ManageUsersController::create', ['as' => 'create']);
 $routes->get('/activity-logs', 'Admin\ReportsController::activity_logs', ['as' => 'activity_logs']);
 $routes->get('/performance-report', 'Admin\ReportsController::performance_report', ['as' => 'performance_report']);
 $routes->get('/notifications', 'Admin\DashboardController::notifications', ['as' => 'notifications']);
 $routes->get('/app-chats', 'Admin\DashboardController::app_chats', ['as' => 'app_chats']);
 $routes->post('/add-client', 'Admin\ClientController::index', ['as' => 'add_client']);
-$routes->get('/add-client/edit/(:num)', 'Admin\ClientController::edit/$1', ['as' => 'add_client_edit']);
+// $routes->get('/add-client/edit/(:num)', 'Admin\ClientController::edit/$1', ['as' => 'add_client_edit']);
 
 
 
