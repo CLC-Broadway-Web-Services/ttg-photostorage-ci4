@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class FilesModel extends Model
 {
-    protected $table            = 'ttg-files';
+    protected $table            = 'ttg_files';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
