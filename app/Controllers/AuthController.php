@@ -18,6 +18,7 @@ class AuthController extends BaseController
             
             $userDb = new AdminModel();
             $getUser = $userDb->where('email', $userEmail)->first();
+            // return print_r($getUser);
             $response = ['success' => false, 'message' => ''];
         
             if ($getUser) {

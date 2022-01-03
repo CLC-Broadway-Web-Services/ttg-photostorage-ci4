@@ -50,61 +50,61 @@
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('manage_shipment') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-bag-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-truck"></em></span>
                                         <span class="nk-menu-text">Manage Shipments</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('manage_data') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-bag-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-db-fill"></em></span>
                                         <span class="nk-menu-text">Manage Data</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('defect_analysis') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-bag-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-file-check-fill"></em></span>
                                         <span class="nk-menu-text">Defect Analysis</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('manage_client') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
                                         <span class="nk-menu-text">Manage Clients</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('testing_staff') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Testing Staff</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('shipping_satff') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Shipping Staff</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('manage_admin') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-account-setting-fill"></em></span>
                                         <span class="nk-menu-text"> Manage Admins</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('creat_user') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Create User</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('activity_logs') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-list"></em></span>
                                         <span class="nk-menu-text">Activity Logs</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('performance_report') ?>" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-reports"></em></span>
                                         <span class="nk-menu-text">Performance Report</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->

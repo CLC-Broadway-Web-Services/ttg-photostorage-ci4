@@ -16,13 +16,13 @@
                     <div class="form-group">
                         <label class="form-label" for="full-name-1">CRN</label>
                         <div class="input-group">
-                            <input type="text" class="form-control singleField"  placeholder="Input placeholder" value="<?= $manage_shipment_details['crn']  ?>">
+                            <input type="text" class="form-control singleField" placeholder="Input placeholder" value="<?= $manage_shipment_details['crn']  ?>">
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
-                        </div>  
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -89,7 +89,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="logistic_company" placeholder="Input placeholder" value="<?= $manage_shipment_details['logistic_company']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -107,7 +107,7 @@
                                 <option value="Rejected">Rejected</option>
                             </select>
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -120,7 +120,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="no_of_staff" placeholder="Input placeholder" value="<?= $manage_shipment_details['no_of_staff']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -133,7 +133,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="no_of_devices" placeholder="Input placeholder" value="<?= $manage_shipment_details['no_of_devices']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -146,7 +146,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="no_of_box" placeholder="Input placeholder" value="<?= $manage_shipment_details['no_of_box']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -159,7 +159,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="no_of_pallets" placeholder="Input placeholder" value="<?= $manage_shipment_details['no_of_pallets']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -172,7 +172,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="logistic_waybill" placeholder="Input placeholder" value="<?= $manage_shipment_details['logistic_waybill']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -185,7 +185,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="box_seal" placeholder="Input placeholder" value="<?= $manage_shipment_details['box_seal']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -198,7 +198,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="supervisor_name" placeholder="Input placeholder" value="<?= $manage_shipment_details['supervisor_name']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -211,7 +211,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control singleField" name="supervisor_ph_no" placeholder="Input placeholder" value="<?= $manage_shipment_details['supervisor_ph_no']  ?>">
                             <div class="input-group-append">
-                            <button type="button" class="btn btn-success submitButton">
+                                <button type="button" class="btn btn-success submitButton">
                                     <em class="icon ni ni-check-circle-cut"></em>
                                 </button>
                             </div>
@@ -245,7 +245,7 @@
                     <div class="form-group">
                         <label class="form-label" for="cf-default-textarea">Comment</label>
                         <div class="form-control-wrap">
-                            <textarea class="form-control form-control-sm singleField"  placeholder="Write your message"><?= $manage_shipment_details['note']  ?></textarea>
+                            <textarea class="form-control form-control-sm singleField" placeholder="Write your message"><?= $manage_shipment_details['note']  ?></textarea>
                         </div>
                     </div>
                 </div>

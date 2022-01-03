@@ -13,7 +13,15 @@ class ManageUserModel extends Model
     protected $returnType       = 'array';
     // protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'username',
+        'typeuser',
+        'name',
+        'email',
+        'mobile',
+        'password',
+        'created_date',
+    ];
 
     // Dates
     // protected $useTimestamps = true;
