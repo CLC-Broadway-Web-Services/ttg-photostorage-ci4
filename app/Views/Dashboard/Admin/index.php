@@ -11,7 +11,7 @@
                     <div class="nk-block-head-content">
                         <h3 class="nk-block-title page-title">Dashboard</h3>
                     </div><!-- .nk-block-head-content -->
-                    <div class="nk-block-head-content">
+                    <!-- <div class="nk-block-head-content">
                         <div class="toggle-wrap nk-block-tools-toggle">
                             <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
                             <div class="toggle-expand-content" data-content="pageMenu">
@@ -32,7 +32,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </div><!-- .nk-block-head-content -->
+                    </div> -->
                 </div><!-- .nk-block-between -->
             </div><!-- .nk-block-head -->
             <div class="nk-block">
@@ -43,16 +43,22 @@
                                 <div class="card-inner">
                                     <div class="card-title-group">
                                         <div class="card-title">
-                                            <h6 class="title">Today Orders</h6>
+                                            <h6 class="title">Total Shipments</h6>
                                         </div>
                                     </div>
                                     <div class="data">
                                         <div class="data-group">
-                                            <div class="amount">1,945</div>
+                                            <div class="amount"><?= $shipments['total'] ?></div>
                                             <div class="nk-ecwg6-ck">
                                             </div>
                                         </div>
-                                        <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
+                                        <div class="info">
+                                            <span class="change <?= $shipments['percentage'] > 100 ? 'up' : 'down' ?> text-danger">
+                                                <em class="icon ni ni-arrow-long-<?= $shipments['percentage'] > 100 ? 'up' : 'down' ?>"></em>
+                                                <?= round($shipments['percentage'], 2) ?> %
+                                            </span>
+                                            <span> vs. last month</span>
+                                        </div>
                                     </div>
                                 </div><!-- .card-inner -->
                             </div><!-- .nk-ecwg -->
@@ -64,16 +70,22 @@
                                 <div class="card-inner">
                                     <div class="card-title-group">
                                         <div class="card-title">
-                                            <h6 class="title">Today Revenue</h6>
+                                            <h6 class="title">Total CRN's</h6>
                                         </div>
                                     </div>
                                     <div class="data">
                                         <div class="data-group">
-                                            <div class="amount">$2,338</div>
+                                            <div class="amount"><?= $crns['total'] ?></div>
                                             <div class="nk-ecwg6-ck">
                                             </div>
                                         </div>
-                                        <div class="info"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>2.34%</span><span> vs. last week</span></div>
+                                        <div class="info">
+                                            <span class="change <?= $crns['percentage'] > 100 ? 'up' : 'down' ?> text-danger">
+                                                <em class="icon ni ni-arrow-long-<?= $crns['percentage'] > 100 ? 'up' : 'down' ?>"></em>
+                                                <?= round($crns['percentage'], 2) ?> %
+                                            </span>
+                                            <span> vs. last month</span>
+                                        </div>
                                     </div>
                                 </div><!-- .card-inner -->
                             </div><!-- .nk-ecwg -->
@@ -85,16 +97,22 @@
                                 <div class="card-inner">
                                     <div class="card-title-group">
                                         <div class="card-title">
-                                            <h6 class="title">Today Customers</h6>
+                                            <h6 class="title">Total Assets</h6>
                                         </div>
                                     </div>
                                     <div class="data">
                                         <div class="data-group">
-                                            <div class="amount">847</div>
+                                            <div class="amount"><?= $assets['total'] ?></div>
                                             <div class="nk-ecwg6-ck">
                                             </div>
                                         </div>
-                                        <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
+                                        <div class="info">
+                                            <span class="change <?= $assets['percentage'] > 100 ? 'up' : 'down' ?> text-danger">
+                                                <em class="icon ni ni-arrow-long-<?= $assets['percentage'] > 100 ? 'up' : 'down' ?>"></em>
+                                                <?= round($assets['percentage'], 2) ?> %
+                                            </span>
+                                            <span> vs. last month</span>
+                                        </div>
                                     </div>
                                 </div><!-- .card-inner -->
                             </div><!-- .nk-ecwg -->
@@ -106,16 +124,22 @@
                                 <div class="card-inner">
                                     <div class="card-title-group">
                                         <div class="card-title">
-                                            <h6 class="title">Today Visitors</h6>
+                                            <h6 class="title">Total Clients</h6>
                                         </div>
                                     </div>
                                     <div class="data">
                                         <div class="data-group">
-                                            <div class="amount">23,485</div>
+                                            <div class="amount"><?= $clients['total'] ?></div>
                                             <div class="nk-ecwg6-ck">
                                             </div>
                                         </div>
-                                        <div class="info"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>2.34%</span><span> vs. last week</span></div>
+                                        <div class="info">
+                                            <span class="change <?= $clients['percentage'] > 100 ? 'up' : 'down' ?> text-danger">
+                                                <em class="icon ni ni-arrow-long-<?= $clients['percentage'] > 100 ? 'up' : 'down' ?>"></em>
+                                                <?= round($clients['percentage'], 2) ?> %
+                                            </span>
+                                            <span> vs. last month</span>
+                                        </div>
                                     </div>
                                 </div><!-- .card-inner -->
                             </div><!-- .nk-ecwg -->
