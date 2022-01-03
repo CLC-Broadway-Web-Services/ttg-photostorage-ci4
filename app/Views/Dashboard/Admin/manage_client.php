@@ -7,18 +7,20 @@
         <div class="nk-block-head-content">
             <h4 class="nk-block-title">Manage Client</h4>
             <div class="nk-block-des">
-                <p>Client List</p>
+                <span>Client List</span>
+                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
+
             </div>
         </div>
     </div>
-    <div class="card card-preview">
+    <!-- <div class="card card-preview">
         <div class="card-inner">
             <div class="row gy-4">
                 <div class="col-sm-12">
                     <div class="form-group">
                         <div class="form-control-wrap">
                             <div class="input-daterange date-picker-range input-group justify-content-md-end">
-                               
+
                                 <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
                             </div>
                         </div>
@@ -26,7 +28,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="card card-preview">
         <div class="card-inner">
             <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
@@ -41,7 +43,7 @@
                         <th class="nk-tb-col"><span class="sub-text">Client ID</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">User</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th>
+                        <!-- <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th> -->
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">Action
@@ -71,7 +73,7 @@
                             <td class="nk-tb-col">
                                 <div class="user-card">
                                     <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span><?= substr($clients['name'], 0, 2); ?></span>
+                                        <span><?= strtoupper(substr($clients['name'], 0, 2)); ?></span>
                                     </div>
                                     <div class="user-info">
                                         <span class="tb-lead"><?= $clients['name'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
@@ -90,9 +92,9 @@
                                     <li> <span><?= $clients['mobile'] ?></span></li>
                                 </ul>
                             </td>
-                            <td class="nk-tb-col tb-col-lg">
-                                <span><?= $clients['pass'] ?></span>
-                            </td>
+                            <!-- <td class="nk-tb-col tb-col-lg">
+                                <span></span>
+                            </td> -->
                             <td class="nk-tb-col tb-col-md">
                                 <span><?= $clients['country'] ?></span>
                             </td>
@@ -114,9 +116,11 @@
                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <ul class="link-list-opt no-bdr">
-                                                    <li><a type="button" href="<?= route_to('add_client_edit', $clients['id']) ?>" ><em class="icon ni ni-pen"></em><span data-toggle="modal" data-target="#modalDefault">Edit</span></a></li>
-                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?php echo $id; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+
                                                     <li><a href="#" data-toggle="modal" data-target="#assignCrn"><em class="icon ni ni-user-check-fill"></em><span>Assign CRN</span></a></li>
+                                                    <li><a href="javascript:void(0);" onclick="editData('<?php echo $id; ?>')"><em class="icon ni ni-pen"></em><span>Edit</span></a></li>
+                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?php echo $id; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+
                                                 </ul>
                                             </div>
                                         </div>
@@ -142,13 +146,14 @@
             </div>
             <div class="modal-body">
                 <form action="<?= route_to('add_client') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
+                    <input name="client_id" value="0" class="d-none" id="modal_client_id">
                     <div class="form-group">
                         <label class="form-label" for="default-03">Name</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-user"></em>
                             </div>
-                            <input type="text" class="form-control" name="name" required placeholder="Name">
+                            <input type="text" class="form-control" id="modal_client_name" name="name" required placeholder="Name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -157,7 +162,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-mail"></em>
                             </div>
-                            <input type="email" class="form-control" name="email" required placeholder="Email address">
+                            <input type="email" class="form-control" id="modal_client_email" name="email" required placeholder="Email address">
                         </div>
                     </div>
                     <div class="form-group">
@@ -167,7 +172,7 @@
                                 <em class="icon ni ni-mobile"></em>
                             </div>
 
-                            <input type="number" class="form-control" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
+                            <input type="number" class="form-control" id="modal_client_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
                         </div>
                     </div>
                     <div class="form-group">
@@ -177,7 +182,7 @@
                                 <em class="icon ni ni-globe"></em>
                             </div>
                             <!-- <input type="text" class="form-control" name="country" placeholder="Country"> -->
-                            <select  name="country" class="country form-control" required onchange="edituser(this)" placeholder="Country">
+                            <select name="country" class="country form-control" id="modal_client_country" required onchange="edituser(this)" placeholder="Country">
                                 <option value="India">India</option>
                                 <option value="australia">Australia</option>
                                 <option value="canada">Canada</option>
@@ -435,11 +440,11 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-eye"></em>
                             </div>
-                            <input type="text" class="form-control" name="pass" required  placeholder="Password">
+                            <input type="text" class="form-control" id="modal_client_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary">Add Client</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Save</button>
                     </div>
                 </form>
             </div>
@@ -492,11 +497,9 @@
                     </div><!-- .card-preview -->
                 </div> <!-- nk-block -->
                 <div class="mt-2">
-                    <a href="#" class="btn btn-dim btn-lg btn-outline-primary">Make National Client</a>
                 </div>
             </div>
             <div class="modal-footer bg-light">
-                <span class="sub-text"> <a href="#" class="btn btn-dim btn-lg btn-outline-primary">Make Super Client</a></span>
             </div>
         </div>
     </div>
@@ -517,6 +520,7 @@
             }
         });
     }
+
     function editData(id) {
         console.log(id);
         $.ajax({
@@ -527,10 +531,30 @@
                 id: id
             },
             success: function(result) {
-                console.log(result)
-                location.reload();
+                console.log(result);
+                var response = JSON.parse(result);
+
+                $('#modal_client_id').val(response.id);
+                $('#modal_client_name').val(response.name);
+                $('#modal_client_email').val(response.email);
+                $('#modal_client_mobile').val(response.mobile);
+                $('#modal_client_country').val(response.country);
+                // $('#modal_client_password').val(response.pass);
+
+                $('#modalDefault').modal('show')
+                // console.log(result);
+                // location.reload();
             }
         });
     }
+
+    $('#modalDefault').on('hidden.bs.modal', function(event) {
+        $('modal_client_id').val(0);
+        $('modal_client_name').val('');
+        $('modal_client_email').val('');
+        $('modal_client_mobile').val('');
+        $('modal_client_country').val('');
+        $('modal_client_password').val('');
+    })
 </script>
 <?= $this->endSection() ?>
