@@ -21,6 +21,8 @@ class DashboardController extends BaseController
     // }
     public function index()
     {
+        // print_r(session()->get('user.name'));
+        // return;
         $dataArray = array();
         $lastMonthLastDay = date('Y-m-d', strtotime("last day of previous month"));
         $last_month_day = strtotime($lastMonthLastDay);

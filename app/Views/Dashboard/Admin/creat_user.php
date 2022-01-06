@@ -27,7 +27,7 @@
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Username</span></th>
                         <th class="nk-tb-col"><span class="sub-text">User ID</span></th>
-                        <!-- <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th> -->
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Create date</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">Action
@@ -64,9 +64,9 @@
                             <td class="nk-tb-col tb-col-md">
                                 <span><?= $user['userID'] ?></span>
                             </td>
-                             <!-- <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                <span></span>
-                            </td> -->
+                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                <span><?= $user['password'] ?></span>
+                            </td>
                             <td class="nk-tb-col tb-col-lg">
                                 <span><?= date("d M Y, g:s A", $user['created_date']) ?></span>
                             </td>
@@ -100,7 +100,7 @@
 </div>
 </div>
 <!-- .card-preview -->
-</div> 
+</div>
 <!-- nk-block -->
 <!-- Modal Content Code -->
 <div class="modal fade" tabindex="-1" id="modalDefault">
@@ -121,7 +121,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-user"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_create_user_name" name="username" value="ttg-004"  placeholder="User Name">
+                            <input type="text" class="form-control" id="modal_create_user_name" name="username" value="ttg-004" placeholder="User Name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -431,22 +431,47 @@
         </div>
     </div>
 </div>
+
+<?= $this->endSection() ?>
+<?= $this->section('javascript') ?>
 <script>
     function deleteData(id) {
         console.log(id);
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url(route_to('create')); ?>',
-            data: {
-                delete: 'del',
-                id: id
-            },
-            success: function(result) {
-                console.log(result)
-                location.reload();
-            }
-        });
+        swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '<?= base_url(route_to('create')); ?>',
+                        data: {
+                            delete: 'del',
+                            id: id
+                        },
+                        success: function(result) {
+                            console.log(result)
+                            location.reload();
+                        }
+                    });
+                } else {
+                    swal("Your file is safe!");
+                }
+            });
+
     }
+
+    <?php if (session()->getFlashdata("success")) { ?>
+        swal({
+            title: "Saved",
+            text: "New User Saved",
+            icon: "success",
+        });
+    <?php } ?>
 
     function editData(id) {
         console.log(id);
