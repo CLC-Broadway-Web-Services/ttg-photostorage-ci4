@@ -165,9 +165,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="analytics-map">
-                                    <div class="vector-map" id="worldMap"></div>
-                                    <table class="analytics-map-data-list">
+                                <div class="analytics-map row">
+                                    <table class="analytics-map-data-list col-md-4 col-12">
                                         <tr class="analytics-map-data">
                                             <td class="country">United States</td>
                                             <td class="amount">12,094</td>
@@ -189,6 +188,7 @@
                                             <td class="percent">5.29%</td>
                                         </tr>
                                     </table>
+                                    <div class="vector-map col-md-8 col-12" id="worldMap"></div>
                                 </div>
                             </div>
                         </div><!-- .card -->
@@ -226,75 +226,7 @@
                                 </div>
                             </div>
                         </div><!-- .card -->
-                    </div><!-- .col -->
-                    <div class="col-xxl-3 col-md-6">
-                        <div class="card h-100">
-                            <div class="card-inner">
-                                <div class="card-title-group align-start gx-3 mb-3">
-                                    <div class="card-title">
-                                        <h6 class="title">Sales Overview</h6>
-                                    </div>
-                                    <div class="card-tools">
-                                        <div class="dropdown">
-                                            <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
-                                            <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><span>Download Mini Version</span></a></li>
-                                                    <li><a href="#"><span>Download Full Version</span></a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#"><em class="icon ni ni-opt-alt"></em><span>More Options</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
-                                    <div class="nk-sale-data">
-                                    </div>
-                                    <div class="nk-sale-data">
-                                    </div>
-                                </div>
-                                <div class="nk-sales-ck large pt-4">
-                                    <canvas class="sales-overview-chart" id="salesOverview2"></canvas>
-                                </div>
-                            </div>
-                        </div><!-- .card -->
-                    </div><!-- .col -->
-                    <div class="col-xxl-3 col-md-6">
-                        <div class="card h-100">
-                            <div class="card-inner">
-                                <div class="card-title-group align-start gx-3 mb-3">
-                                    <div class="card-title">
-                                        <h6 class="title">Sales Overview</h6>
-                                    </div>
-                                    <div class="card-tools">
-                                        <div class="dropdown">
-                                            <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
-                                            <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><span>Download Mini Version</span></a></li>
-                                                    <li><a href="#"><span>Download Full Version</span></a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#"><em class="icon ni ni-opt-alt"></em><span>More Options</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
-                                    <div class="nk-sale-data">
-                                    </div>
-                                    <div class="nk-sale-data">
-                                    </div>
-                                </div>
-                                <div class="nk-sales-ck large pt-4">
-                                    <canvas class="sales-overview-chart" id="salesOverview3"></canvas>
-                                </div>
-                            </div>
-                        </div><!-- .card -->
-                    </div><!-- .col -->
+                    </div>
                     <div class="col-xxl-3 col-md-6">
                         <div class="card card-full overflow-hidden">
                             <div class="nk-ecwg nk-ecwg7 h-100">
@@ -351,4 +283,14 @@
     </div>
 </div>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('javascript') ?>
+<script src="/public/js/charts/chart-analytics.js"></script>
+<script src="/public/js/libs/jqvmap.js"></script>
+<script src="/public/js/charts/crn-chart.js"></script>
+<script src="/public/js/charts/asset-chart.js"></script>
+<script src="/public/js/charts/shipment-chart.js"></script>
+<script src="/public/js/charts/package-quality-chart.js"></script>
+<!-- <script src="/public/js/charts/chart-sales.js"></script> -->
 <?= $this->endSection() ?>

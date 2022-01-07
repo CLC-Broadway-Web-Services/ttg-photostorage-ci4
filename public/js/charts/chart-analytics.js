@@ -770,7 +770,6 @@
     });
   } // init chart
 
-
   NioApp.coms.docReady.push(function () {
     analyticsLineLarge();
   });

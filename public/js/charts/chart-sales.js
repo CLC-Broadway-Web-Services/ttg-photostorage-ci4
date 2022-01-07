@@ -24,8 +24,8 @@
     var $selector = selector ? $(selector) : $('.profile-balance-chart');
     $selector.each(function () {
       var $self = $(this),
-          _self_id = $self.attr('id'),
-          _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
+        _self_id = $self.attr('id'),
+        _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
 
       var selectCanvas = document.getElementById(_self_id).getContext("2d");
       var chart_data = [];
@@ -122,9 +122,9 @@
     var $selector = selector ? $(selector) : $('.order-overview-chart');
     $selector.each(function () {
       var $self = $(this),
-          _self_id = $self.attr('id'),
-          _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
-          _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
+        _self_id = $self.attr('id'),
+        _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
+        _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
 
       var selectCanvas = document.getElementById(_self_id).getContext("2d");
       var chart_data = [];
@@ -252,9 +252,9 @@
     var $selector = selector ? $(selector) : $('.usera-activity-chart');
     $selector.each(function () {
       var $self = $(this),
-          _self_id = $self.attr('id'),
-          _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
-          _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
+        _self_id = $self.attr('id'),
+        _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
+        _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
 
       var selectCanvas = document.getElementById(_self_id).getContext("2d");
       var chart_data = [];
@@ -357,9 +357,9 @@
     var $selector = selector ? $(selector) : $('.coin-overview-chart');
     $selector.each(function () {
       var $self = $(this),
-          _self_id = $self.attr('id'),
-          _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
-          _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
+        _self_id = $self.attr('id'),
+        _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
+        _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
 
       var selectCanvas = document.getElementById(_self_id).getContext("2d");
       var chart_data = [];
@@ -495,9 +495,9 @@
     var $selector = selector ? $(selector) : $('.sales-bar-chart');
     $selector.each(function () {
       var $self = $(this),
-          _self_id = $self.attr('id'),
-          _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
-          _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
+        _self_id = $self.attr('id'),
+        _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
+        _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
 
       var selectCanvas = document.getElementById(_self_id).getContext("2d");
       var chart_data = [];
@@ -598,8 +598,8 @@
     var $selector = selector ? $(selector) : $('.sales-overview-chart');
     $selector.each(function () {
       var $self = $(this),
-          _self_id = $self.attr('id'),
-          _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
+        _self_id = $self.attr('id'),
+        _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
 
       var selectCanvas = document.getElementById(_self_id).getContext("2d");
       var chart_data = [];
@@ -734,9 +734,9 @@
     var $selector = selector ? $(selector) : $('.support-status-chart');
     $selector.each(function () {
       var $self = $(this),
-          _self_id = $self.attr('id'),
-          _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
-          _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
+        _self_id = $self.attr('id'),
+        _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data,
+        _d_legend = typeof _get_data.legend === 'undefined' ? false : _get_data.legend;
 
       var selectCanvas = document.getElementById(_self_id).getContext("2d");
       var chart_data = [];
