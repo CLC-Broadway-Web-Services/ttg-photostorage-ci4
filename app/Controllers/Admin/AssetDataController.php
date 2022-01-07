@@ -188,9 +188,12 @@ class AssetDataController extends BaseController
 
         if ($this->request->getVar('asset')) {
             $getCrn = $this->request->getVar('crn');
-            $testData = json_encode($this->manageDataDb->where('crn', $getCrn)->groupBy(['id'])->findAll());
+            $testData['total_crn'] = $this->manageDataDb->where('crn', $getCrn)->groupBy('id')->findAll();
+            $noteBook['nootbook'] = $this->manageDataDb->where('crn', $getCrn)->where('device_type', 'notebook')->findAll();
+            $otherDevice['otherDevice'] = $this->manageDataDb->where('crn', $getCrn)->where('device_type', 'Other Device')->findAll();
+            $desktop['desktop'] = $this->manageDataDb->where('crn', $getCrn)->where('device_type', 'Desktop')->findAll();
 
-            return $testData;
+            return json_encode(array_merge($testData, $noteBook, $otherDevice, $desktop));
             // return json_encode($this->manageDataDb->where('crn', $getCrn)->countAllResults());
         }
 
@@ -270,12 +273,12 @@ class AssetDataController extends BaseController
 
 
             foreach ($defect_analysis as $key => $defect) {
-
+                $crnDetail = $defect['crn'];
                 $defect_analysis[$key]['id'] = str_replace("uid1", $defect['id'], $checkBoxHtml);
                 // $defect_analysis[$key]['actions'] = $actionsHtml;
 
                 $defect_analysis[$key]['time'] = '<span>' . date("d M Y, g:s A", $defect['time']) . '</span>';
-                $defect_analysis[$key]['crn'] = '<span data-toggle="modal" data-target="#crnData">' . $defect['crn'] . '</span>';
+                $defect_analysis[$key]['crn'] = '<a data-toggle="modal" data-target="#crnData" href="javascript:void(0);" onclick="openPopup(' . "'" . $crnDetail . "'" . ')">' . $defect['crn'] . '</a>';
                 // $files = json_decode($defect['files']);
                 // $filesCount = count($files);
                 // $defect_analysis[$key]['files'] = $filesCount;

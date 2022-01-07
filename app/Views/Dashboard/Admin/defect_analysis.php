@@ -141,8 +141,8 @@
                 <div href="html/apps-kanban.html" class="project-title">
                     <div class="user-avatar sq bg-purple"><span>CRN</span></div>
                     <div class="project-info">
-                        <h6 class="title">CRN detail for <span id="crnnum"></span></h6>
-                        <p class="sub-text">Total No. of Assets in this CRN : <span id="count"><?php json_decode('result'); ?></span></p>
+                        <h6 class="title">CRN detail for <span id="crnName"></span></h6>
+                        <p class="sub-text">Total No. of Assets in this CRN : <span id="assetCount"><?php json_decode('result'); ?></span></p>
                     </div>
                 </div>
                 <div class="card card-preview mt-4 bg-light">
@@ -150,33 +150,32 @@
                         <table class="nk-tb-list nk-tb-ulist" id="userTable" data-auto-responsive="false">
                             <thead>
                                 <tr class="nk-tb-item nk-tb-head">
-                                    <th class="nk-tb-col"><span class="sub-text">
-                                            Device Type</span></th>
+                                    <th class="nk-tb-col"><span class="sub-text"> Device Type</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Quantity</span></th>
                                 </tr>
                             </thead>
                             <tr>
                                 <td class="nk-tb-col tb-col-md">
-                                    <span id="type"></span>
+                                    <span id="type">Notebook</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
-                                    <span id="num"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="nk-tb-col tb-col-md">
-                                    <span id="type1"></span>
-                                </td>
-                                <td class="nk-tb-col tb-col-md">
-                                    <span id="num1"></span>
+                                    <span id="note"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="nk-tb-col tb-col-md">
-                                    <span id="type2"></span>
+                                    <span id="type1">Other Device</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
-                                    <span id="num3"></span>
+                                    <span id="device"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="nk-tb-col tb-col-md">
+                                    <span id="type2">Desktop</span>
+                                </td>
+                                <td class="nk-tb-col tb-col-md">
+                                    <span id="desk"></span>
                                 </td>
                             </tr>
                             <tbody>
@@ -278,21 +277,16 @@
             },
             success: function(result) {
                 console.log(result);
-                var len = result.length;
-                // for (var i = 0; i < len; i++) {
-                //     if (result[0].device_type == 'Notebook') {
-                //         document.getElementById('type').innerHTML = result[i].device_type;
-                //         document.getElementById('num').innerHTML = result.length;
-                //     } else if (result[0].device_type == 'Other Device') {
-                //          document.getElementById('type1').innerHTML = result[i].device_type;
-                //         document.getElementById('num1').innerHTML = result.length;
-                //     } else {
-                //         document.getElementById('type2').innerHTML = result[i].device_type;
-                //         document.getElementById('num2').innerHTML = result.length;
-                //     }
-                // }
-                document.getElementById('crnnum').innerHTML = crn;
-                var cunt = document.getElementById('count').innerHTML = len;
+                var crnLen = result.total_crn.length;
+                var nootbookLen = result.nootbook.length;
+                var OtherDeviceLen = result.otherDevice.length;
+                var desktopLen = result.desktop.length;
+
+                document.getElementById('crnName').innerHTML = crn;
+                document.getElementById('assetCount').innerHTML = crnLen;
+                document.getElementById('note').innerHTML = nootbookLen;
+                document.getElementById('device').innerHTML = OtherDeviceLen;
+                document.getElementById('desk').innerHTML = desktopLen;
                 //    location.reload();
             }
         });

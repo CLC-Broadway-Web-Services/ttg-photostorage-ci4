@@ -11,12 +11,14 @@ class ManageUsersController extends BaseController
 
     protected $manageClient;
     protected $manageUser;
+    protected $session;
 
     public function __construct()
     {
 
         $this->manageClient = new AdminModel();
         $this->manageUser = new ManageUserModel();
+        $this->session = session();
     }
 
     public function manage_client()
@@ -88,7 +90,7 @@ class ManageUsersController extends BaseController
             $saveQuery = $this->manageClient->save($testingData);
 
             if ($saveQuery) {
-
+                $this->session->setFlashdata("success", "This is success message");
                 return redirect()->route('testing_staff');
             } else {
                 $response['message'] = 'User not found';
@@ -159,7 +161,7 @@ class ManageUsersController extends BaseController
             $saveQuery = $this->manageClient->save($shippingData);
 
             if ($saveQuery) {
-
+                $this->session->setFlashdata("success", "This is success message");
                 return redirect()->route('shipping_satff');
             } else {
                 $response['message'] = 'User not found';
@@ -229,7 +231,7 @@ class ManageUsersController extends BaseController
             $saveQuery = $this->manageClient->save($adminData);
 
             if ($saveQuery) {
-
+                $this->session->setFlashdata("success", "This is success message");
                 return redirect()->route('manage_admin');
             } else {
                 $response['message'] = 'User not found';
@@ -302,7 +304,7 @@ class ManageUsersController extends BaseController
             $saveQuery = $this->manageUser->save($createUserData);
 
             if ($saveQuery) {
-
+                $this->session->setFlashdata("success", "This is success message");
                 return redirect()->route('creat_user');
             } else {
                 $response['message'] = 'User not found';

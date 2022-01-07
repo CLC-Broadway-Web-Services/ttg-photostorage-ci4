@@ -31,6 +31,7 @@ class AuthController extends BaseController
                     $data['adminLoggedIn'] = true;
                     $data['user'] = $getUser;
                     session()->set($data);
+                    
                     return redirect()->route('admin_index');
                 } else {
                     // return print_r('not match');
