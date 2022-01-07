@@ -44,7 +44,7 @@
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('admin_index') ?>" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
                                         <span class="nk-menu-text">Dashboard</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
@@ -108,7 +108,7 @@
                                         <span class="nk-menu-text">Performance Report</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                            
+
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->
@@ -121,7 +121,7 @@
                 <div class="nk-header nk-header-fixed is-light">
                     <div class="container-fluid">
                         <div class="nk-header-wrap">
-                            <div class="nk-menu-trigger d-xl-none ml-n1"> 
+                            <div class="nk-menu-trigger d-xl-none ml-n1">
                                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                             </div>
                             <div class="nk-header-brand d-xl-none">
@@ -130,14 +130,14 @@
                                     <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
                                 </a>
                             </div>
-                            
+
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
                                     <li class="dropdown chats-dropdown hide-mb-xs">
                                         <a href="<?= route_to('app_chats') ?>" class="dropdown-toggle nk-quick-nav-icon" data-toggle="">
                                             <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
                                         </a>
-                                    
+
                                     </li>
                                     <li class="dropdown notification-dropdown">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
@@ -212,14 +212,16 @@
                                         </div>
                                     </li>
                                     <li class="dropdown user-dropdown">
+
+
                                         <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
                                             <div class="user-toggle">
                                                 <div class="user-avatar sm">
                                                     <em class="icon ni ni-user-alt"></em>
                                                 </div>
                                                 <div class="user-info d-none d-xl-block">
-                                                    <div class="user-status user-status-unverified">Unverified</div>
-                                                    <div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+                                                    <div class="user-status user-status-unverified"><?php  ?></div>
+                                                    <div class="user-name dropdown-indicator"><?= session()->get('user.name');  ?></div>
                                                 </div>
                                             </div>
                                         </a>
@@ -227,19 +229,19 @@
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span>AB</span>
+                                                        <span><?= strtoupper(substr(session()->get('user.name'), 0, 2)); ?></span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                        <span class="sub-text">info@softnio.com</span>
+                                                        <span class="lead-text"><?= session()->get('user.name');  ?></span>
+                                                        <span class="sub-text"><?= session()->get('user.email');  ?></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                                    <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                                    <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                                    <!-- <li><a href="#"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                    <li><a href="#"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                                    <li><a href="#"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>
                                             </div>
@@ -258,7 +260,7 @@
                 <!-- main header @e -->
                 <!-- content @s -->
                 <div class="nk-content">
-                    <?=  $this->renderSection('content') ?>
+                    <?= $this->renderSection('content') ?>
                 </div>
                 <!-- content @e -->
                 <!-- footer @s -->
@@ -291,6 +293,8 @@
     <script src="/public/js/libs/jqvmap.js?ver=2.4.0"></script>
     <script src="/public/js/charts/chart-ecommerce.js?ver=2.4.0"></script>
     <script src="/public/js/charts/chart-sales.js?ver=2.4.0"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <?= $this->renderSection('javascript') ?>
 </body>
 

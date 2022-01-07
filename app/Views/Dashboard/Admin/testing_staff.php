@@ -27,16 +27,16 @@
                         <th class="nk-tb-col"><span class="sub-text">Staff ID</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Staff Name</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
-                        <!-- <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th> -->
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">Action
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($testing_staff as $key => $testing) : 
+                    <?php foreach ($testing_staff as $key => $testing) :
                         $id = $testing['id'];
-                        ?>
+                    ?>
                         <tr class="nk-tb-item">
                             <td class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -73,9 +73,9 @@
                                     <li> <span><?= $testing['mobile'] ?></span></li>
                                 </ul>
                             </td>
-                            <!-- <td class="nk-tb-col tb-col-lg">
-                                <span></span>
-                            </td> -->
+                            <td class="nk-tb-col tb-col-lg">
+                                <span><?= $testing['pass'] ?></span>
+                            </td>
                             <td class="nk-tb-col tb-col-lg">
                                 <span><?= $testing['country'] ?></span>
                             </td>
@@ -422,22 +422,46 @@
         </div>
     </div>
 </div>
+
+<?= $this->endSection() ?>
+<?= $this->section('javascript') ?>
 <script>
     function deleteData(id) {
         console.log(id);
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url(route_to('edit_testing_staff')); ?>',
-            data: {
-                delete: 'del',
-                id: id
-            },
-            success: function(result) {
-                console.log(result)
-                location.reload();
-            }
-        });
+        swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '<?= base_url(route_to('edit_testing_staff')); ?>',
+                        data: {
+                            delete: 'del',
+                            id: id
+                        },
+                        success: function(result) {
+                            console.log(result)
+                            location.reload();
+                        }
+                    });
+                } else {
+                    swal("Your file is safe!");
+                }
+            });
     }
+
+    <?php if (session()->getFlashdata("success")) { ?>
+        swal({
+            title: "Saved",
+            text: "New Testing Staff Saved",
+            icon: "success",
+        });
+    <?php } ?>
 
     function editData(id) {
         console.log(id);

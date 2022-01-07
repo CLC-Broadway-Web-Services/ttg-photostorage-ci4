@@ -23,6 +23,7 @@ class AdminModel extends Model
         'mobile',
         'pass',
         'country',
+        'crn_status',
     ];
 
     // Dates

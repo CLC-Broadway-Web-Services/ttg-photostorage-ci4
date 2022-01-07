@@ -8,9 +8,11 @@ use App\Models\Admin\AdminModel;
 class ClientController extends BaseController
 {
     protected $clientDb;
+    protected $session;
     public function __construct()
     {
         $this->clientDb = new AdminModel();
+        $this->session = session();
     }
     public function index()
     {
@@ -36,6 +38,7 @@ class ClientController extends BaseController
             $clientMobile = $this->request->getVar('mobile');
             $clientCountry = $this->request->getVar('country');
             $clientPassword = $this->request->getVar('pass');
+            $clientCrnStatus = $this->request->getVar('crn_status');
             // return print_r($clientPassword);
 
             // $this->clientDb = new AdminModel();
@@ -45,6 +48,7 @@ class ClientController extends BaseController
                 'time' => time(),
                 'mobile' => $clientMobile,
                 'country' => $clientCountry,
+                'crn_status' => $clientCrnStatus,
                 'type' => 'client',
             ];
 
@@ -68,7 +72,7 @@ class ClientController extends BaseController
             $saveQuery = $this->clientDb->save($clientData);
   
             if ($saveQuery) {
-                
+                $this->session->setFlashdata("success", "This is success message");
                 return redirect()->route('manage_client');
             } else {
                 $response['message'] = 'User not found';

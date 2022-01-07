@@ -58,7 +58,7 @@
                                         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                                     </div>
                                 </form>
-                                <div class="form-note-s2 text-center pt-4"> Trouble signing in? <a href="#">Reset Password</a>
+                                <div class="form-note-s2 text-center pt-4"> Trouble signing in? <a href="">Reset Password</a>
                                 </div>
                             </div>
                         </div>
