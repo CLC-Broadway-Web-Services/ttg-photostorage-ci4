@@ -1,6 +1,11 @@
 <?= $this->extend('Dashboard/layout') ?>
 
 <?= $this->section('content') ?>
+<style>
+    .processingData {
+        color: red;
+    }
+</style>
 
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head">
@@ -132,81 +137,84 @@
 
 <?= $this->section('javascript') ?>
 <script>
-        NioApp.DataTable('#datatableX', {
-            responsive: {
-                details: true
+    NioApp.DataTable('#datatableX', {
+        dom: 'lrtip',
+        language: {
+            "processing": '<span class="processingData">Processing data...</span>'
+        },
+        responsive: {
+            details: true
+        },
+        createdRow: function(row, data, dataIndex) {
+            // Set the data-status attribute, and add a class
+            $(row).addClass('nk-tb-item');
+        },
+        lengthMenu: [
+            [10, 15, 30, 50, 100, 200],
+            [10, 15, 30, 50, 100, 200]
+        ], // page length options
+        bProcessing: true,
+        serverSide: true,
+        // scrollY: "400px",
+        // scrollCollapse: true,
+        ajax: {
+            url: "", // json datasource
+            type: "post",
+            data: {
+                // key1: value1 - in case if we want send data with request
+            }
+        },
+        columns: [{
+                data: "id",
+                className: "nk-tb-col nk-tb-col-check"
             },
-            createdRow: function(row, data, dataIndex) {
-                // Set the data-status attribute, and add a class
-                $(row).addClass('nk-tb-item');
+            {
+                data: "userid",
+                className: "nk-tb-col"
             },
-            lengthMenu: [
-                [10, 15, 30, 50, 100, 200],
-                [10, 15, 30, 50, 100, 200]
-            ], // page length options
-            bProcessing: true,
-            serverSide: true,
-            // scrollY: "400px",
-            // scrollCollapse: true,
-            ajax: {
-                url: "", // json datasource
-                type: "post",
-                data: {
-                    // key1: value1 - in case if we want send data with request
-                }
+            {
+                data: "crn",
+                className: "nk-tb-col"
             },
-            columns: [{
-                    data: "id",
-                    className: "nk-tb-col nk-tb-col-check"
-                },
-                {
-                    data: "userid",
-                    className: "nk-tb-col"
-                },
-                {
-                    data: "crn",
-                    className: "nk-tb-col"
-                },
-                {
-                    data: "uid",
-                    className: "nk-tb-col"
-                },
-                {
-                    data: "time",
-                    className: "nk-tb-col"
-                },
-                {
-                    data: "files",
-                    className: "nk-tb-col"
-                },
-                {
-                    data: "userCountry",
-                    className: "nk-tb-col"
-                },
-                {
-                    data: "verifyStatus",
-                    className: "nk-tb-col"
-                },
-                {
-                    data: "actions",
-                    className: "nk-tb-col nk-tb-col-tools"
-                }
-            ],
+            {
+                data: "uid",
+                className: "nk-tb-col"
+            },
+            {
+                data: "time",
+                className: "nk-tb-col"
+            },
+            {
+                data: "files",
+                className: "nk-tb-col"
+            },
+            {
+                data: "userCountry",
+                className: "nk-tb-col"
+            },
+            {
+                data: "verifyStatus",
+                className: "nk-tb-col"
+            },
+            {
+                data: "actions",
+                className: "nk-tb-col nk-tb-col-tools"
+            }
+        ],
+        columnDefs: [{
+            orderable: false,
+            targets: [0, 1, 2, 3]
+        }],
+        // bFilter: true, // to display datatable search
+    });
+    $.fn.DataTable.ext.pager.numbers_length = 7;
 
-            columnDefs: [{
-                orderable: false,
-                targets: [0, 1, 2, 3]
-            }],
-            // bFilter: true, // to display datatable search
-        });
-        $.fn.DataTable.ext.pager.numbers_length = 7;
+    function openPopup(url) {
+        console.log(url);
+        window.open(url, 'popUpWindow', 'height=500,width=1000%,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+    }
 
-        function openPopup(url) {
-            console.log(url);
-            window.open(url, 'popUpWindow', 'height=500,width=1000%,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
-        }
-        
-        function myFunction(url) {
+    function myFunction(url) {
         console.log(url);
         var mainUrl = window.location.origin;
         const _url = mainUrl + url;
@@ -214,7 +222,7 @@
         alert("Copied the text: " + _url);
     }
 
-        function deleteData(id) {
+    function deleteData(id) {
         console.log(id);
         $.ajax({
             type: 'POST',
@@ -224,11 +232,10 @@
                 id: id
             },
             success: function(result) {
-                
-               location.reload();
+
+                location.reload();
             }
         });
     }
- 
 </script>
 <?= $this->endSection() ?>

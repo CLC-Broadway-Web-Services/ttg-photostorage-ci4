@@ -14,7 +14,9 @@ class PostsModel extends Model
     // protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'device_type'
+        'device_type',
+        'created_at',
+        'updated_at'
     ];
 
     // Dates
