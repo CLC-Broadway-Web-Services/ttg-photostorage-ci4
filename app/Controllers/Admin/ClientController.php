@@ -4,14 +4,17 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\Admin\AdminModel;
+use App\Models\Admin\CrnModel;
 
 class ClientController extends BaseController
 {
     protected $clientDb;
     protected $session;
+    protected $crnAssign;
     public function __construct()
     {
         $this->clientDb = new AdminModel();
+        $this->crnAssign = new CrnModel();
         $this->session = session();
     }
     public function index()
@@ -24,6 +27,26 @@ class ClientController extends BaseController
 
                 $getId = $this->request->getVar('id');
                 return $this->clientDb->delete($getId);
+            }
+            
+            if ($this->request->getVar('assign')) {
+               
+                $getId = $this->request->getVar('id');
+                $new_crn = $this->request->getVar('superheroAlias');
+                $crnData = [
+                    'crn' => $new_crn,
+                    'userid' => $getId,
+                    'time' => time(),
+                ];
+            //   return print_r(json_encode($crnData));
+                 $this->crnAssign->save($crnData);
+                $assi = $this->crnAssign->where('userid',$getId)->find();
+                return print_r(json_encode($assi));
+                // return json_encode(array_merge($assignedCrn,$assi));
+                // if ($assignedCrn) {
+                //     $this->session->setFlashdata("success", "This is success message");
+                //     return redirect()->route('manage_client');
+                // }
             }
 
             if ($this->request->getVar('edit')) {
@@ -100,5 +123,8 @@ class ClientController extends BaseController
             //     }
             // }
         }
+    }
+    public function getCrn(){
+
     }
 }

@@ -1,35 +1,43 @@
-<?= $this->extend('Dashboard/layout') ?>
+<?= $this->extend('Dashboard/clientlayout') ?>
 
 <?= $this->section('content') ?>
+
 
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head">
         <div class="nk-block-head-content">
-            <h4 class="nk-block-title">Manage Client</h4>
+            <h4 class="nk-block-title">Client CRN Data</h4>
             <div class="nk-block-des">
-                <span>Client List</span>
-                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
+                <span>Client CRN : </span>
+                <!-- <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><span>Show Shipment Data</span> </a> -->
 
             </div>
         </div>
     </div>
-    <!-- <div class="card card-preview">
+    <div class="card card-preview">
         <div class="card-inner">
             <div class="row gy-4">
-                <div class="col-sm-12">
+                
+                <div class="col-sm-4">
                     <div class="form-group">
+                        <label class="form-label">Find Data By CRN Or Asset ID</label>
                         <div class="form-control-wrap">
-                            <div class="input-daterange date-picker-range input-group justify-content-md-end">
-
-                                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
-                            </div>
+                            <input type="text" class="form-control" placeholder="Input placeholder">
+                        </div>
+                        <div class="form-control-wrap mt-2">
+                            <a href="#" class="btn btn-dim btn-primary">Find Data</a>
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-4">
+                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><span>Show Shipment Data</span> </a>
+
+                        
+                </div>
             </div>
         </div>
-    </div> -->
-    <div class="card card-preview">
+    </div>
+    <div class="card card-preview d-none">
         <div class="card-inner">
             <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
@@ -40,12 +48,11 @@
                                 <label class="custom-control-label" for="uid"></label>
                             </div>
                         </th>
-                        <th class="nk-tb-col"><span class="sub-text">Client ID</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">User</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Staff ID</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Staff Name</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">Action
                         </th>
                     </tr>
@@ -53,82 +60,65 @@
                 <tbody>
 
                     <tr class="nk-tb-item">
-                        <?php foreach ($manage_client as $key => $clients) :
-                            $id = $clients['id'];
-                        ?>
-
-                            <td class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="uid1">
-                                    <label class="custom-control-label" for="uid1"></label>
+                        <td class="nk-tb-col nk-tb-col-check">
+                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                <input type="checkbox" class="custom-control-input" id="uid1">
+                                <label class="custom-control-label" for="uid1"></label>
+                            </div>
+                        </td>
+                        <td class="nk-tb-col">
+                            <div class="user-card">
+                                <div class="user-info">
+                                    <span class="tb-lead"><span class="dot dot-success d-md-none ml-1"></span></span>
                                 </div>
-                            </td>
-                            <td class="nk-tb-col">
-                                <div class="user-card">
-                                    <div class="user-info">
-                                        <span class="tb-lead"><?= $clients['id'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
-                                    </div>
+                            </div>
+                        </td>
+                        <td class="nk-tb-col">
+                            <div class="user-card">
+                                <div class="user-avatar bg-dim-primary d-none d-sm-flex">
+                                    <span></span>
                                 </div>
-                            </td>
-                            <td class="nk-tb-col">
-                                <div class="user-card">
-                                    <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span><?= strtoupper(substr($clients['name'], 0, 2)); ?></span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="tb-lead"><?= $clients['name'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
-                                        <span><?= $clients['email'] ?></span>
-                                    </div>
+                                <div class="user-info">
+                                    <span class="tb-lead"> <span class="dot dot-success d-md-none ml-1"></span></span>
+                                    <span></span>
                                 </div>
-                            </td>
-                            <!-- <td class="nk-tb-col tb-col-mb" data-order="35040.34">
-                                <span class="tb-amount"><?= $clients['name'] ?></span>
+                            </div>
+                        </td>
+                        <!-- <td class="nk-tb-col tb-col-mb" data-order="35040.34">
+                                 <span class="tb-amount"></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <span><?= $clients['email'] ?></span>
-                            </td> -->
-                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                <ul class="list-status">
-                                    <li> <span><?= $clients['mobile'] ?></span></li>
-                                </ul>
-                            </td>
-                            <td class="nk-tb-col tb-col-lg">
-                                <span><?= $clients['pass'] ?></span>
-                            </td>
-                            <td class="nk-tb-col tb-col-md">
-                                <span><?= $clients['country'] ?></span>
-                            </td>
-                            <td class="nk-tb-col tb-col-md">
-                                <?php if ($clients['crn_status'] == 'super') {
+                                <span></span>
+                            </td>  -->
+                        <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                            <ul class="list-status">
+                                <li> <span></span></li>
+                            </ul>
+                        </td>
+                        <td class="nk-tb-col tb-col-lg">
+                            <span></span>
+                        </td>
+                        <td class="nk-tb-col tb-col-lg">
+                            <span></span>
+                        </td>
+                        <td class="nk-tb-col nk-tb-col-tools">
+                            <ul class="nk-tb-actions gx-1">
 
-                                ?>
-                                    <span class="badge badge-dot badge-dot-xs badge-success"><?= ucfirst($clients['crn_status']) ?></span>
-                                <?php  } elseif ($clients['crn_status'] == 'normal') { ?>
-                                    <span class="badge badge-dot badge-dot-xs badge-primary"><?= ucfirst($clients['crn_status']) ?></span>
-                                <?php  } elseif ($clients['crn_status'] == 'national') { ?>
-                                    <span class="badge badge-dot badge-dot-xs badge-warning"><?= ucfirst($clients['crn_status']) ?></span>
-                                <?php } ?>
-                            </td>
-                            <td class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-1">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-
-                                                    <?= $clients['crn_status'] == 'super' ? '' : '<li><a href="javascript:void(0);" onclick="grnId(' . "'" . $id . "'" . ')" data-toggle="modal" data-target="#assignCrn"><em class="icon ni ni-user-check-fill"></em><span>Assign CRN</span></a></li>' ?>
-                                                    <li><a href="javascript:void(0);" onclick="editData('<?php echo $id; ?>')"><em class="icon ni ni-pen"></em><span>Edit</span></a></li>
-                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?php echo $id; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-
-                                                </ul>
-                                            </div>
+                                <li>
+                                    <div class="drodown">
+                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <ul class="link-list-opt no-bdr">
+                                                <li><a href="javascript:void(0);" onclick="editData('')"><em class="icon ni ni-pen"></em><span>Edit</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="deleteData('')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+                                            </ul>
                                         </div>
-                                    </li>
-                                </ul>
-                            </td>
+                                    </div>
+                                </li>
+                            </ul>
+                        </td>
                     </tr><!-- .nk-tb-item  -->
-                <?php endforeach; ?>
+
                 </tbody>
             </table>
         </div>
@@ -142,18 +132,18 @@
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
-                <h5 class="modal-title">Add Client</h5>
+                <h5 class="modal-title">Add Testing Staff</h5>
             </div>
             <div class="modal-body">
-                <form action="<?= route_to('add_client') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
-                    <input name="client_id" value="0" class="d-none" id="modal_client_id">
+                <form action="<?= route_to('edit_testing_staff') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
+                    <input name="modal_testing_staff_id" value="0" class="d-none" id="modal_testing_staff_id">
                     <div class="form-group">
                         <label class="form-label" for="default-03">Name</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-user"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_client_name" name="name" required placeholder="Name">
+                            <input type="text" class="form-control" id="modal_testing_staff_name" name="name" required placeholder="Name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -162,7 +152,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-mail"></em>
                             </div>
-                            <input type="email" class="form-control" id="modal_client_email" name="email" required placeholder="Email address">
+                            <input type="email" class="form-control" id="modal_testing_staff_email" name="email" required placeholder="Email address">
                         </div>
                     </div>
                     <div class="form-group">
@@ -172,7 +162,7 @@
                                 <em class="icon ni ni-mobile"></em>
                             </div>
 
-                            <input type="number" class="form-control" id="modal_client_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
+                            <input type="number" class="form-control" id="modal_testing_staff_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
                         </div>
                     </div>
                     <div class="form-group">
@@ -182,7 +172,7 @@
                                 <em class="icon ni ni-globe"></em>
                             </div>
                             <!-- <input type="text" class="form-control" name="country" placeholder="Country"> -->
-                            <select name="country" class="country form-control" id="modal_client_country" required onchange="edituser(this)" placeholder="Country">
+                            <select name="country" class="country form-control" id="modal_testing_staff_country" required onchange="edituser(this)" placeholder="Country">
                                 <option value="India">India</option>
                                 <option value="australia">Australia</option>
                                 <option value="canada">Canada</option>
@@ -440,17 +430,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-eye"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_client_password" name="pass" required placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <div class="form-control-wrap">
-                            <select class="form-select" id="modal_client_crn_status" name="crn_status">
-                                <option value="normal">Normal</option>
-                                <option value="national">National</option>
-                                <option value="super">Super</option>
-                            </select>
+                            <input type="text" class="form-control" id="modal_testing_staff_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
                     <div class="form-group">
@@ -465,60 +445,7 @@
     </div>
 </div>
 
-
-
-<!-- Modal Content Code -->
-<div class="modal fade" tabindex="-1" id="assignCrn">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
-                <em class="icon ni ni-cross"></em>
-            </a>
-            <div class="modal-header">
-                <h5 class="modal-title">Assign CRN</h5>
-            </div>
-            <div class="modal-body">
-                <form action="<?= route_to('add_client') ?>" class="input-daterange  input-group" method="post">
-
-                    <input type="hidden" id="as" name="assign_crn" class="form-control">
-                    <input type="text" id="assign_crn" name="assign_crn" class="form-control">
-                    <a href="javascript:void(0);" class="btn btn-dim btn-primary ml-2" onclick="assignCrn('<?php echo $id; ?>')">Assign</a>
-                </form>
-                <div class="card card-preview mt-4 bg-light">
-                    <div class="card-inner">
-                        <table class="nk-tb-list nk-tb-ulist" id="datatableX" data-auto-responsive="false">
-                            <thead>
-                                <tr class="nk-tb-item nk-tb-head">
-                                    <th class="nk-tb-col"><span class="sub-text">CRN</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="nk-tb-col tb-col-md">
-                                        <span>nskjncs</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg">
-                                        <span><a href="#" class="btn btn-dim btn-sm btn-outline-danger">Remove</a></span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div><!-- .card-preview -->
-                </div> <!-- nk-block -->
-                <div class="mt-2">
-                </div>
-            </div>
-            <div class="modal-footer bg-light">
-
-            </div>
-        </div>
-    </div>
-</div>
 <?= $this->endSection() ?>
-
-
 <?= $this->section('javascript') ?>
 <script>
     function deleteData(id) {
@@ -534,7 +461,7 @@
                 if (willDelete) {
                     $.ajax({
                         type: 'POST',
-                        url: '<?= base_url(route_to('add_client')); ?>',
+                        url: '<?= base_url(route_to('edit_testing_staff')); ?>',
                         data: {
                             delete: 'del',
                             id: id
@@ -542,7 +469,7 @@
                         success: function(result) {
                             console.log(result)
                             location.reload();
-                        },
+                        }
                     });
                 } else {
                     swal("Your file is safe!");
@@ -550,43 +477,19 @@
             });
     }
 
-function grnId(id){
-   var clientId = id
-   $("#as").val('clientId');
-}
-    function assignCrn() {
-        console.log();
-        grnId();
-        var formData = {
-            id: clientId,
-            assign: 'assign',
-            superheroAlias: $("#assign_crn").val(),
-        };
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url(route_to('add_client')); ?>',
-            data: formData,
-
-            success: function(result) {
-                console.log(result)
-                // location.reload();
-            },
-        });
-    }
     <?php if (session()->getFlashdata("success")) { ?>
         swal({
             title: "Saved",
-            text: "New Client Saved",
+            text: "New Testing Staff Saved",
             icon: "success",
         });
     <?php } ?>
 
-    async function editData(id) {
+    function editData(id) {
         console.log(id);
-
-        await $.ajax({
+        $.ajax({
             type: 'POST',
-            url: '<?= base_url(route_to('add_client')); ?>',
+            url: '<?= base_url(route_to('edit_testing_staff')); ?>',
             data: {
                 edit: 'edit',
                 id: id
@@ -595,12 +498,11 @@ function grnId(id){
                 console.log(result);
                 var response = JSON.parse(result);
 
-                $('#modal_client_id').val(response.id);
-                $('#modal_client_name').val(response.name);
-                $('#modal_client_email').val(response.email);
-                $('#modal_client_mobile').val(response.mobile);
-                $('#modal_client_country').val(response.country);
-                $('#modal_client_crn_status').val(response.crn_status);
+                $('#modal_testing_staff_id').val(response.id);
+                $('#modal_testing_staff_name').val(response.name);
+                $('#modal_testing_staff_email').val(response.email);
+                $('#modal_testing_staff_mobile').val(response.mobile);
+                $('#modal_testing_staff_country').val(response.country);
                 // $('#modal_client_password').val(response.pass);
 
                 $('#modalDefault').modal('show')
@@ -611,13 +513,12 @@ function grnId(id){
     }
 
     $('#modalDefault').on('hidden.bs.modal', function(event) {
-        $('modal_client_id').val(0);
-        $('modal_client_name').val('');
-        $('modal_client_email').val('');
-        $('modal_client_mobile').val('');
-        $('modal_client_country').val('');
-        $('modal_client_password').val('');
-        $('modal_client_crn_status').val('');
+        $('modal_testing_staff_id').val(0);
+        $('modal_testing_staff_name').val('');
+        $('modal_testing_staff_email').val('');
+        $('modal_testing_staff_mobile').val('');
+        $('modal_testing_staff_country').val('');
+        $('modal_testing_staff_password').val('');
     })
 </script>
 <?= $this->endSection() ?>

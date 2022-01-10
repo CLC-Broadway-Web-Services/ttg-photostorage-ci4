@@ -37,6 +37,7 @@ $routes->get('/forget-password', 'AuthController::forget_password', ['as' => 'fo
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->add('/', 'Admin\DashboardController::index', ['filter' => 'adminauth', 'as' => 'admin_index']);
+$routes->add('/client', 'Admin\DashboardController::client', [ 'as' => 'client_index']);
 
 
 $routes->match(['post', 'get'],'/manage-shipment', 'Admin\ManageShipmentController::manage_shipment', ['as' => 'manage_shipment']);
@@ -60,7 +61,8 @@ $routes->get('/activity-logs', 'Admin\ReportsController::activity_logs', ['as' =
 $routes->get('/performance-report', 'Admin\ReportsController::performance_report', ['as' => 'performance_report']);
 $routes->get('/notifications', 'Admin\DashboardController::notifications', ['as' => 'notifications']);
 $routes->get('/app-chats', 'Admin\DashboardController::app_chats', ['as' => 'app_chats']);
-$routes->post('/add-client', 'Admin\ClientController::index', ['as' => 'add_client']);
+$routes->match(['post', 'get'],'/add-client', 'Admin\ClientController::index', ['as' => 'add_client']);
+// $routes->post('/assign-crn', 'Admin\ClientController::assign_crn', ['as' => 'assign_crn']);
 // $routes->get('/add-client/edit/(:num)', 'Admin\ClientController::edit/$1', ['as' => 'add_client_edit']);
 
 
