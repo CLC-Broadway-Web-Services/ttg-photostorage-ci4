@@ -140,17 +140,17 @@ class DashboardController extends BaseController
         $dataArray['clients'] = $clients_data;
 
 
-        // $shipments = $shipMd->findAll();
+        $postdata = $postMd->findAll();
 
-        // foreach ($shipments as $key => $shipment) {
-        //     $createdAt = date('Y-m-d H:s:i', $shipment['time']);
+        foreach ($postdata as $key => $shipment) {
+            $createdAt = date('Y-m-d H:s:i', $shipment['time']);
 
-        //     $data = [
-        //         'id' => $shipment['id'],
-        //         'created_at' => $createdAt
-        //     ];
-        //     $shipMd->save($data);
-        // }
+            $data = [
+                'id' => $shipment['id'],
+                'created_at' => $createdAt
+            ];
+            $postMd->save($data);
+        }
 
         // return print_r($dataArray);
         return view('Dashboard/Admin/index', $dataArray);

@@ -21,7 +21,7 @@
         <!-- main @s -->
         <div class="nk-main ">
             <!-- sidebar @s -->
-            <div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">
+            <div class="nk-sidebar nk-sidebar-fixed is-light" data-content="sidebarMenu">
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
                         <a href="html/index.html" class="logo-link nk-sidebar-logo">
@@ -130,14 +130,19 @@
                                     <img class="logo-dark logo-img" src="/public/images/jsTree/TTG-Photo-Storage-Logos.png" srcset="/public/images/jsTree/TTG-Photo-Storage-Logos.png 2x" alt="logo-dark">
                                 </a>
                             </div>
-
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
+                                    <li class="dropdown chats-dropdown hide-mb-xs">
+                                        <a class="dropdown-toggle nk-quick-nav-icon">
+                                            <div class="icon-status icon-status-na">
+                                                <em class="icon ni ni-repeat"></em>
+                                            </div>
+                                        </a>
+                                    </li>
                                     <li class="dropdown chats-dropdown hide-mb-xs">
                                         <a href="<?= route_to('app_chats') ?>" class="dropdown-toggle nk-quick-nav-icon" data-toggle="">
                                             <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
                                         </a>
-
                                     </li>
                                     <li class="dropdown notification-dropdown">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
@@ -254,8 +259,8 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div><!-- .nk-header-wrap -->
-                    </div><!-- .container-fliud -->
+                        </div>
+                    </div>
                 </div>
                 <!-- main header @e -->
                 <!-- content @s -->

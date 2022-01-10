@@ -37,6 +37,7 @@
             </div><!-- .nk-block-head -->
             <div class="nk-block">
                 <div class="row g-gs">
+                    <!-- total shipments -->
                     <div class="col-xxl-3 col-sm-3">
                         <div class="card">
                             <div class="nk-ecwg nk-ecwg6">
@@ -63,7 +64,8 @@
                                 </div><!-- .card-inner -->
                             </div><!-- .nk-ecwg -->
                         </div><!-- .card -->
-                    </div><!-- .col -->
+                    </div>
+                    <!-- total crn -->
                     <div class="col-xxl-3 col-sm-3">
                         <div class="card">
                             <div class="nk-ecwg nk-ecwg6">
@@ -90,7 +92,8 @@
                                 </div><!-- .card-inner -->
                             </div><!-- .nk-ecwg -->
                         </div><!-- .card -->
-                    </div><!-- .col -->
+                    </div>
+                    <!-- total assets -->
                     <div class="col-xxl-3 col-sm-3">
                         <div class="card">
                             <div class="nk-ecwg nk-ecwg6">
@@ -117,7 +120,8 @@
                                 </div><!-- .card-inner -->
                             </div><!-- .nk-ecwg -->
                         </div><!-- .card -->
-                    </div><!-- .col -->
+                    </div>
+                    <!-- total clients -->
                     <div class="col-xxl-3 col-sm-3">
                         <div class="card">
                             <div class="nk-ecwg nk-ecwg6">
@@ -144,7 +148,8 @@
                                 </div><!-- .card-inner -->
                             </div><!-- .nk-ecwg -->
                         </div><!-- .card -->
-                    </div><!-- .col -->
+                    </div>
+                    <!-- MAP -->
                     <div class="col-md-12 col-xxl-3">
                         <div class="card h-100">
                             <div class="card-inner">
@@ -166,7 +171,7 @@
                                     </div>
                                 </div>
                                 <div class="analytics-map row">
-                                    <table class="analytics-map-data-list col-md-4 col-12">
+                                    <!-- <table class="analytics-map-data-list col-md-4 col-12">
                                         <tr class="analytics-map-data">
                                             <td class="country">United States</td>
                                             <td class="amount">12,094</td>
@@ -187,12 +192,13 @@
                                             <td class="amount">4,749</td>
                                             <td class="percent">5.29%</td>
                                         </tr>
-                                    </table>
-                                    <div class="vector-map col-md-8 col-12" id="worldMap"></div>
+                                    </table> -->
+                                    <div class="vector-map col-12" id="worldMap"></div>
                                 </div>
                             </div>
                         </div><!-- .card -->
-                    </div><!-- .col -->
+                    </div>
+                    <!-- CRN Statistics -->
                     <div class="col-xxl-3 col-md-6">
                         <div class="card h-100">
                             <div class="card-inner">
@@ -227,6 +233,7 @@
                             </div>
                         </div><!-- .card -->
                     </div>
+                    <!-- orderStatistics -->
                     <div class="col-xxl-3 col-md-6">
                         <div class="card card-full overflow-hidden">
                             <div class="nk-ecwg nk-ecwg7 h-100">
@@ -276,9 +283,10 @@
                                 </div><!-- .card-inner -->
                             </div>
                         </div><!-- .card -->
-                    </div><!-- .col -->
-                </div><!-- .row -->
-            </div><!-- .nk-block -->
+                    </div>
+                    
+                </div>
+            </div>
         </div>
     </div>
 </div>
