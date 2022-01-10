@@ -13,7 +13,14 @@ class CrnModel extends Model
     protected $returnType       = 'array';
     // protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'crn',
+        'userid',
+        'time',
+        'name',
+        'detail1',
+        'detail2',
+    ];
 
     // // Dates
     // protected $useTimestamps = true;

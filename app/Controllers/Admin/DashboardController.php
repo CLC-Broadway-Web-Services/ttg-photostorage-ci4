@@ -159,6 +159,10 @@ class DashboardController extends BaseController
     {
         return view('Dashboard/Admin/notifications');
     }
+    public function client()
+    {
+        return view('Dashboard/Admin/client');
+    }
     public function app_chats()
     {
         return view('Dashboard/Admin/app_chats');
