@@ -5,11 +5,13 @@
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head">
         <div class="nk-block-head-content">
-            <h4 class="nk-block-title">Creat User</h4>
-            <div class="nk-block-des">
-                <span>Usrs List</span>
+        <div class="row">
+                <div class="col-md-6 col-12">
+                    <h4 class="nk-block-title">Creat User</h4>
+                </div>
+                <div class="col-md-6 col-12 text-right">
                 <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New User</span> </a>
-
+                </div>
             </div>
         </div>
     </div>
