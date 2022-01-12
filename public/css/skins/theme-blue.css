@@ -1,7 +1,7 @@
 /*!
  * Theme: Blue 
- * Package: DashLite v2.4.0
- * Updated: 03.03.2021
+ * Package: DashLite v2.9.0
+ * Updated: 11.08.2021
  * Author: Softnio
  * Author URI: http://themeforest.net/user/softnio
 **/
@@ -186,3 +186,7 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
 .nk-wizard-simple .steps ul li.done h5, .nk-wizard-simple .steps ul li.done .number, .nk-wizard-simple .steps ul li.current h5, .nk-wizard-simple .steps ul li.current .number { color: #0971fe; }
 
 .nk-wizard-simple .steps ul li:after { background: #0971fe; }
+
+.invoice-contact ul .icon, .invoice-desc .title, .invoice-bills .table th { color: #0971fe; }
+
+.product-gallery .slider-nav .slider-item.slick-current .thumb, .custom-control-pro.no-control .custom-control-input:checked ~ .custom-control-label, .custom-control-pro.no-control .custom-control-input:not(:disabled):active ~ .custom-control-label, .custom-control.color-control .custom-control-label:before { border-color: #0971fe !important; }
