@@ -25,10 +25,10 @@ class AuthUser implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if(!session()->get('userLoggedIn'))
+        if(!session()->get('user.type') == 'superadmin')
         {
             session()->destroy();
-            return redirect()->route('login');
+            return redirect()->route('logout');
         }
         return true;
     }

@@ -19,7 +19,22 @@ class Filters extends BaseConfig
         'csrf'     => CSRF::class,
         'toolbar'  => DebugToolbar::class,
         'honeypot' => Honeypot::class,
-        'adminauth' => \App\Filters\AuthAdmin::class
+        'superadminauth' => \App\Filters\AuthSuperAdmin::class,
+        'clientauth' => \App\Filters\AuthClient::class,
+        'localauth' => \App\Filters\AuthLocal::class,
+        'shareauth' => \App\Filters\ShareAuth::class,
+        // 'superadminauth' => [
+        //     \App\Filters\Auth::class,
+        //     \App\Filters\AuthSuperAdmin::class
+        // ],
+        // 'clientauth' => [
+        //     \App\Filters\Auth::class,
+        //     \App\Filters\AuthClient::class
+        // ],
+        // 'localauth' => [
+        //     \App\Filters\Auth::class,
+        //     \App\Filters\AuthLocal::class
+        // ],
     ];
 
     /**

@@ -25,7 +25,7 @@ class AuthClient implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if(!session()->get('clientLoggedIn'))
+        if(session()->get('loginType') !== 'client')
         {
             session()->destroy();
             return redirect()->route('login');

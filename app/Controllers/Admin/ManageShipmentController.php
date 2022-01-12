@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\Admin\AdminModel;
 use App\Models\Admin\ManageShipmentModel;
 
 class ManageShipmentController extends BaseController
@@ -29,7 +30,6 @@ class ManageShipmentController extends BaseController
 
                 $getId = $this->request->getVar('id');
                 return $this->manageShipDb->delete($getId);
-                
             }
 
             $start_date = $this->request->getVar('start_date');
@@ -129,7 +129,7 @@ class ManageShipmentController extends BaseController
                             <input type="checkbox" class="custom-control-input" value="uid1" id="uid1">
                             <label class="custom-control-label" for="uid1"></label>
                         </div>';
-                $popupWindowUrl = route_to('manage_shipment_details', $shipment['id']);
+                $popupWindowUrl = base_url(route_to('manage_shipment_details', $shipment['id']));
                 $id = $shipment['id'];
                 $actionsHtml = '<ul class="nk-tb-actions gx-1"><li>
                                 <div class="drodown">
@@ -137,7 +137,7 @@ class ManageShipmentController extends BaseController
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <ul class="link-list-opt no-bdr">
                                         <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                            <li><a href="javascript:void(0);" onclick="myFunction(' . "'" . $popupWindowUrl . "'" . ')"><em class="icon ni ni-share"></em><span>Share</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="'.$popupWindowUrl.'"><em class="icon ni ni-share"></em><span>Share</span></a></li>
                                             
                                             <li><a href="javascript:void(0);" onclick="getExcel(' . "'" . $id . "'" . ')"><em class="icon ni ni-file-docs"></em><span >Excel</span></a></li>
                                             <li><a href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
@@ -181,26 +181,56 @@ class ManageShipmentController extends BaseController
     public function manage_shipment_details($id)
     {
         $this->data['manage_shipment_details'] = $this->manageShipDb->find($id);
-      
+
 
         if ($this->request->getMethod() == 'post') {
+            // return print_r($this->request->getVar());
+            if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'login_form') {
 
-            if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'single_submition') {
-                $fields = $this->request->getVar();
-                unset($fields['form_name']);
-                $fields['id'] = $id;
+                $userEmail = $this->request->getVar('email');
+                $userPassword = $this->request->getVar('password');
 
-                $query = $this->manageShipDb->save($fields);
+                $userDb = new AdminModel();
+                $getUser = $userDb->where('email', $userEmail)->first();
+                $response = ['success' => false, 'message' => ''];
 
-                if ($query) {
-                    return json_decode(true);
+                if (password_verify($userPassword, $getUser['pass'])) {
+                    // return print_r($getUser);
+                    unset($getUser['pass']);
+                    unset($getUser['token']);
+                    // return print_r($getUser);
+
+                    $sessionData['userLoggedIn'] = true;
+                    $sessionData['loginType'] = $getUser['type'];
+                    $sessionData['user'] = $getUser;
+                    session()->set($sessionData);
+
+                    return redirect()->route('manage_shipment_details', [$id]);
+                } else {
+                    return print_r('not match');
+                    $response['message'] = 'Password or email not matched.';
                 }
-                return json_decode($query);
             }
+            if (session()->get('userLoggedIn')) :
+                if (session()->get('loginType') == 'client' || session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') :
+                    if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'single_submition') {
+                        $fields = $this->request->getVar();
+                        unset($fields['form_name']);
+                        $fields['id'] = $id;
+
+                        $query = $this->manageShipDb->save($fields);
+
+                        if ($query) {
+                            return json_decode(true);
+                        }
+                        return json_decode($query);
+                    }
+                endif;
+            endif;
         }
 
 
-        return view('Dashboard/Admin/shipment_details', $this->data);
+        return view('Dashboard/Admin/manage_shipment_details', $this->data);
     }
 
     public function get_excel_data($id)

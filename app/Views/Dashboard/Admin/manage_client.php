@@ -9,28 +9,12 @@
                 <div class="col-md-6 col-12">
                     <h4 class="nk-block-title">Manage Client</h4>
                 </div>
-                <div class="col-md-6 col-12 text-right">
+                <div class="col-md-6 col-12">
                     <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div class="card card-preview">
-        <div class="card-inner">
-            <div class="row gy-4">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <div class="form-control-wrap">
-                            <div class="input-daterange date-picker-range input-group justify-content-md-end">
-
-                                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div class="card card-preview">
         <div class="card-inner">
             <table class="datatable-init-export nk-tb-list nk-tb-ulist" data-auto-responsive="false">
@@ -552,11 +536,16 @@
             });
     }
 
-    function assignCrn(id) {
-        console.log(id);
+    function grnId(id) {
+        var clientId = id
+        $("#as").val('clientId');
+    }
 
+    function assignCrn() {
+        console.log();
+        grnId();
         var formData = {
-            id: id,
+            id: clientId,
             assign: 'assign',
             superheroAlias: $("#assign_crn").val(),
         };

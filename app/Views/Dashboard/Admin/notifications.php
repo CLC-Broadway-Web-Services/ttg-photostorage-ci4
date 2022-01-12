@@ -6,9 +6,6 @@
     <div class="nk-block-head">
         <div class="nk-block-head-content">
             <h4 class="nk-block-title">Notifications</h4>
-            <div class="nk-block-des">
-                <p>Notification List</p>
-            </div>
         </div>
     </div>
     <div class="card card-preview">

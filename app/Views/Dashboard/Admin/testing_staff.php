@@ -9,15 +9,15 @@
                 <div class="col-md-6 col-12">
                     <h4 class="nk-block-title">Manage Testing Staff</h4>
                 </div>
-                <div class="col-md-6 col-12 text-right">
-                    <a href="#" type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Testing Staff</span> </a>
+                <div class="col-md-6 col-12">
+                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Testing Staff</span> </a>
                 </div>
             </div>
         </div>
     </div>
     <div class="card card-preview">
         <div class="card-inner">
-            <table class="datatable-init-export nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+            <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col nk-tb-col-check">

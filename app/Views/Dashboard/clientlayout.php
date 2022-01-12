@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="./images/favicon.png">
+    <link rel="shortcut icon" href="/public/images/jsTree/TTG-Photo-Storage-Favicon.png">
     <!-- Page Title  -->
     <title>TTG-PHOTOSTORAGE</title>
     <!-- StyleSheets  -->
-    <link rel="stylesheet" href="/public/css/dashlite.css?ver=2.4.0">
-    <link id="skin-default" rel="stylesheet" href="/public/css/theme.css?ver=2.4.0">
+    <link rel="stylesheet" href="/public/css/dashlite.css">
+    <link id="skin-default" rel="stylesheet" href="/public/css/theme.css">
 </head>
 
 <body class="nk-body bg-lighter npc-default has-sidebar ">
@@ -25,9 +25,9 @@
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
                         <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                            <img class="logo-light logo-img" src="/public/images/jsTree/TTG-Photo Storage-Logos.png" srcset="./images/logo2x.png 2x" alt="logo">
-                            <img class="logo-dark logo-img" src="/public/images/jsTree/TTG-Photo Storage-Logos.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
-                            <img class="logo-small logo-img logo-img-small" src="/public/images/jsTree/TTG-Photo Storage-Favicon.png" srcset="./images/logo-small2x.png 2x" alt="logo-small">
+                            <img class="logo-light logo-img" src="/public/images/jsTree/TTG-Photo-Storage-Logos.png" srcset="/public/images/jsTree/TTG-Photo-Storage-Logos.png 2x" alt="logo">
+                            <img class="logo-dark logo-img" src="/public/images/jsTree/TTG-Photo-Storage-Logos.png" srcset="/public/images/jsTree/TTG-Photo-Storage-Logos.png 2x" alt="logo-dark">
+                            <img class="logo-small logo-img logo-img-small" src="/public/images/jsTree/TTG-Photo-Storage-Favicon.png" srcset="/public/images/jsTree/TTG-Photo-Storage-Favicon.png 2x" alt="logo-small">
                         </a>
                     </div>
                     <div class="nk-menu-trigger mr-n2">
@@ -49,17 +49,23 @@
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
-                                    <a href="<?= route_to('manage_shipment') ?>" class="nk-menu-link">
+                                    <a href="<?= route_to('client_crn_search') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file-text-fill"></em></span>
-                                        <span class="nk-menu-text">Result By CRN</span>
+                                        <span class="nk-menu-text">Search By CRN</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
-                                    <a href="<?= route_to('manage_data') ?>" class="nk-menu-link">
+                                    <a href="<?= route_to('client_asset_search') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file-text-fill"></em></span>
-                                        <span class="nk-menu-text">Result By Asset ID</span>
+                                        <span class="nk-menu-text">Search By Asset ID</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="<?= route_to('client_manage_users') ?>" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                                        <span class="nk-menu-text">Manage User</span>
+                                    </a>
+                                </li>
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->
@@ -77,8 +83,8 @@
                             </div>
                             <div class="nk-header-brand d-xl-none">
                                 <a href="html/index.html" class="logo-link">
-                                    <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
-                                    <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                                    <img class="logo-light logo-img" src="/public/images/jsTree/TTG-Photo-Storage-Logos.png" srcset="/public/images/jsTree/TTG-Photo-Storage-Logos.png 2x" alt="logo">
+                                    <img class="logo-dark logo-img" src="/public/images/jsTree/TTG-Photo-Storage-Logos.png" srcset="/public/images/jsTree/TTG-Photo-Storage-Logos.png 2x" alt="logo-dark">
                                 </a>
                             </div>
 
@@ -167,12 +173,12 @@
     </div>
     <!-- app-root @e -->
     <!-- JavaScript -->
-    <script src="/public/js/bundle.js?ver=2.4.0"></script>
-    <script src="/public/js/scripts.js?ver=2.4.0"></script>
-    <script src="/public/js/charts/chart-analytics.js?ver=2.4.0"></script>
-    <script src="/public/js/libs/jqvmap.js?ver=2.4.0"></script>
-    <script src="/public/js/charts/chart-ecommerce.js?ver=2.4.0"></script>
-    <script src="/public/js/charts/chart-sales.js?ver=2.4.0"></script>
+    <script src="/public/js/bundle.js"></script>
+    <script src="/public/js/scripts.js"></script>
+    <!-- <script src="/public/js/charts/chart-analytics.js"></script> -->
+    <!-- <script src="/public/js/libs/jqvmap.js"></script> -->
+    <!-- <script src="/public/js/charts/chart-ecommerce.js"></script> -->
+    <!-- <script src="/public/js/charts/chart-sales.js"></script> -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <?= $this->renderSection('javascript') ?>

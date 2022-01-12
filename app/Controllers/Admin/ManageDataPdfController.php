@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\Admin\ManageShipmentModel;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 use App\Models\Admin\PostsModel;
@@ -106,9 +107,9 @@ class ManageDataPdfController extends BaseController
     public function manage_data_excel($file)
     {
         $filedata = $this->manageDataDb->where('uid', $file)->first();
-// echo '<pre>';
-// return print_r($filedata);
-// echo '</pre>';
+        // echo '<pre>';
+        // return print_r($filedata);
+        // echo '</pre>';
         $filename = "manage_excel";
         $file_ending = "xls";
         //header info for browser
@@ -126,10 +127,20 @@ class ManageDataPdfController extends BaseController
         print("\n");
         //end of printing column names  
         //start while loop to get data
-            $schema_insert = "";
-            foreach($filedata as $x => $x_value){
-                echo '"'.$x.'",' . '"'.$x_value.'"' . "\r\n";
-            }
-       
+        $schema_insert = "";
+        foreach ($filedata as $x => $x_value) {
+            echo '"' . $x . '",' . '"' . $x_value . '"' . "\r\n";
+        }
+    }
+
+    public function downloadAllData($type = 'shipment')
+    {
+        if ($type == 'shipment') {
+            $db = new ManageShipmentModel();
+        } else {
+            $db = new PostsModel();
+        }
+
+        return print_r($db->findAll());
     }
 }
