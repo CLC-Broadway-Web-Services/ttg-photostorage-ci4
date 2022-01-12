@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class AuthUser implements FilterInterface
+class AuthSuperAdmin implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,10 +25,10 @@ class AuthUser implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if(!session()->get('user.type') == 'superadmin')
+        if(session()->get('loginType') !== 'superadmin')
         {
             session()->destroy();
-            return redirect()->route('logout');
+            return redirect()->route('login');
         }
         return true;
     }

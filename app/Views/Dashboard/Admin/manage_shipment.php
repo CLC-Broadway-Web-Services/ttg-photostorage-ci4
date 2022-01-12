@@ -4,12 +4,9 @@
 
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head">
-        <!-- <div class="nk-block-head-content">
+        <div class="nk-block-head-content">
             <h4 class="nk-block-title">Manage Shipment</h4>
-            <div class="nk-block-des">
-                <p>Perform Operations</p>
-            </div>
-        </div> -->
+        </div>
     </div>
     <div class="card card-preview">
         <div class="card-inner">
@@ -23,7 +20,7 @@
                                 <div class="input-group-addon">TO</div>
                                 <input type="text" class="form-control" name="end_date" autocomplete="new-end_date">
                                 <button type="submit" class="btn btn-dim btn-primary ml-2" name="form_name" value="date_form">Filter Data</button>
-                                <a href="#" type="link" class="btn  btn-primary ml-2"><em class="icon ni ni-download"></em><span>Download All Data</span> </a>
+                                <a href="<?= route_to('download_all_shipments') ?>" type="link" class="btn  btn-primary ml-2"><em class="icon ni ni-download"></em><span>Download All Data</span> </a>
                             </form>
                         </div>
                     </div>
@@ -31,17 +28,13 @@
             </div>
         </div>
     </div>
+
     <div class="card card-preview">
         <div class="card-inner">
             <table class="nk-tb-list nk-tb-ulist" id="datatableX" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col nk-tb-col-check">
-                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                <input type="checkbox" class="custom-control-input" id="uid">
-                                <label class="custom-control-label" for="uid"></label>
-                            </div>
-                        </th>
+                        <th class="nk-tb-col"></th>
                         <th class="nk-tb-col"><span class="sub-text">Staff Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">CRN</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Date & Time</span></th>
@@ -60,17 +53,60 @@
     </div><!-- .card-preview -->
 </div> <!-- nk-block -->
 
-<a href="javascript:void(0)" id="dlbtn" style="display: none;">
+<!-- <a href="javascript:void(0)" id="dlbtn" style="display: none;">
     <button type="button" id="mine">Export</button>
-</a>
+</a> -->
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
 <script>
     NioApp.DataTable('#datatableX', {
         responsive: {
-            details: true
+            details: !0
         },
+        lengthMenu: [
+            [10, 15, 30, 50, 100, 200],
+            [10, 15, 30, 50, 100, 200]
+        ],
+        // dom: 'Bflrtip',
+        // buttons: [{
+        //         extend: 'excelHtml5',
+        //         text: 'Export Excel',
+        //         className: 'btn btn-sm btn-primary'
+        //     },{
+        //         extend: 'pdfHtml5',
+        //         text: 'Export PDF',
+        //         className: 'btn btn-sm btn-primary'
+        //     }
+        // ],
+        buttons: [{
+                extend: 'copy',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6]
+                    // modifier: {
+                    //     selected: true
+                    // }
+                },
+            },
+            {
+                extend: 'excel',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6]
+                    // modifier: {
+                    //     selected: true
+                    // }
+                },
+            },
+            {
+                extend: 'pdf',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6]
+                    // modifier: {
+                    //     selected: true
+                    // }
+                },
+            }
+        ],
         createdRow: function(row, data, dataIndex) {
             // console.log(data['condition'])
             var extraClass = '';
@@ -80,10 +116,7 @@
             // Set the data-status attribute, and add a class
             $(row).addClass('nk-tb-item' + extraClass);
         },
-        lengthMenu: [
-            [10, 15, 30, 50, 100, 200],
-            [10, 15, 30, 50, 100, 200]
-        ], // page length options
+        // select: true
         bProcessing: true,
         serverSide: true,
         // scrollY: "400px",
@@ -97,7 +130,7 @@
         },
         columns: [{
                 data: "id",
-                className: "nk-tb-col nk-tb-col-check"
+                // className: "nk-tb-col nk-tb-col-check"
             },
             {
                 data: "userid",
@@ -128,6 +161,19 @@
                 className: "nk-tb-col nk-tb-col-tools"
             }
         ],
+        columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox nk-tb-col nk-tb-col-check',
+            targets: 0
+        }],
+        select: {
+            style: 'os',
+            selector: 'td:first-child',
+            // className: 'nk-tb-col nk-tb-col-check',
+        },
+        order: [
+            [1, 'asc']
+        ],
 
         // columnDefs: [{
         //     orderable: false,
@@ -154,6 +200,7 @@
         navigator.clipboard.writeText(_url);
         alert("Copied the text: " + _url);
     }
+
     function deleteData(id) {
         console.log(id);
         $.ajax({
@@ -164,8 +211,8 @@
                 id: id
             },
             success: function(result) {
-                
-               location.reload();
+
+                location.reload();
             }
         });
     }
@@ -194,6 +241,5 @@
             }
         });
     }
-    
 </script>
 <?= $this->endSection() ?>

@@ -10,43 +10,24 @@ use App\Models\Admin\PostsModel;
 
 class DashboardController extends BaseController
 {
-    // public function __construct()
-    // {
-    //     $session = session();
-    //     print_r($session->get('user'));
-    //     return;
-    //     if($session->get('user.type') != 'ahtesham') {
-    //         return redirect()->route('logout');
-    //     }
-    // }
     public function index()
     {
-        // print_r(session()->get('user.name'));
-        // return;
         $dataArray = array();
         $lastMonthLastDay = date('Y-m-d', strtotime("last day of previous month"));
         $last_month_day = strtotime($lastMonthLastDay);
         $lastMonthFirstDay = date('Y-m-d', strtotime("first day of previous month"));
         $last_month_first_day = strtotime($lastMonthFirstDay);
-        // $current_time = time();
-
-        // $shipment_data['last_month_first_day'] = $last_month_first_day;
-        // $shipment_data['last_month_last_day'] = $last_month_day;
-        // $shipment_data['current_time'] = $current_time;
 
         // SHIPMENTS DATA
         $shipMd = new ManageShipmentModel();
         $shipment_data['total'] = $shipMd->countAll();
         $shipmentsLastMonth = $shipMd->where(['time >=' => $last_month_first_day, 'time <=' => $last_month_day])->countAllResults();
         $shipmentsCurrentMonth = $shipMd->where(['time >' => $last_month_day])->countAllResults();
-        // $shipmentsCurrentMonth = 6398;
-        // $shipment_data['shipmentsLastMonth'] = $shipmentsLastMonth;
-        // $shipment_data['shipmentsCurrentMonth'] = $shipmentsCurrentMonth;
 
-        if($shipmentsCurrentMonth == 0) {
+        if ($shipmentsCurrentMonth == 0) {
             $shipment_data['percentage'] = 0;
-        }  else {
-            if($shipmentsLastMonth == 0) {
+        } else {
+            if ($shipmentsLastMonth == 0) {
                 $shipment_data['percentage'] = 100;
             } else {
                 $lastMonthPercent = $shipmentsCurrentMonth / ($shipmentsLastMonth / 100);
@@ -67,10 +48,10 @@ class DashboardController extends BaseController
         $crnLastMonth = $postMd->groupBy('crn')->where(['time >=' => $last_month_first_day, 'time <=' => $last_month_day])->countAllResults();
         $crnCurrentMonth = $postMd->groupBy('crn')->where(['time >' => $last_month_day])->countAllResults();
 
-        if($crnCurrentMonth == 0) {
+        if ($crnCurrentMonth == 0) {
             $crn_data['percentage'] = 0;
-        }  else {
-            if($crnLastMonth == 0) {
+        } else {
+            if ($crnLastMonth == 0) {
                 $crn_data['percentage'] = 100;
             } else {
                 $lastMonthPercent = $crnCurrentMonth / ($crnLastMonth / 100);
@@ -115,11 +96,7 @@ class DashboardController extends BaseController
         $clients_data['total'] = $clientsMd->where('type', 'client')->countAllResults();
         $clientsLastMonth = $clientsMd->where(['time >=' => $last_month_first_day, 'time <=' => $last_month_day])->countAllResults();
         $clientsCurrentMonth = $clientsMd->where(['time >' => $last_month_day])->countAllResults();
-        // $clientsCurrentMonth = 6398;
-        // $clients_data['clientsLastMonth'] = $clientsLastMonth;
-        // $clients_data['clientsCurrentMonth'] = $clientsCurrentMonth;
 
-        // shipment percentage
         if ($clientsCurrentMonth == 0) {
             $clients_data['percentage'] = 0;
         } else {
@@ -140,17 +117,17 @@ class DashboardController extends BaseController
         $dataArray['clients'] = $clients_data;
 
 
-        $postdata = $postMd->findAll();
+        // $postdata = $postMd->findAll();
 
-        foreach ($postdata as $key => $shipment) {
-            $createdAt = date('Y-m-d H:s:i', $shipment['time']);
+        // foreach ($postdata as $key => $shipment) {
+        //     $createdAt = date('Y-m-d H:s:i', $shipment['time']);
 
-            $data = [
-                'id' => $shipment['id'],
-                'created_at' => $createdAt
-            ];
-            $postMd->save($data);
-        }
+        //     $data = [
+        //         'id' => $shipment['id'],
+        //         'created_at' => $createdAt
+        //     ];
+        //     $postMd->save($data);
+        // }
 
         // return print_r($dataArray);
         return view('Dashboard/Admin/index', $dataArray);
@@ -158,10 +135,6 @@ class DashboardController extends BaseController
     public function notifications()
     {
         return view('Dashboard/Admin/notifications');
-    }
-    public function client()
-    {
-        return view('Dashboard/Admin/client');
     }
     public function app_chats()
     {

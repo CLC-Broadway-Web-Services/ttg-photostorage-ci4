@@ -12,6 +12,7 @@
     <!-- Page Title  -->
     <title>TTG-PHOTOSTORAGE</title>
     <!-- StyleSheets  -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css"> -->
     <link rel="stylesheet" href="/public/css/dashlite.css">
     <link id="skin-default" rel="stylesheet" href="/public/css/theme.css">
 </head>
@@ -39,9 +40,6 @@
                     <div class="nk-sidebar-content">
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
-                                <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Dashboards</h6>
-                                </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('admin_index') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
@@ -298,7 +296,35 @@
     <!-- <script src="/public/js/libs/jqvmap.js"></script> -->
     <!-- <script src="/public/js/charts/chart-ecommerce.js"></script> -->
     <!-- <script src="/public/js/charts/chart-sales.js"></script> -->
+    <!-- <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> -->
+    <!-- <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script> -->
+    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+    <script src="/public/js/libs/datatable-btns.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        function copyText(textValue) {
+            console.log(textValue);
+            /* Copy the text inside the text field */
+            navigator.clipboard.writeText(textValue);
+
+            /* Alert the copied text */
+            alert("Copied the text: " + textValue);
+        }
+
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).attr('data-copy')).select();
+            document.execCommand("copy");
+            $temp.remove();
+            alert("Link Copied!");
+        }
+    </script>
 
     <?= $this->renderSection('javascript') ?>
 </body>

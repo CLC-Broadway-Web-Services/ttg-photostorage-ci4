@@ -5,33 +5,19 @@
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head">
         <div class="nk-block-head-content">
-            <h4 class="nk-block-title">Manage Client</h4>
-            <div class="nk-block-des">
-                <span>Client List</span>
-                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
-
-            </div>
-        </div>
-    </div>
-    <!-- <div class="card card-preview">
-        <div class="card-inner">
-            <div class="row gy-4">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <div class="form-control-wrap">
-                            <div class="input-daterange date-picker-range input-group justify-content-md-end">
-
-                                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
-                            </div>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <h4 class="nk-block-title">Manage Client</h4>
+                </div>
+                <div class="col-md-6 col-12">
+                    <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
     <div class="card card-preview">
         <div class="card-inner">
-            <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+            <table class="datatable-init-export nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col nk-tb-col-check">
@@ -550,10 +536,11 @@
             });
     }
 
-function grnId(id){
-   var clientId = id
-   $("#as").val('clientId');
-}
+    function grnId(id) {
+        var clientId = id
+        $("#as").val('clientId');
+    }
+
     function assignCrn() {
         console.log();
         grnId();
