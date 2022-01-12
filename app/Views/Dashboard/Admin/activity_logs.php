@@ -6,9 +6,6 @@
     <div class="nk-block-head">
         <div class="nk-block-head-content">
             <h4 class="nk-block-title">Activity Logs</h4>
-            <div class="nk-block-des">
-                <p>Activity Logs List</p>
-            </div>
         </div>
     </div>
     <div class="card card-preview">
