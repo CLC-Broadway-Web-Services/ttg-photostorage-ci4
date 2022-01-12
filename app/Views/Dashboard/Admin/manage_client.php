@@ -5,11 +5,13 @@
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head">
         <div class="nk-block-head-content">
-            <h4 class="nk-block-title">Manage Client</h4>
-            <div class="nk-block-des">
-                <span>Client List</span>
-                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
-
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <h4 class="nk-block-title">Manage Client</h4>
+                </div>
+                <div class="col-md-6 col-12 text-right">
+                    <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
+                </div>
             </div>
         </div>
     </div>
@@ -550,15 +552,11 @@
             });
     }
 
-function grnId(id){
-   var clientId = id
-   $("#as").val('clientId');
-}
-    function assignCrn() {
-        console.log();
-        grnId();
+    function assignCrn(id) {
+        console.log(id);
+
         var formData = {
-            id: clientId,
+            id: id,
             assign: 'assign',
             superheroAlias: $("#assign_crn").val(),
         };

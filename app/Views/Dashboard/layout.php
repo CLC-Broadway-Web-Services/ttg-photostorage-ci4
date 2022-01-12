@@ -40,7 +40,7 @@
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
                                 <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Dashboards</h6>
+                                    <!-- <h6 class="overline-title text-primary-alt">Dashboards</h6> -->
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="<?= route_to('admin_index') ?>" class="nk-menu-link">

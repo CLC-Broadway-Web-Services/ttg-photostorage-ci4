@@ -4,12 +4,10 @@
 
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head">
-        <!-- <div class="nk-block-head-content">
+        <div class="nk-block-head-content">
             <h4 class="nk-block-title">Manage Shipment</h4>
-            <div class="nk-block-des">
-                <p>Perform Operations</p>
-            </div>
-        </div> -->
+           
+        </div>
     </div>
     <div class="card card-preview">
         <div class="card-inner">

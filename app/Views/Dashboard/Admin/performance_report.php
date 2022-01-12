@@ -6,9 +6,6 @@
     <div class="nk-block-head">
         <div class="nk-block-head-content">
             <h4 class="nk-block-title">Performance Report</h4>
-            <div class="nk-block-des">
-                <p>Performance Report</p>
-            </div>
         </div>
     </div>
     <div class="card card-preview">
