@@ -392,7 +392,11 @@
       errorElement: "span",
       errorClass: "invalid",
       errorPlacement: function errorPlacement(error, element) {
-        error.appendTo(element.parent());
+        if (element.parents().hasClass('input-group')) {
+          error.appendTo(element.parent().parent());
+        } else {
+          error.appendTo(element.parent());
+        }
       }
     });
   }; // Dropzone @v1.1
@@ -428,55 +432,69 @@
 
 
   NioApp.Wizard = function () {
-    var $wizard = $(".nk-wizard").show();
-    $wizard.steps({
-      headerTag: ".nk-wizard-head",
-      bodyTag: ".nk-wizard-content",
-      labels: {
-        finish: "Submit",
-        next: "Next",
-        previous: "Prev",
-        loading: "Loading ..."
-      },
-      onStepChanging: function onStepChanging(event, currentIndex, newIndex) {
-        // Allways allow previous action even if the current form is not valid!
-        if (currentIndex > newIndex) {
-          return true;
-        } // Needed in some cases if the user went back (clean up)
+    var $wizard = $(".nk-wizard");
+
+    if ($wizard.exists()) {
+      $wizard.each(function () {
+        var $self = $(this),
+            _self_id = $self.attr('id'),
+            $self_id = $('#' + _self_id).show();
+
+        $self_id.steps({
+          headerTag: ".nk-wizard-head",
+          bodyTag: ".nk-wizard-content",
+          labels: {
+            finish: "Submit",
+            next: "Next",
+            previous: "Prev",
+            loading: "Loading ..."
+          },
+          titleTemplate: '<span class="number">0#index#</span> #title#',
+          onStepChanging: function onStepChanging(event, currentIndex, newIndex) {
+            // Allways allow previous action even if the current form is not valid!
+            if (currentIndex > newIndex) {
+              return true;
+            } // Needed in some cases if the user went back (clean up)
 
 
-        if (currentIndex < newIndex) {
-          // To remove error styles
-          $wizard.find(".body:eq(" + newIndex + ") label.error").remove();
-          $wizard.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-        }
+            if (currentIndex < newIndex) {
+              // To remove error styles
+              $self_id.find(".body:eq(" + newIndex + ") label.error").remove();
+              $self_id.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+            }
 
-        $wizard.validate().settings.ignore = ":disabled,:hidden";
-        return $wizard.valid();
-      },
-      onFinishing: function onFinishing(event, currentIndex) {
-        $wizard.validate().settings.ignore = ":disabled";
-        return $wizard.valid();
-      },
-      onFinished: function onFinished(event, currentIndex) {
-        window.location.href = "#";
-      }
-    }).validate({
-      errorElement: "span",
-      errorClass: "invalid",
-      errorPlacement: function errorPlacement(error, element) {
-        error.appendTo(element.parent());
-      }
-    });
+            $self_id.validate().settings.ignore = ":disabled,:hidden";
+            return $self_id.valid();
+          },
+          onFinishing: function onFinishing(event, currentIndex) {
+            $self_id.validate().settings.ignore = ":disabled";
+            return $self_id.valid();
+          },
+          onFinished: function onFinished(event, currentIndex) {
+            window.location.href = "#";
+          }
+        }).validate({
+          errorElement: "span",
+          errorClass: "invalid",
+          errorPlacement: function errorPlacement(error, element) {
+            error.appendTo(element.parent());
+          }
+        });
+      });
+    }
   }; // DataTable @1.1
 
 
   NioApp.DataTable = function (elm, opt) {
     if ($(elm).exists()) {
       $(elm).each(function () {
-        var auto_responsive = $(this).data('auto-responsive');
-        var dom_normal = '<"row justify-between g-2"<"col-7 col-sm-6 text-left"f><"col-5 col-sm-6 text-right"<"datatable-filter"l>>><"datatable-wrap my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-left text-md-right"i>>';
-        var dom_separate = '<"row justify-between g-2"<"col-7 col-sm-6 text-left"f><"col-5 col-sm-6 text-right"<"datatable-filter"l>>><"my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-left text-md-right"i>>';
+        var auto_responsive = $(this).data('auto-responsive'),
+            has_export = typeof opt.buttons !== 'undefined' && opt.buttons ? true : false;
+        var export_title = $(this).data('export-title') ? $(this).data('export-title') : 'Export';
+        var btn = has_export ? '<"dt-export-buttons d-flex align-center"<"dt-export-title d-none d-md-inline-block">B>' : '',
+            btn_cls = has_export ? ' with-export' : '';
+        var dom_normal = '<"row justify-between g-2' + btn_cls + '"<"col-7 col-sm-4 text-left"f><"col-5 col-sm-8 text-right"<"datatable-filter"<"d-flex justify-content-end g-2"' + btn + 'l>>>><"datatable-wrap my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-left text-md-right"i>>';
+        var dom_separate = '<"row justify-between g-2' + btn_cls + '"<"col-7 col-sm-4 text-left"f><"col-5 col-sm-8 text-right"<"datatable-filter"<"d-flex justify-content-end g-2"' + btn + 'l>>>><"my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-left text-md-right"i>>';
         var dom = $(this).hasClass('is-separate') ? dom_separate : dom_normal;
         var def = {
           responsive: true,
@@ -502,6 +520,7 @@
           responsive: false
         }) : attr;
         $(this).DataTable(attr);
+        $('.dt-export-title').text(export_title);
       });
     }
   }; // DataTable Init @v1.0
@@ -512,6 +531,12 @@
       responsive: {
         details: true
       }
+    });
+    NioApp.DataTable('.datatable-init-export', {
+      responsive: {
+        details: true
+      },
+      buttons: ['copy', 'excel', 'csv', 'pdf']
     });
     $.fn.DataTable.ext.pager.numbers_length = 7;
   }; // BootStrap Extended
@@ -624,15 +649,43 @@
       $(elm).each(function () {
         var $self = $(this),
             self_id = $self.attr('id');
+
+        var _start = $self.data('start'),
+            _start = /\s/g.test(_start) ? _start.split(' ') : _start,
+            _start = _start ? _start : 0,
+            _connect = $self.data('connect'),
+            _connect = /\s/g.test(_connect) ? _connect.split(' ') : _connect,
+            _connect = typeof _connect == 'undefined' ? 'lower' : _connect,
+            _min = $self.data('min'),
+            _min = _min ? _min : 0,
+            _max = $self.data('max'),
+            _max = _max ? _max : 100,
+            _min_distance = $self.data('min-distance'),
+            _min_distance = _min_distance ? _min_distance : null,
+            _max_distance = $self.data('max-distance'),
+            _max_distance = _max_distance ? _max_distance : null,
+            _step = $self.data('step'),
+            _step = _step ? _step : 1,
+            _orientation = $self.data('orientation'),
+            _orientation = _orientation ? _orientation : 'horizontal',
+            _tooltip = $self.data('tooltip'),
+            _tooltip = _tooltip ? _tooltip : false;
+
+        console.log(_tooltip);
         var target = document.getElementById(self_id);
         var def = {
-          start: [25],
-          connect: 'lower',
+          start: _start,
+          connect: _connect,
           direction: NioApp.State.isRTL ? "rtl" : "ltr",
           range: {
-            'min': 0,
-            'max': 100
-          }
+            'min': _min,
+            'max': _max
+          },
+          margin: _min_distance,
+          limit: _max_distance,
+          step: _step,
+          orientation: _orientation,
+          tooltips: _tooltip
         },
             attr = opt ? extend(def, opt) : def;
         noUiSlider.create(target, attr);
@@ -642,6 +695,7 @@
 
 
   NioApp.Range.init = function () {
+    NioApp.Range('.form-control-slider');
     NioApp.Range('.form-range-slider');
   };
 
@@ -668,7 +722,66 @@
 
   NioApp.Slider.init = function () {
     NioApp.Slick('.slider-init');
-  }; // Number Spinner 
+  }; // Magnific Popup @v1.0.0
+
+
+  NioApp.Lightbox = function (elm, type, opt) {
+    if ($(elm).exists()) {
+      $(elm).each(function () {
+        var def = {};
+
+        if (type == 'video' || type == 'iframe') {
+          def = {
+            type: 'iframe',
+            removalDelay: 160,
+            preloader: true,
+            fixedContentPos: false,
+            callbacks: {
+              beforeOpen: function beforeOpen() {
+                this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+                this.st.mainClass = this.st.el.attr('data-effect');
+              }
+            }
+          };
+        } else if (type == 'content') {
+          def = {
+            type: 'inline',
+            preloader: true,
+            removalDelay: 400,
+            mainClass: 'mfp-fade content-popup'
+          };
+        } else {
+          def = {
+            type: 'image',
+            mainClass: 'mfp-fade image-popup'
+          };
+        }
+
+        var attr = opt ? extend(def, opt) : def;
+        $(this).magnificPopup(attr);
+      });
+    }
+  }; // Controls @v1.0.0
+
+
+  NioApp.Control = function (elm) {
+    var control = document.querySelectorAll(elm);
+    control.forEach(function (item, index, arr) {
+      item.checked ? item.parentNode.classList.add('checked') : null;
+      item.addEventListener("change", function () {
+        if (item.type == "checkbox") {
+          item.checked ? item.parentNode.classList.add('checked') : item.parentNode.classList.remove('checked');
+        }
+
+        if (item.type == "radio") {
+          document.querySelectorAll('input[name="' + item.name + '"]').forEach(function (item, index, arr) {
+            item.parentNode.classList.remove('checked');
+          });
+          item.checked ? item.parentNode.classList.add('checked') : null;
+        }
+      });
+    });
+  }; // Number Spinner @v1.0
 
 
   NioApp.NumberSpinner = function (elm, opt) {
@@ -724,6 +837,11 @@
     NioApp.SetHW('[data-height]', 'height');
     NioApp.SetHW('[data-width]', 'width');
     NioApp.NumberSpinner();
+    NioApp.Lightbox('.popup-video', 'video');
+    NioApp.Lightbox('.popup-iframe', 'iframe');
+    NioApp.Lightbox('.popup-image', 'image');
+    NioApp.Lightbox('.popup-content', 'content');
+    NioApp.Control('.custom-control-input');
   }; // Animate Init @v1.0
 
 

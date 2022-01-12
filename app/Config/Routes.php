@@ -17,11 +17,11 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Admin/DashboardController');
-$routes->setDefaultMethod('index');
-$routes->setTranslateURIDashes(false);
+// $routes->setDefaultController('Admin/DashboardController');
+// $routes->setDefaultMethod('index');
+// $routes->setTranslateURIDashes(false);
 $routes->set404Override();
-$routes->setAutoRoute(true);
+$routes->setAutoRoute(false);
 
 /*
  * --------------------------------------------------------------------
@@ -36,9 +36,11 @@ $routes->get('/forget-password', 'AuthController::forget_password', ['as' => 'fo
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->add('/', 'Admin\DashboardController::index', ['filter' => 'adminauth', 'as' => 'admin_index']);
-$routes->add('/client', 'Admin\DashboardController::client', [ 'as' => 'client_index']);
+// $routes->add('/client', 'Admin\DashboardController::client', [ 'as' => 'client_index']);
 
+$routes->group('/', function ($routes) {
+    $routes->add('', 'Admin\DashboardController::index', ['filter' => 'adminauth', 'as' => 'admin_index']);
+});
 
 $routes->match(['post', 'get'],'/manage-shipment', 'Admin\ManageShipmentController::manage_shipment', ['as' => 'manage_shipment']);
 $routes->match(['post', 'get'],'/manage-shipment/details/(:num)', 'Admin\ManageShipmentController::manage_shipment_details/$1', ['as' => 'manage_shipment_details']);

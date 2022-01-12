@@ -10,7 +10,7 @@
     </div>
     <div class="card card-preview">
         <div class="card-inner">
-            <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+            <table class="datatable-init-export nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col nk-tb-col-check">
