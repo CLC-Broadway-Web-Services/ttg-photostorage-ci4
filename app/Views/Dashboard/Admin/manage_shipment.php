@@ -30,17 +30,17 @@
     </div>
 
     <div class="card card-preview">
-        <div class="card-inner">
+        <div class="card-inner table-responsive">
             <table class="nk-tb-list nk-tb-ulist" id="datatableX" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col"></th>
                         <th class="nk-tb-col"><span class="sub-text">Staff Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">CRN</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Date & Time</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Logistic Company</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Date & <br>Time</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Logistic <br> Company</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Country</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Packaging Quality</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Packaging <br>Quality</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">Action
                         </th>
                     </tr>
@@ -61,6 +61,9 @@
 <?= $this->section('javascript') ?>
 <script>
     NioApp.DataTable('#datatableX', {
+        language: {
+            "processing": '<span class="processingData">Processing data...</span>'
+        },
         responsive: {
             details: !0
         },
@@ -114,7 +117,7 @@
                 extraClass = 'bg-danger text-white';
             }
             // Set the data-status attribute, and add a class
-            $(row).addClass('nk-tb-item' + extraClass);
+            $(row).addClass('nk-tb-item ' + extraClass);
         },
         // select: true
         bProcessing: true,
@@ -165,6 +168,10 @@
             orderable: false,
             className: 'select-checkbox nk-tb-col nk-tb-col-check',
             targets: 0
+        }],
+        columnDefs: [{
+            orderable: false,
+            targets: [0, 7]
         }],
         select: {
             style: 'os',

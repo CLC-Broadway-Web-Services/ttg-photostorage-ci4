@@ -137,9 +137,8 @@ class ManageShipmentController extends BaseController
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <ul class="link-list-opt no-bdr">
                                         <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                            <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="'.$popupWindowUrl.'"><em class="icon ni ni-share"></em><span>Share</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '"><em class="icon ni ni-share"></em><span>Share</span></a></li>
                                             
-                                            <li><a href="javascript:void(0);" onclick="getExcel(' . "'" . $id . "'" . ')"><em class="icon ni ni-file-docs"></em><span >Excel</span></a></li>
                                             <li><a href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                             
                                         </ul>
@@ -147,6 +146,7 @@ class ManageShipmentController extends BaseController
                                 </div>
                             </li>
                         </ul>';
+                // <li><a href="javascript:void(0);" onclick="getExcel(' . "'" . $id . "'" . ')"><em class="icon ni ni-file-docs"></em><span >Excel</span></a></li>
 
                 $shipments[$key]['condition'] = $shipment['box_condition'];
                 $shipments[$key]['id'] = str_replace("uid1", $shipment['id'], $checkBoxHtml);

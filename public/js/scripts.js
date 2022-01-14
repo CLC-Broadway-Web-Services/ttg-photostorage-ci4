@@ -501,6 +501,7 @@
           autoWidth: false,
           dom: dom,
           language: {
+            processing: "<span class='processingData'>Processing data...</span>",
             search: "",
             searchPlaceholder: "Type in to Search",
             lengthMenu: "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
