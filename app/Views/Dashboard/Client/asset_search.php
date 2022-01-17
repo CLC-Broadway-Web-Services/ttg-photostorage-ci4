@@ -25,8 +25,8 @@
                 </div>
                 <div class="col-md-8">
                     <ul class="list-unstyled">
-                        <li>For Multiple assets search, Seperate Asset ID's with comma</li>
-                        <li>Data list appeared below this section</li>
+                        <li> > For Multiple assets search, Seperate Asset ID's with comma</li>
+                        <li> > Data list appeared below this section</li>
                     </ul>
                 </div>
             </div>

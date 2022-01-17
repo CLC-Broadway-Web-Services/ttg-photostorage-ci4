@@ -10,6 +10,8 @@ class AuthController extends BaseController
 {
     public function index()
     {
+        // return print_r(create_dates());
+
         if ($this->request->getMethod() == 'post') {
             $userEmail = $this->request->getVar('email');
             $userPassword = $this->request->getVar('password');

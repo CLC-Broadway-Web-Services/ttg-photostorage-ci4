@@ -25,8 +25,8 @@
                 </div>
                 <div class="col-md-8">
                     <ul class="list-unstyled">
-                        <li>For Multiple crn search, Seperate CRN's with comma</li>
-                        <li>Data list appeared below this section</li>
+                        <li> > For Multiple crn search, Seperate CRN's with comma</li>
+                        <li> > Data list appeared below this section</li>
                     </ul>
                 </div>
             </div>

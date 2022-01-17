@@ -16,10 +16,6 @@ class ManageShipmentController extends BaseController
 
     public function manage_shipment()
     {
-        // $shipments = $this->manageShipDb->distinct()
-        // ->select('ttg_ship.*, ttg_login.country as userCountry')
-        // ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-        // ->orderBy('ttg_ship.id', 'desc')->findAll(100);
         if ($this->request->getMethod() == 'post') {
 
             if ($this->request->getVar('csv')) {
@@ -32,23 +28,13 @@ class ManageShipmentController extends BaseController
                 return $this->manageShipDb->delete($getId);
             }
 
-            $start_date = $this->request->getVar('start_date');
-            $end_date = $this->request->getVar('end_date');
-            // return print_r(strtotime($start_date));
-            if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'date_form') {
-                $start_date = $this->request->getVar('start_date');
-                $end_date = $this->request->getVar('end_date');
-                $route = route_to('manage_shipment') . '?start_date=' . $start_date . '&end_date=' . $end_date;
-                return redirect()->to($route);
-                die();
-            }
-            // if($this->request->getVar('draw'))
             $params['draw'] = $_REQUEST['draw'];
             $start = $_REQUEST['start'];
             $length = $_REQUEST['length'];
             $search_value = $_REQUEST['search']['value'];
-            $startDate = $this->request->getGet('start_date') && strtotime($this->request->getGet('start_date')) ? strtotime($this->request->getGet('start_date')) : null;
-            $endDate = $this->request->getGet('end_date') && strtotime($this->request->getGet('end_date')) ? strtotime($this->request->getGet('end_date')) : null;
+
+            $startDate = $this->request->getGet('start_date') ? date('Y-m-d ', strtotime($this->request->getGet('start_date'))) . '00:00:00' : null;
+            $endDate = $this->request->getGet('end_date') ? date('Y-m-d ', strtotime($this->request->getGet('end_date'))) . '00:00:00' : null;
             if ($startDate && $endDate) {
                 if (!empty($search_value)) {
                     // return print_r($startDate);
@@ -59,10 +45,8 @@ class ManageShipmentController extends BaseController
                         ->orLike('ttg_ship.crn', $search_value)
                         ->orLike('ttg_ship.logistic_company', $search_value)
                         ->orLike('ttg_ship.box_condition', $search_value)
-                        ->orLike('ttg_ship.time', $search_value)
                         ->orLike('ttg_login.country', $search_value)
-                        ->where('ttg_ship.time <=', $startDate)
-                        ->where('ttg_ship.time >=', $endDate)
+                        ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
                         ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
                     $count = $this->manageShipDb->distinct()
                         ->select('ttg_ship.*, ttg_login.country as userCountry')
@@ -71,23 +55,19 @@ class ManageShipmentController extends BaseController
                         ->orLike('ttg_ship.crn', $search_value)
                         ->orLike('ttg_ship.logistic_company', $search_value)
                         ->orLike('ttg_ship.box_condition', $search_value)
-                        ->orLike('ttg_ship.time', $search_value)
                         ->orLike('ttg_login.country', $search_value)
-                        ->where('ttg_ship.time <=', $startDate)
-                        ->where('ttg_ship.time >=', $endDate)
+                        ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
                         ->orderBy('ttg_ship.id', 'desc')->countAllResults();
                 } else {
                     $shipments = $this->manageShipDb->distinct()
                         ->select('ttg_ship.*, ttg_login.country as userCountry')
                         ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->where('ttg_ship.time <=', $startDate)
-                        ->where('ttg_ship.time >=', $endDate)
+                        ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
                         ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
                     $count = $this->manageShipDb->distinct()
                         ->select('ttg_ship.*, ttg_login.country as userCountry')
                         ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->where('ttg_ship.time <=', $startDate)
-                        ->where('ttg_ship.time >=', $endDate)
+                        ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
                         ->orderBy('ttg_ship.id', 'desc')->countAllResults();
                 }
             } else {
@@ -99,7 +79,7 @@ class ManageShipmentController extends BaseController
                         ->orLike('ttg_ship.crn', $search_value)
                         ->orLike('ttg_ship.logistic_company', $search_value)
                         ->orLike('ttg_ship.box_condition', $search_value)
-                        ->orLike('ttg_ship.time', $search_value)
+                        // ->orLike('ttg_ship.time', $search_value)
                         ->orLike('ttg_login.country', $search_value)
                         ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
                     $count = $this->manageShipDb->distinct()
@@ -109,7 +89,7 @@ class ManageShipmentController extends BaseController
                         ->orLike('ttg_ship.crn', $search_value)
                         ->orLike('ttg_ship.logistic_company', $search_value)
                         ->orLike('ttg_ship.box_condition', $search_value)
-                        ->orLike('ttg_ship.time', $search_value)
+                        // ->orLike('ttg_ship.time', $search_value)
                         ->orLike('ttg_login.country', $search_value)
                         ->orderBy('ttg_ship.id', 'desc')->countAllResults();
                 } else {
@@ -131,25 +111,26 @@ class ManageShipmentController extends BaseController
                         </div>';
                 $popupWindowUrl = base_url(route_to('manage_shipment_details', $shipment['id']));
                 $id = $shipment['id'];
-                $actionsHtml = '<ul class="nk-tb-actions gx-1"><li>
-                                <div class="drodown">
-                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <ul class="link-list-opt no-bdr">
-                                        <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                            <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                            
-                                            <li><a href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                            
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>';
+                $actionsHtml = '<ul class="nk-tb-actions gx-1" dataLink="'.$popupWindowUrl.'">
+                                    <li>
+                                        <div class="drodown">
+                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                    <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '"><em class="icon ni ni-share"></em><span>Share</span></a></li>
+                                                    
+                                                    <li><a href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>';
                 // <li><a href="javascript:void(0);" onclick="getExcel(' . "'" . $id . "'" . ')"><em class="icon ni ni-file-docs"></em><span >Excel</span></a></li>
 
                 $shipments[$key]['condition'] = $shipment['box_condition'];
-                $shipments[$key]['id'] = str_replace("uid1", $shipment['id'], $checkBoxHtml);
+                // $shipments[$key]['id'] = str_replace("uid1", $shipment['id'], $checkBoxHtml);
                 $shipments[$key]['actions'] = $actionsHtml;
                 if ($shipment['box_condition'] == 'Poor') {
                     $shipments[$key]['box_condition'] =  '<span class="badge badge-dot badge-dot-xs badge-danger">' . $shipment['box_condition'] . '</span>';
@@ -172,9 +153,6 @@ class ManageShipmentController extends BaseController
 
             return json_encode($json_data);
         }
-        // $this->data['shipments'] = $this->manageShipDb->orderBy('id', 'desc')->findAll(200);
-        // $this->data['shipments'] = $shipments;
-        // return print_r($this->data);
         return view('Dashboard/Admin/manage_shipment', $this->data);
     }
 

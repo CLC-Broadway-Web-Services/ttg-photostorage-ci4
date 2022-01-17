@@ -67,8 +67,7 @@ for ($i = 0; $i < $filesCount; $i++) {
                 <div class="card-footer border-top text-muted">
                     <label class="form-label" for="full-name-1">Reason for Objection</label>
                     <div class="input-group">
-                        <textarea type="text" class="form-control" name="objection" placeholder="Type your reason/Comment that why you are reject data">
-                        </textarea>
+                        <textarea type="text" class="form-control" name="objection" placeholder="Type your reason/Comment that why you are reject data"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer bg-light">

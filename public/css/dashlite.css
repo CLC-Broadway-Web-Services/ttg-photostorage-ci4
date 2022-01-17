@@ -1142,7 +1142,7 @@ a.btn.disabled, .dual-listbox a.disabled.dual-listbox__button, fieldset:disabled
 
 .btn-outline-light:focus, .dt-buttons .btn-secondary:focus, .btn-outline-light.focus, .dt-buttons .focus.btn-secondary { box-shadow: 0 0 0 0.2rem rgba(229, 233, 242, 0.5); }
 
-.btn-outline-light.disabled, .dt-buttons .disabled.btn-secondary, .btn-outline-light:disabled, .dt-buttons .btn-secondary:disabled { color: #e5e9f2; background-color: transparent; }
+.btn-outline-light.disabled, .dt-buttons .disabled.btn-secondary, .btn-outline-light:disabled, .dt-buttons .btn-secondary:disabled { color: #e5e9f2; background-color: #4a4a4a8a; }
 
 .btn-outline-light:not(:disabled):not(.disabled):active, .dt-buttons .btn-secondary:not(:disabled):not(.disabled):active, .btn-outline-light:not(:disabled):not(.disabled).active, .dt-buttons .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-outline-light.dropdown-toggle, .dt-buttons .show > .dropdown-toggle.btn-secondary { color: #101924; background-color: #e5e9f2; border-color: #e5e9f2; }
 
@@ -9397,7 +9397,10 @@ div.dt-buttons button.btn.processing, div.dt-buttons .dual-listbox button.proces
 div.dt-buttons button.btn.processing:after, div.dt-buttons .dual-listbox button.processing.dual-listbox__button:after, .dual-listbox div.dt-buttons button.processing.dual-listbox__button:after, div.dt-buttons div.btn.processing:after, div.dt-buttons .dual-listbox div.processing.dual-listbox__button:after, .dual-listbox div.dt-buttons div.processing.dual-listbox__button:after, div.dt-buttons a.btn.processing:after, div.dt-buttons .dual-listbox a.processing.dual-listbox__button:after, .dual-listbox div.dt-buttons a.processing.dual-listbox__button:after { position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; box-sizing: border-box; display: block; content: " "; border: 2px solid #282828; border-radius: 50%; border-left-color: transparent; border-right-color: transparent; animation: dtb-spinner 1500ms infinite linear; -o-animation: dtb-spinner 1500ms infinite linear; -ms-animation: dtb-spinner 1500ms infinite linear; -webkit-animation: dtb-spinner 1500ms infinite linear; -moz-animation: dtb-spinner 1500ms infinite linear; }
 
 .dt-buttons .btn-secondary span { display: none; }
-
+tr.nk-tb-item.odd.selected {background: grey;
+  color: #fff;}
+  tr.nk-tb-item.even.selected {background: grey;
+    color: #fff;}
 .dt-buttons .btn-secondary:before { font-size: 1.125rem; font-weight: normal; font-style: normal; width: 2.125rem; font-family: "Nioicon"; }
 
 .dt-export-title { margin-left: 0.5rem; margin-right: 0.5rem; }
@@ -9413,6 +9416,10 @@ div.dt-buttons button.btn.processing:after, div.dt-buttons .dual-listbox button.
 .buttons-print:before { content: ""; }
 
 .buttons-colvis:before { content: ""; }
+
+.buttons-select-none:before { content: ""; }
+
+.buttons-select-all:before { content: ""; }
 
 .buttons-columnVisibility { position: relative; padding-right: 42px; font-size: 12px; font-weight: 500; color: #526484; transition: all .4s; }
 

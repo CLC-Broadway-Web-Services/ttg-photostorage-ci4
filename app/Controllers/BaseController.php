@@ -35,7 +35,7 @@ class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['custom'];
+    protected $helpers = ['custom', 'url_helper'];
     protected $data;
 
     /**
@@ -45,6 +45,8 @@ class BaseController extends Controller
     {
         // Do Not Edit This Line
         $this->data = array();
+        $uri = service('uri');
+		$this->data['uri'] = $uri;
         parent::initController($request, $response, $logger, $this->data);
 
         // Preload any models, libraries, etc, here.

@@ -10,12 +10,27 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="/public/images/jsTree/TTG-Photo-Storage-Favicon.png">
     <!-- Page Title  -->
-    <title>TTG-PHOTOSTORAGE</title>
-    <!-- StyleSheets  -->
-    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css"> -->
+    <title><?= APP_NAME ?></title>
     <link rel="stylesheet" href="/public/css/dashlite.css">
     <link id="skin-default" rel="stylesheet" href="/public/css/theme.css">
+
+    <style>
+        .dataTables_processing {
+            /* background-color: #ff0000; */
+            background-color: red !important;
+        }
+        .processingData {
+            /* background-color: red; */
+            color: #fff;
+            font-weight: 700;
+        }
+    </style>
+
 </head>
+<?php
+$uri = service('uri');
+$uri = current_url(true);
+?>
 
 <body class="nk-body bg-lighter npc-default has-sidebar ">
     <div class="nk-app-root">
@@ -40,67 +55,67 @@
                     <div class="nk-sidebar-content">
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= !$uri->getSegment(1) ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('admin_index') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
                                         <span class="nk-menu-text">Dashboard</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'manage-shipment' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('manage_shipment') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-truck"></em></span>
                                         <span class="nk-menu-text">Manage Shipments</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'manage-data' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('manage_data') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-db-fill"></em></span>
                                         <span class="nk-menu-text">Manage Data</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'defect-analysis' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('defect_analysis') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file-check-fill"></em></span>
                                         <span class="nk-menu-text">Defect Analysis</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'manage-client' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('manage_client') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
                                         <span class="nk-menu-text">Manage Clients</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'testing-staff' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('testing_staff') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Testing Staff</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'shipping-staff' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('shipping_satff') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Shipping Staff</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'manage-admin' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('manage_admin') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-account-setting-fill"></em></span>
                                         <span class="nk-menu-text"> Manage Admins</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'create-user' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('creat_user') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Create User</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'activity-log' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('activity_logs') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-list"></em></span>
                                         <span class="nk-menu-text">Activity Logs</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'performance-report' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('performance_report') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-reports"></em></span>
                                         <span class="nk-menu-text">Performance Report</span>
