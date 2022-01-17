@@ -23,7 +23,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'http://ttg-photostorage-ci4.test/';
+    public $baseURL = 'http://localhost:8080/';
     // public $baseURL = $_SERVER['HTTP_HOST'];
 
     /**

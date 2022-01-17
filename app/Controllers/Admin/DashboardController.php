@@ -12,7 +12,7 @@ class DashboardController extends BaseController
 {
     public function index()
     {
-        $dataArray = array();
+        $this->data = array();
         $lastMonthLastDay = date('Y-m-d', strtotime("last day of previous month"));
         $last_month_day = strtotime($lastMonthLastDay);
         $lastMonthFirstDay = date('Y-m-d', strtotime("first day of previous month"));
@@ -40,7 +40,7 @@ class DashboardController extends BaseController
             }
         }
 
-        $dataArray['shipments'] = $shipment_data;
+        $this->data['shipments'] = $shipment_data;
 
         // CRNS DATA
         $postMd = new PostsModel();
@@ -64,7 +64,7 @@ class DashboardController extends BaseController
             }
         }
 
-        $dataArray['crns'] = $crn_data;
+        $this->data['crns'] = $crn_data;
 
         // ASSETS DATA
         $filesMd = new FilesModel();
@@ -89,7 +89,7 @@ class DashboardController extends BaseController
             }
         }
 
-        $dataArray['assets'] = $assets_data;
+        $this->data['assets'] = $assets_data;
 
         // CLIENTS DATA
         $clientsMd = new AdminModel();
@@ -114,7 +114,7 @@ class DashboardController extends BaseController
         }
 
 
-        $dataArray['clients'] = $clients_data;
+        $this->data['clients'] = $clients_data;
 
 
         // $postdata = $postMd->findAll();
@@ -129,8 +129,8 @@ class DashboardController extends BaseController
         //     $postMd->save($data);
         // }
 
-        // return print_r($dataArray);
-        return view('Dashboard/Admin/index', $dataArray);
+        // return print_r($this->data);
+        return view('Dashboard/Admin/index', $this->data);
     }
     public function notifications()
     {

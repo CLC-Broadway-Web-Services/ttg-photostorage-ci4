@@ -1,12 +1,6 @@
 <?= $this->extend('Dashboard/layout') ?>
 
 <?= $this->section('content') ?>
-<style>
-    .processingData {
-        color: red;
-    }
-</style>
-
 <div class="nk-block nk-block-lg">
     <div class="nk-block-head">
         <div class="nk-block-head-content">
@@ -17,7 +11,25 @@
     <div class="card card-preview">
         <div class="card-inner">
             <div class="row gy-4">
-                <div class="col-sm-4">
+                <div class="col-md-6 col-12">
+                    <div class="form-group w-100">
+                        <label class="form-label">Search Data by Date Range</label>
+                        <div class="form-control-wrap">
+                            <form class="input-daterange date-picker-range input-group" method="get">
+                                <input type="text" class="form-control" name="start_date" autocomplete="new-start_date" value="<?= isset($_GET['start_date']) ? $_GET['start_date'] : '' ?>">
+                                <div class="input-group-addon">TO</div>
+                                <input type="text" class="form-control" name="end_date" autocomplete="new-end_date" value="<?= isset($_GET['end_date']) ? $_GET['end_date'] : '' ?>">
+                                <button type="submit" class="btn btn-dim btn-primary input-group-addon" name="form_name" value="date_form">Filter Data</button>
+                                <?php if (isset($_GET['end_date'])) : ?>
+                                    <a class="btn btn-dim btn-danger input-group-addon" title="Reset Form" href="<?= route_to('manage_data') ?>">
+                                        <em class="ni ni-reload-alt"></em>
+                                    </a>
+                                <?php endif; ?>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6 col-12">
                     <div class="form-group">
                         <label class="form-label">Search Shipment by Date Range</label>
                         <div class="form-control-wrap">
@@ -25,14 +37,12 @@
                                 <input type="text" class="form-control">
                                 <div class="input-group-addon">TO</div>
                                 <input type="text" class="form-control">
-                            </div>
-                            <div class="input-daterange date-picker-range input-group mt-2">
-                                <a href="#" class="btn btn-dim btn-primary">Filter Data</a>
+                                <a href="#" class="input-group-addon btn btn-dim btn-primary">Filter Data</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-4 d-none">
+                </div> -->
+                <!-- <div class="col-md-4 d-none">
                     <div class="form-group">
                         <label class="form-label">Search Multiple Attributes</label>
                         <div class="form-control-wrap">
@@ -42,19 +52,16 @@
                             <a href="#" class="btn btn-dim btn-primary">Filter Data</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
+                </div> -->
+                <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label class="form-label"></label>
-                        <div class="form-control-wrap mt-1">
-                            <a href="#" class="btn  btn-primary ml-2"><em class="icon ni ni-download"></em><span>Download All Data</span> </a>
-                        </div>
-                        <div class="form-control-wrap mt-1">
-                            <a href="#" class="btn  btn-primary ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Replace Data</span> </a>
+                        <label class="form-label">&nbsp;</label>
+                        <div class="form-control-wrap">
+                            <!-- <a href="#" class="btn btn-primary ml-2"><em class="icon ni ni-download"></em><span>Download All Data</span> </a> -->
+                            <a href="#" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Replace Data</span> </a>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -136,13 +143,50 @@
 <?= $this->section('javascript') ?>
 <script>
     NioApp.DataTable('#datatableX', {
-        dom: 'lrtip',
+        // dom: 'lrtip',
         language: {
             "processing": '<span class="processingData">Processing data...</span>'
         },
         responsive: {
-            details: true
+            details: !0
         },
+        buttons: [{
+                extend: 'copy',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7]
+                    // modifier: {
+                    //     selected: true
+                    // }
+                },
+            },
+            {
+                extend: 'excel',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7]
+                    // modifier: {
+                    //     selected: true
+                    // }
+                },
+            },
+            {
+                extend: 'pdf',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7]
+                    // modifier: {
+                    //     selected: true
+                    // }
+                },
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7]
+                    // modifier: {
+                    //     selected: true
+                    // }
+                },
+            }
+        ],
         createdRow: function(row, data, dataIndex) {
             // Set the data-status attribute, and add a class
             $(row).addClass('nk-tb-item');
@@ -201,8 +245,16 @@
         ],
         columnDefs: [{
             orderable: false,
-            targets: [0, 1, 2, 3]
+            targets: [0, 8]
         }],
+        select: {
+            style: 'os',
+            selector: 'td:first-child',
+            // className: 'nk-tb-col nk-tb-col-check',
+        },
+        order: [
+            [1, 'asc']
+        ],
         // bFilter: true, // to display datatable search
     });
     $.fn.DataTable.ext.pager.numbers_length = 7;

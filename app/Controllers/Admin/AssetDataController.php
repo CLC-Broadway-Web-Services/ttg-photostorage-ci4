@@ -22,73 +22,83 @@ class AssetDataController extends BaseController
 
     public function manage_data()
     {
-
-
         if ($this->request->getMethod() == 'post') {
-
-
             if ($this->request->getVar('delete')) {
-
                 $getId = $this->request->getVar('id');
                 return $this->manageDataDb->where('uid', $getId)->delete();
             }
-
             $params['draw'] = $_REQUEST['draw'];
             $start = $_REQUEST['start'];
             $length = $_REQUEST['length'];
-            /* If we pass any extra data in request from ajax */
-            //$value1 = isset($_REQUEST['key1'])?$_REQUEST['key1']:"";
-
-            /* Value we will get from typing in search */
             $search_value = $_REQUEST['search']['value'];
 
-            if (!empty($search_value)) {
-                $manageData = $this->manageDataDb->distinct()
-                    ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
-                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                    ->like('ttg_post.userid', $search_value)
-                    ->orlike('ttg_post.crn', $search_value)
-                    ->orlike('ttg_post.uid', $search_value)
-                    ->orlike('ttg_login.country', $search_value)
-                    ->orlike('ttg_post.verifyStatus', $search_value)
-                    ->orderBy('ttg_post.id', 'desc')->offset($start)->findAll($length);
-                $count = $this->manageDataDb->distinct()
-                    ->select('ttg_post.*, ttg_login.country as userCountry')
-                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                    ->like('ttg_post.userid', $search_value)
-                    ->orlike('ttg_post.crn', $search_value)
-                    ->orlike('ttg_post.uid', $search_value)
-                    ->orlike('ttg_login.country', $search_value)
-                    ->orlike('ttg_post.verifyStatus', $search_value)
-                    ->orderBy('ttg_post.id', 'desc')->countAllResults();
+            $startDate = $this->request->getGet('start_date') ? date('Y-m-d ', strtotime($this->request->getGet('start_date'))) . '00:00:00' : null;
+            $endDate = $this->request->getGet('end_date') ? date('Y-m-d ', strtotime($this->request->getGet('end_date'))) . '00:00:00' : null;
+            if ($startDate && $endDate) {
+                if (!empty($search_value)) {
+                    $manageData = $this->manageDataDb->distinct()
+                        ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
+                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                        ->like('ttg_post.userid', $search_value)
+                        ->orlike('ttg_post.crn', $search_value)
+                        ->orlike('ttg_post.uid', $search_value)
+                        ->orlike('ttg_login.country', $search_value)
+                        ->orlike('ttg_post.verifyStatus', $search_value)
+                        ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                        ->orderBy('ttg_post.id', 'desc')->offset($start)->findAll($length);
+                    $count = $this->manageDataDb->distinct()
+                        ->select('ttg_post.*, ttg_login.country as userCountry')
+                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                        ->like('ttg_post.userid', $search_value)
+                        ->orlike('ttg_post.crn', $search_value)
+                        ->orlike('ttg_post.uid', $search_value)
+                        ->orlike('ttg_login.country', $search_value)
+                        ->orlike('ttg_post.verifyStatus', $search_value)
+                        ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                        ->orderBy('ttg_post.id', 'desc')->countAllResults();
+                } else {
+                    $manageData = $this->manageDataDb->distinct()
+                        ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_login.country as userCountry')
+                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                        ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                        ->orderBy('ttg_post.id', 'desc')->offset($start)->findAll($length);
+                    $count = $this->manageDataDb->distinct()
+                        ->select('ttg_post.*, ttg_login.country as userCountry')
+                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                        ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                        ->orderBy('ttg_post.id', 'desc')->countAllResults();
+                }
             } else {
-                $manageData = $this->manageDataDb->distinct()
-                    ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_login.country as userCountry')
-                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                    ->orderBy('ttg_post.id', 'desc')->offset($start)->findAll($length);
-                $count = $this->manageDataDb->distinct()
-                    ->select('ttg_post.*, ttg_login.country as userCountry')
-                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                    ->orderBy('ttg_post.id', 'desc')->countAllResults();
+                if (!empty($search_value)) {
+                    $manageData = $this->manageDataDb->distinct()
+                        ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
+                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                        ->like('ttg_post.userid', $search_value)
+                        ->orlike('ttg_post.crn', $search_value)
+                        ->orlike('ttg_post.uid', $search_value)
+                        ->orlike('ttg_login.country', $search_value)
+                        ->orlike('ttg_post.verifyStatus', $search_value)
+                        ->orderBy('ttg_post.id', 'desc')->offset($start)->findAll($length);
+                    $count = $this->manageDataDb->distinct()
+                        ->select('ttg_post.*, ttg_login.country as userCountry')
+                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                        ->like('ttg_post.userid', $search_value)
+                        ->orlike('ttg_post.crn', $search_value)
+                        ->orlike('ttg_post.uid', $search_value)
+                        ->orlike('ttg_login.country', $search_value)
+                        ->orlike('ttg_post.verifyStatus', $search_value)
+                        ->orderBy('ttg_post.id', 'desc')->countAllResults();
+                } else {
+                    $manageData = $this->manageDataDb->distinct()
+                        ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_login.country as userCountry')
+                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                        ->orderBy('ttg_post.id', 'desc')->offset($start)->findAll($length);
+                    $count = $this->manageDataDb->distinct()
+                        ->select('ttg_post.*, ttg_login.country as userCountry')
+                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                        ->orderBy('ttg_post.id', 'desc')->countAllResults();
+                }
             }
-
-
-
-            // if(!empty($search_value)){
-            //     // If we have value in search, searching by id, name, email, mobile
-
-            //     // count all data
-            //     // $total_count = $this->db->query("SELECT * from tbl_students WHERE id like '%".$search_value."%' OR name like '%".$search_value."%' OR email like '%".$search_value."%' OR mobile like '%".$search_value."%'")->getResult();
-
-            //     // $data = $this->db->query("SELECT * from tbl_students WHERE id like '%".$search_value."%' OR name like '%".$search_value."%' OR email like '%".$search_value."%' OR mobile like '%".$search_value."%' limit $start, $length")->getResult();
-            // }else{
-            //     // count all data
-            //     // $total_count = $this->db->query("SELECT * from tbl_students")->getResult();
-
-            //     // get per page data
-            //     // $data = $this->db->query("SELECT * from tbl_students limit $start, $length")->getResult();
-            // }
-
 
             foreach ($manageData as $key => $manage) {
 

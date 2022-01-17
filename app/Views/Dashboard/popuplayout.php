@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>TTG-PHOTOSTORAGE</title>
+    <title><?= APP_NAME ?></title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="/public/css/dashlite.css?ver=2.4.0">
     <link id="skin-default" rel="stylesheet" href="/public/css/theme.css?ver=2.4.0">

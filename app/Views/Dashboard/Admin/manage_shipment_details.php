@@ -244,22 +244,22 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 d-print-none">
                         <div class="form-group">
                             <button type="button" class="btn btn-lg btn-success" onclick="showImages()">Show Image</button>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 d-print-none">
                         <div class="form-group">
                             <a type="button" href="<?= route_to('file_pdf', $manage_shipment_details['hash']) ?>" class="btn btn-lg btn-success">Download Reciept</a>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 d-print-none">
                         <div class="form-group">
                             <button type="button" class="btn btn-lg btn-success" onclick="window.print()">Print Reciept</button>
                         </div>
                     </div>
-                    <div class="col-12" id="detailsImages" style="display: none;">
+                    <div class="col-12 d-print-none" id="detailsImages" style="display: none;">
                         <div class="row">
                             <?php
 
@@ -271,19 +271,19 @@
                                 $fileKey = 'file' . ($i + 1);
                                 $commentKey = 'desc' . ($i + 1);
                                 echo '<div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Image</label>
-                        <div class="form-control-wrap">
-                        <img src="../' . $files[$i]->$fileKey . '" width="100%" height="250px">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="cf-default-textarea">Comment</label>
-                        <div class="form-control-wrap">
-                            <textarea class="form-control form-control-sm" id="cf-default-textarea" placeholder="Write your message">' . $files[$i]->$commentKey . '</textarea>
-                        </div>
-                    </div>
-                </div>';
+                                    <div class="form-group">
+                                        <label class="form-label">Image</label>
+                                        <div class="form-control-wrap">
+                                        <img src="../' . $files[$i]->$fileKey . '" width="100%" height="250px">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="cf-default-textarea">Comment</label>
+                                        <div class="form-control-wrap">
+                                            <textarea class="form-control form-control-sm" id="cf-default-textarea" placeholder="Write your message">' . $files[$i]->$commentKey . '</textarea>
+                                        </div>
+                                    </div>
+                                </div>';
                             }
                             ?>
                         </div>

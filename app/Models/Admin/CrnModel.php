@@ -20,13 +20,14 @@ class CrnModel extends Model
         'name',
         'detail1',
         'detail2',
+        'created_at'
     ];
 
     // // Dates
-    // protected $useTimestamps = true;
-    // protected $dateFormat    = 'datetime';
-    // protected $createdField  = 'created_at';
-    // protected $updatedField  = 'updated_at';
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
     // protected $deletedField  = 'deleted_at';
 
 }

@@ -41,7 +41,7 @@ class ClientController extends BaseController
             //   return print_r(json_encode($crnData));
                  $this->crnAssign->save($crnData);
                 $assi = $this->crnAssign->where('userid',$getId)->find();
-                // return print_r(json_encode($assi));
+                return print_r(json_encode($assi));
                 // return json_encode(array_merge($assignedCrn,$assi));
                 // if ($assignedCrn) {
                 //     $this->session->setFlashdata("success", "This is success message");
