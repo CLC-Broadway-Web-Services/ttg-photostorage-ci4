@@ -22,10 +22,20 @@ class ManageShipmentController extends BaseController
                 return json_encode($this->get_excel_data($this->request->getVar('id')));
             }
 
-            if ($this->request->getVar('delete')) {
-
+            if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'del') {
                 $getId = $this->request->getVar('id');
                 return $this->manageShipDb->delete($getId);
+            }
+
+            if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'multiDelete') {
+                $ids = $this->request->getVar('id');
+                foreach ($ids as $key => $value) {
+                    // return $value;
+                    $this->manageShipDb->delete($value);
+                }
+                // return json_encode($this->request->getVar('id'));
+                // $getId = $this->request->getVar('id');
+                return true;
             }
 
             $params['draw'] = $_REQUEST['draw'];
@@ -109,9 +119,9 @@ class ManageShipmentController extends BaseController
                             <input type="checkbox" class="custom-control-input" value="uid1" id="uid1">
                             <label class="custom-control-label" for="uid1"></label>
                         </div>';
-                $popupWindowUrl = base_url(route_to('manage_shipment_details', $shipment['id']));
                 $id = $shipment['id'];
-                $actionsHtml = '<ul class="nk-tb-actions gx-1" dataLink="'.$popupWindowUrl.'">
+                $popupWindowUrl = base_url(route_to('manage_shipment_details', base64_encode($id)));
+                $actionsHtml = '<ul class="nk-tb-actions gx-1" dataLink="' . $popupWindowUrl . '">
                                     <li>
                                         <div class="drodown">
                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
@@ -120,7 +130,7 @@ class ManageShipmentController extends BaseController
                                                 <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
                                                     <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '"><em class="icon ni ni-share"></em><span>Share</span></a></li>
                                                     
-                                                    <li><a href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+                                                    <li><a class="text-danger" href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                                     
                                                 </ul>
                                             </div>
@@ -156,8 +166,9 @@ class ManageShipmentController extends BaseController
         return view('Dashboard/Admin/manage_shipment', $this->data);
     }
 
-    public function manage_shipment_details($id)
+    public function manage_shipment_details($baseid)
     {
+        $id = base64_decode($baseid);
         $this->data['manage_shipment_details'] = $this->manageShipDb->find($id);
 
 
@@ -193,21 +204,23 @@ class ManageShipmentController extends BaseController
                 if (session()->get('loginType') == 'client' || session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') :
                     if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'single_submition') {
                         $fields = $this->request->getVar();
+                        // return json_encode($this->request->getVar());
                         unset($fields['form_name']);
-                        $fields['id'] = $id;
+                        $fields['id'] = base64_decode($baseid);
+                        // return json_encode($fields);
 
                         $query = $this->manageShipDb->save($fields);
 
                         if ($query) {
-                            return json_decode(true);
+                            return json_encode(true);
                         }
-                        return json_decode($query);
+                        return json_encode($query);
                     }
                 endif;
             endif;
         }
 
-
+        // return print_r($this->data);
         return view('Dashboard/Admin/manage_shipment_details', $this->data);
     }
 

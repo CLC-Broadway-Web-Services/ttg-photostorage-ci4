@@ -43,7 +43,9 @@
 
     <div class="card card-preview">
         <div class="card-inner table-responsive">
-            <table class="nk-tb-list nk-tb-ulist" id="datatableX" data-auto-responsive="false">
+
+            <!-- <form id="frm-example" action="/path/to/your/script.php" method="POST"> -->
+            <table class="nk-tb-list nk-tb-ulist nowrap dtr-inline table" id="datatableX" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col"></th>
@@ -60,6 +62,18 @@
                 <tbody>
 
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="nk-tb-col"></th>
+                        <th class="nk-tb-col"></th>
+                        <th class="nk-tb-col"></th>
+                        <th class="nk-tb-col"></th>
+                        <th class="nk-tb-col"></th>
+                        <th class="nk-tb-col"></th>
+                        <th class="nk-tb-col"></th>
+                        <th class="nk-tb-col"></th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div><!-- .card-preview -->
@@ -68,7 +82,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
-<script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
 
 <script>
     function formatLink(data) {
@@ -76,13 +89,14 @@
         // console.log(thisData);
         return thisData;
     }
-    NioApp.DataTable('#datatableX', {
+    var thisTable = NioApp.DataTable('#datatableX', {
         lengthMenu: [
             [10, 15, 30, 50, 100, 200],
             [10, 15, 30, 50, 100, 200]
         ],
         buttons: [{
                 extend: 'copy',
+                titleAttr: 'Copy Data',
                 exportOptions: {
                     columns: [1, 2, 3, 4, 5, 6, 7],
                     orthogonal: 'export'
@@ -90,6 +104,7 @@
             },
             {
                 extend: 'excel',
+                titleAttr: 'Download Excel',
                 exportOptions: {
                     columns: [1, 2, 3, 4, 5, 6, 7],
                     orthogonal: 'export'
@@ -106,16 +121,18 @@
             },
             {
                 extend: 'print',
+                titleAttr: 'Print Data',
                 exportOptions: {
                     columns: [1, 2, 3, 4, 5, 6],
                     orthogonal: 'export',
                     // orientation: 'landscape',
                 },
             },
+            // 'delete',
             // 'selected',
             // 'selectedSingle',
             // 'selectAll',
-            'selectNone',
+            // 'selectNone',
             // 'selectRows',
             // 'selectColumns',
             // 'selectCells'
@@ -134,6 +151,8 @@
             }
             // Set the data-status attribute, and add a class
             $(row).addClass('nk-tb-item ' + extraClass);
+            $(row).attr('id', 'tableRow_' + dataIndex);
+            $(row).attr('dataId', data['id']);
         },
         bProcessing: true,
         serverSide: true,
@@ -174,7 +193,7 @@
             },
             {
                 data: "actions",
-                className: "nk-tb-col nk-tb-col-tools",
+                className: "nk-tb-col nk-tb-col-tools py-0",
                 render: function(data, type, row) {
                     return type === 'export' ? formatLink(data) : data;
                 }
@@ -188,13 +207,122 @@
                 selectRow: true
             }
         }],
+        fnInitComplete: function(oSettings, json) {
+            datatableCustomButtons();
+            // alert('DataTables has finished its initialisation.');
+        }
         // bFilter: true, // to display datatable search
     });
     $.fn.DataTable.ext.pager.numbers_length = 7;
+    // var thisTable = $.fn.DataTable;
+
+    function datatableCustomButtons() {
+        var tableButtons = document.getElementsByClassName('dt-buttons')[0];
+        var button = document.createElement('button');
+        var emphasized = document.createElement('em');
+        emphasized.classList.add('px-2');
+        emphasized.classList.add('text-danger');
+        emphasized.style.fontSize = '18px';
+        emphasized.classList.add('ni');
+        emphasized.classList.add('ni-trash-fill');
+        button.setAttribute('type', 'button');
+        button.setAttribute('id', 'deleteButton');
+        button.setAttribute('onclick', 'onclickDeleteRows()')
+        button.classList.add('btn');
+        // button.classList.add('btn-sm');
+        button.classList.add('btn-secondary');
+        button.classList.add('buttons-delete');
+        button.classList.add('buttons-html5');
+        button.setAttribute('type', 'submit');
+        button.setAttribute('title', 'Delete');
+        button.setAttribute('tabindex', '0');
+        button.setAttribute('aria-controls', 'datatableX');
+        button.appendChild(emphasized);
+        tableButtons.prepend(button);
+
+        // var button = document.createElement('button');
+        // var emphasized = document.createElement('em');
+        // emphasized.classList.add('px-2');
+        // // emphasized.classList.add('text-danger');
+        // emphasized.style.fontSize = '18px';
+        // emphasized.classList.add('ni');
+        // emphasized.classList.add('ni-file-pdf');
+        // button.setAttribute('type', 'button');
+        // button.setAttribute('id', 'deleteButton');
+        // button.setAttribute('onclick', 'onclickPdf()')
+        // button.classList.add('btn');
+        // // button.classList.add('btn-sm');
+        // button.classList.add('btn-secondary');
+        // button.classList.add('buttons-delete');
+        // button.classList.add('buttons-html5');
+        // button.setAttribute('type', 'submit');
+        // button.setAttribute('title', 'Download PDF');
+        // button.setAttribute('tabindex', '0');
+        // button.setAttribute('aria-controls', 'datatableX');
+        // button.appendChild(emphasized);
+        // tableButtons.append(button);
+    }
+
+    var thisTable = $('#datatableX').DataTable();
+
+    function onclickDeleteRows() {
+        var rows_selected = thisTable.rows('.selected');
+        if ($(rows_selected)[0].length) {
+            var ids = [];
+            $(rows_selected)[0].forEach(element => {
+                var dataId = $('tr#tableRow_' + element);
+                console.log(dataId.attr('dataId'));
+                ids.push(dataId.attr('dataId'));
+            });
+            swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover these data!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '',
+                            data: {
+                                delete: 'multiDelete',
+                                id: ids
+                            },
+                            success: function(result) {
+                                console.log(result);
+                                swal({
+                                        title: "Success",
+                                        text: "All rows deleted successfully.",
+                                        icon: "success",
+                                        buttons: true,
+                                        // dangerMode: true,
+                                    })
+                                    .then((willDelete) => {
+                                        location.reload();
+                                    });
+                                // dataId.remove();
+                                // location.reload();
+                            }
+                        });
+                    }
+                });
+        } else {
+            swal({
+                title: "No data selected",
+                // text: "Once deleted, you will not be able to recover this data!",
+                icon: "warning",
+                // buttons: true,
+            })
+        }
+    }
+
     function openPopup(url) {
         console.log(url);
         window.open(url, 'popUpWindow', 'height=500,width=1000%,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
     }
+
     function myFunction(url) {
         console.log(url);
         var mainUrl = window.location.origin;
@@ -202,21 +330,36 @@
         navigator.clipboard.writeText(_url);
         alert("Copied the text: " + _url);
     }
+
     function deleteData(id) {
         console.log(id);
-        $.ajax({
-            type: 'POST',
-            url: '',
-            data: {
-                delete: 'del',
-                id: id
-            },
-            success: function(result) {
+        swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this data!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '',
+                        data: {
+                            delete: 'del',
+                            id: id
+                        },
+                        success: function(result) {
 
-                location.reload();
-            }
-        });
+                            location.reload();
+                        }
+                    });
+                } else {
+                    swal("Your data is safe!");
+                }
+            });
     }
+
     function getExcel(id) {
         alert(id);
         $.ajax({

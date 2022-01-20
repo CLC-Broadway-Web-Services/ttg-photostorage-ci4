@@ -13,8 +13,8 @@ class ManageShipmentModel extends Model
     protected $returnType       = 'array';
     // protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        	
+    protected $allowedFields    = [        	
+        'crn',        	
         'files',
         'description',		
         'time',	
