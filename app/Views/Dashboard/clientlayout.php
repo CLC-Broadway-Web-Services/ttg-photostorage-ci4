@@ -2,21 +2,10 @@
 <html lang="zxx" class="js">
 
 <head>
-    <base href="../">
-    <meta charset="utf-8">
-    <meta name="author" content="Softnio">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
-    <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="/public/images/jsTree/TTG-Photo-Storage-Favicon.png">
-    <!-- Page Title  -->
-    <title><?= APP_NAME ?></title>
-    <!-- StyleSheets  -->
-    <link rel="stylesheet" href="/public/css/dashlite.css">
-    <link id="skin-default" rel="stylesheet" href="/public/css/theme.css">
+    <?= view('globals/headermeta') ?>
 </head>
 
-<body class="nk-body bg-lighter npc-default has-sidebar ">
+<body class="nk-body bg-lighter npc-default has-sidebar">
     <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
@@ -172,14 +161,7 @@
         <!-- main @e -->
     </div>
     <!-- app-root @e -->
-    <!-- JavaScript -->
-    <script src="/public/js/bundle.js"></script>
-    <script src="/public/js/scripts.js"></script>
-    <!-- <script src="/public/js/charts/chart-analytics.js"></script> -->
-    <!-- <script src="/public/js/libs/jqvmap.js"></script> -->
-    <!-- <script src="/public/js/charts/chart-ecommerce.js"></script> -->
-    <!-- <script src="/public/js/charts/chart-sales.js"></script> -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <?= view('globals/scripts') ?>
 
     <?= $this->renderSection('javascript') ?>
 </body>

@@ -52,7 +52,7 @@ $routes->group('client', ['filter' => 'clientauth'], function ($routes) {
 // });
 
 // SUPER ADMIN ONLY ROUTES
-$routes->match(['post', 'get'], '/manage-shipment/details/(:num)', 'Admin\ManageShipmentController::manage_shipment_details/$1', ['as' => 'manage_shipment_details']);
+$routes->match(['post', 'get'], '/manage-shipment/details/(:segment)', 'Admin\ManageShipmentController::manage_shipment_details/$1', ['as' => 'manage_shipment_details']);
 $routes->group('/', ['filter' => 'superadminauth'], function ($routes) {
     $routes->add('', 'Admin\DashboardController::index', ['as' => 'admin_index']);
     $routes->match(['post', 'get'], '/manage-shipment', 'Admin\ManageShipmentController::manage_shipment', ['as' => 'manage_shipment']);

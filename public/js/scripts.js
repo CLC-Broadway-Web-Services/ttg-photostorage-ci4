@@ -923,3 +923,19 @@
   NioApp.init();
   return NioApp;
 }(NioApp, jQuery);
+
+function startLoader() {
+  document.body.style.overflow = 'hidden';
+  $('#fullLoader').show();
+}
+function stopLoader() {
+  document.body.style.overflow = 'auto';
+  $('#fullLoader').hide();
+}
+
+$( document ).ajaxStart(function( event, request, settings ) {
+  startLoader();
+});
+$( document ).ajaxComplete(function( event, request, settings ) {
+  stopLoader();
+});

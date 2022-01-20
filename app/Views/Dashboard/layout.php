@@ -2,23 +2,13 @@
 <html lang="zxx" class="js">
 
 <head>
-    <base href="../">
-    <meta charset="utf-8">
-    <meta name="author" content="Softnio">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
-    <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="/public/images/jsTree/TTG-Photo-Storage-Favicon.png">
-    <!-- Page Title  -->
-    <title><?= APP_NAME ?></title>
-    <link rel="stylesheet" href="/public/css/dashlite.css">
-    <link id="skin-default" rel="stylesheet" href="/public/css/theme.css">
-
+    <?= view('globals/headermeta') ?>
     <style>
         .dataTables_processing {
             /* background-color: #ff0000; */
             background-color: red !important;
         }
+
         .processingData {
             /* background-color: red; */
             color: #fff;
@@ -304,23 +294,7 @@ $uri = current_url(true);
         <!-- main @e -->
     </div>
     <!-- app-root @e -->
-    <!-- JavaScript -->
-    <script src="/public/js/bundle.js"></script>
-    <script src="/public/js/scripts.js"></script>
-    <!-- <script src="/public/js/charts/chart-analytics.js"></script> -->
-    <!-- <script src="/public/js/libs/jqvmap.js"></script> -->
-    <!-- <script src="/public/js/charts/chart-ecommerce.js"></script> -->
-    <!-- <script src="/public/js/charts/chart-sales.js"></script> -->
-    <!-- <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script> -->
-    <!-- <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> -->
-    <!-- <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script> -->
-    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-    <script src="/public/js/libs/datatable-btns.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+    <?= view('globals/scripts') ?>
     <script>
         function copyText(textValue) {
             console.log(textValue);
