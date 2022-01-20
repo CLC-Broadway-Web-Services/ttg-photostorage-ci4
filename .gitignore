@@ -65,8 +65,6 @@ writable/debugbar/*
 
 php_errors.log
 
-uploads/*
-
 #-------------------------
 # User Guide Temp Files
 #-------------------------
@@ -87,6 +85,9 @@ phpunit
 # Composer
 #-------------------------
 vendor/
+uploads/
+tests/
+HTML/
 
 #-------------------------
 # IDE / Development Files
