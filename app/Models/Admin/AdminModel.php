@@ -14,17 +14,22 @@ class AdminModel extends Model
     // protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'type',
+        'username',
         'name',
-        'time',
-        'firstName',
-        'lastName',
         'email',
-        'mobile',
         'pass',
+        'type',
+        'firstname',
+        'lastname',
+        'token',
+        'time',
         'country',
+        'mobile',
         'crn_status',
-        'created_at'
+        'device',
+        'profile_pic',
+        'status',
+        'creator_id'
     ];
 
     // Dates
@@ -51,9 +56,9 @@ class AdminModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function manage_client(){
+    public function manage_client()
+    {
 
         return $this->findAll();
-
     }
 }

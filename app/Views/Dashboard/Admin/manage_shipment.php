@@ -62,18 +62,6 @@
                 <tbody>
 
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th class="nk-tb-col"></th>
-                        <th class="nk-tb-col"></th>
-                        <th class="nk-tb-col"></th>
-                        <th class="nk-tb-col"></th>
-                        <th class="nk-tb-col"></th>
-                        <th class="nk-tb-col"></th>
-                        <th class="nk-tb-col"></th>
-                        <th class="nk-tb-col"></th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div><!-- .card-preview -->
@@ -127,15 +115,7 @@
                     orthogonal: 'export',
                     // orientation: 'landscape',
                 },
-            },
-            // 'delete',
-            // 'selected',
-            // 'selectedSingle',
-            // 'selectAll',
-            // 'selectNone',
-            // 'selectRows',
-            // 'selectColumns',
-            // 'selectCells'
+            }
         ],
         select: {
             style: 'multi'
@@ -239,28 +219,6 @@
         button.setAttribute('aria-controls', 'datatableX');
         button.appendChild(emphasized);
         tableButtons.prepend(button);
-
-        // var button = document.createElement('button');
-        // var emphasized = document.createElement('em');
-        // emphasized.classList.add('px-2');
-        // // emphasized.classList.add('text-danger');
-        // emphasized.style.fontSize = '18px';
-        // emphasized.classList.add('ni');
-        // emphasized.classList.add('ni-file-pdf');
-        // button.setAttribute('type', 'button');
-        // button.setAttribute('id', 'deleteButton');
-        // button.setAttribute('onclick', 'onclickPdf()')
-        // button.classList.add('btn');
-        // // button.classList.add('btn-sm');
-        // button.classList.add('btn-secondary');
-        // button.classList.add('buttons-delete');
-        // button.classList.add('buttons-html5');
-        // button.setAttribute('type', 'submit');
-        // button.setAttribute('title', 'Download PDF');
-        // button.setAttribute('tabindex', '0');
-        // button.setAttribute('aria-controls', 'datatableX');
-        // button.appendChild(emphasized);
-        // tableButtons.append(button);
     }
 
     var thisTable = $('#datatableX').DataTable();

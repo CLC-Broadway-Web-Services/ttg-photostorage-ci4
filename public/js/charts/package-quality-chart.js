@@ -2,14 +2,15 @@
 
 !function (NioApp, $) {
   "use strict";
+  var packingQualityChartData = JSON.parse($('#packingQualityChartData').html());
   var orderStatistics = {
-    labels: ["Completed", "Processing", "Canclled"],
-    dataUnit: 'People',
+    labels: packingQualityChartData.names,
+    dataUnit: 'Packaging',
     legend: false,
     datasets: [{
       borderColor: "#fff",
-      background: ["#816bff", "#13c9f2", "#ff82b7"],
-      data: [4305, 859, 482]
+      background: packingQualityChartData.colors,
+      data: packingQualityChartData.counts
     }]
   };
 
@@ -50,7 +51,7 @@
             }
           },
           rotation: -1.5,
-          cutoutPercentage: 70,
+          cutoutPercentage: 0,
           maintainAspectRatio: false,
           tooltips: {
             enabled: true,
@@ -73,7 +74,7 @@
             yPadding: 10,
             xPadding: 10,
             footerMarginTop: 0,
-            displayColors: false
+            displayColors: true
           }
         }
       });

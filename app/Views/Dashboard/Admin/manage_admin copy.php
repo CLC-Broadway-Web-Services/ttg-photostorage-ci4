@@ -7,10 +7,10 @@
         <div class="nk-block-head-content">
             <div class="row">
                 <div class="col-md-6 col-12">
-                    <h4 class="nk-block-title">Manage Shipping Staff</h4>
+                    <h4 class="nk-block-title">Manage Admin</h4>
                 </div>
                 <div class="col-md-6 col-12">
-                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Shipping Staff</span> </a>
+                    <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Admin</span> </a>
                 </div>
             </div>
         </div>
@@ -26,8 +26,8 @@
                                 <label class="custom-control-label" for="uid"></label>
                             </div>
                         </th>
-                        <th class="nk-tb-col"><span class="sub-text">Shipping Staff ID</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Staff Name</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Admin ID</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Admin Name</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
@@ -36,8 +36,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($shipping_staff as $key => $shipping) :
-                        $id = $shipping['id'];
+                    <?php foreach ($manage_admin as $key => $admin) :
+                        $id = $admin['id'];
                     ?>
                         <tr class="nk-tb-item">
                             <td class="nk-tb-col nk-tb-col-check">
@@ -49,32 +49,31 @@
                             <td class="nk-tb-col">
                                 <div class="user-card">
                                     <div class="user-info">
-                                        <span class="tb-lead"><?= $shipping['id'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
+                                        <span class="tb-lead"><?= $admin['id'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
                                     </div>
                                 </div>
                             </td>
-
                             <td class="nk-tb-col">
                                 <div class="user-card">
                                     <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span><?= strtoupper(substr($shipping['name'], 0, 2)) ?></span>
+                                        <span><?= strtoupper(substr($admin['name'], 0, 2)) ?></span>
                                     </div>
                                     <div class="user-info">
-                                        <span class="tb-lead"><?= $shipping['name'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
-                                        <span><?= $shipping['email'] ?></span>
+                                        <span class="tb-lead"><?= $admin['name'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
+                                        <span><?= $admin['email'] ?></span>
                                     </div>
                                 </div>
                             </td>
                             <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
                                 <ul class="list-status">
-                                    <li><span><?= $shipping['mobile'] ?></span></li>
+                                    <li><span><?= $admin['mobile'] ?></span></li>
                                 </ul>
                             </td>
                             <td class="nk-tb-col tb-col-lg">
-                                <span><?= $shipping['pass'] ?></span>
+                                <span><?= $admin['pass'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <span><?= $shipping['country'] ?></span>
+                                <span><?= $admin['country'] ?></span>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
@@ -106,18 +105,18 @@
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
-                <h5 class="modal-title">Add Shipping Staff</h5>
+                <h5 class="modal-title">Add Admin</h5>
             </div>
             <div class="modal-body">
-                <form action="<?= route_to('edit_shipping_staff') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
-                    <input name="modal_shipping_id" value="0" class="d-none" id="modal_shipping_id">
+                <form action="<?= route_to('edit_manage_admin') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
+                    <input name="modal_admin_id" value="0" class="d-none" id="modal_admin_id">
                     <div class="form-group">
                         <label class="form-label" for="default-03">Name</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-user"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_shipping_name" name="name" required placeholder="Name">
+                            <input type="text" class="form-control" id="modal_admin_name" name="name" required placeholder="Name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -126,7 +125,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-mail"></em>
                             </div>
-                            <input type="email" class="form-control" id="modal_shipping_email" name="email" required placeholder="Email address">
+                            <input type="email" class="form-control" id="modal_admin_email" name="email" required placeholder="Email address">
                         </div>
                     </div>
                     <div class="form-group">
@@ -136,7 +135,7 @@
                                 <em class="icon ni ni-mobile"></em>
                             </div>
 
-                            <input type="number" class="form-control" id="modal_shipping_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
+                            <input type="number" class="form-control" id="modal_admin_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
                         </div>
                     </div>
                     <div class="form-group">
@@ -146,7 +145,7 @@
                                 <em class="icon ni ni-globe"></em>
                             </div>
                             <!-- <input type="text" class="form-control" name="country" placeholder="Country"> -->
-                            <select name="country" class="country form-control" id="modal_shipping_country" required onchange="edituser(this)" placeholder="Country">
+                            <select name="country" class="country form-control" id="modal_admin_country" required onchange="edituser(this)" placeholder="Country">
                                 <option value="India">India</option>
                                 <option value="australia">Australia</option>
                                 <option value="canada">Canada</option>
@@ -404,11 +403,11 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-eye"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_shipping_password" name="pass" required placeholder="Password">
+                            <input type="text" class="form-control" id="modal_admin_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary">Save</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Add Admin</button>
                     </div>
                 </form>
             </div>
@@ -435,7 +434,7 @@
                 if (willDelete) {
                     $.ajax({
                         type: 'POST',
-                        url: '<?= base_url(route_to('edit_shipping_staff')); ?>',
+                        url: '<?= base_url(route_to('edit_manage_admin')); ?>',
                         data: {
                             delete: 'del',
                             id: id
@@ -455,7 +454,7 @@
     <?php if (session()->getFlashdata("success")) { ?>
         swal({
             title: "Saved",
-            text: "New Shipping Staff Saved",
+            text: "New Admin Saved",
             icon: "success",
         });
     <?php } ?>
@@ -464,7 +463,7 @@
         console.log(id);
         $.ajax({
             type: 'POST',
-            url: '<?= base_url(route_to('edit_shipping_staff')); ?>',
+            url: '<?= base_url(route_to('edit_manage_admin')); ?>',
             data: {
                 edit: 'edit',
                 id: id
@@ -473,11 +472,11 @@
                 console.log(result);
                 var response = JSON.parse(result);
 
-                $('#modal_shipping_id').val(response.id);
-                $('#modal_shipping_name').val(response.name);
-                $('#modal_shipping_email').val(response.email);
-                $('#modal_shipping_mobile').val(response.mobile);
-                $('#modal_shipping_country').val(response.country);
+                $('#modal_admin_id').val(response.id);
+                $('#modal_admin_name').val(response.name);
+                $('#modal_admin_email').val(response.email);
+                $('#modal_admin_mobile').val(response.mobile);
+                $('#modal_admin_country').val(response.country);
                 // $('#modal_client_password').val(response.pass);
 
                 $('#modalDefault').modal('show')
@@ -488,12 +487,12 @@
     }
 
     $('#modalDefault').on('hidden.bs.modal', function(event) {
-        $('modal_shipping_id').val(0);
-        $('modal_shipping_name').val('');
-        $('modal_shipping_email').val('');
-        $('modal_shipping_mobile').val('');
-        $('modal_shipping_country').val('');
-        $('modal_shipping_password').val('');
+        $('modal_admin_id').val(0);
+        $('modal_admin_name').val('');
+        $('modal_admin_email').val('');
+        $('modal_admin_mobile').val('');
+        $('modal_admin_country').val('');
+        $('modal_admin_password').val('');
     })
 </script>
 <?= $this->endSection() ?>

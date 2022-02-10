@@ -12,110 +12,40 @@ class DashboardController extends BaseController
 {
     public function index()
     {
-        $this->data = array();
-        $lastMonthLastDay = date('Y-m-d', strtotime("last day of previous month"));
-        $last_month_day = strtotime($lastMonthLastDay);
-        $lastMonthFirstDay = date('Y-m-d', strtotime("first day of previous month"));
-        $last_month_first_day = strtotime($lastMonthFirstDay);
-
-        // SHIPMENTS DATA
-        $shipMd = new ManageShipmentModel();
-        $shipment_data['total'] = $shipMd->countAll();
-        $shipmentsLastMonth = $shipMd->where(['time >=' => $last_month_first_day, 'time <=' => $last_month_day])->countAllResults();
-        $shipmentsCurrentMonth = $shipMd->where(['time >' => $last_month_day])->countAllResults();
-
-        if ($shipmentsCurrentMonth == 0) {
-            $shipment_data['percentage'] = 0;
-        } else {
-            if ($shipmentsLastMonth == 0) {
-                $shipment_data['percentage'] = 100;
-            } else {
-                $lastMonthPercent = $shipmentsCurrentMonth / ($shipmentsLastMonth / 100);
-                $shipment_data['percentage'] = $lastMonthPercent;
-                if ($lastMonthPercent > 100) {
-                    $shipment_data['percentage'] = $lastMonthPercent - 100;
-                } else {
-                    $shipment_data['percentage'] = $lastMonthPercent;
-                }
-            }
-        }
-
-        $this->data['shipments'] = $shipment_data;
+        $country = session()->get('loginType') == 'superadmin' ? null : session()->get('user.country');
+        // echo json_encode(crn_statistics($country));
+        // return;
+        // SHIPMENT DATA
+        $this->data['shipments'] = total_shipments($country);
 
         // CRNS DATA
-        $postMd = new PostsModel();
-        $crn_data['total'] = $postMd->groupBy('crn')->countAllResults();
-        $crnLastMonth = $postMd->groupBy('crn')->where(['time >=' => $last_month_first_day, 'time <=' => $last_month_day])->countAllResults();
-        $crnCurrentMonth = $postMd->groupBy('crn')->where(['time >' => $last_month_day])->countAllResults();
-
-        if ($crnCurrentMonth == 0) {
-            $crn_data['percentage'] = 0;
-        } else {
-            if ($crnLastMonth == 0) {
-                $crn_data['percentage'] = 100;
-            } else {
-                $lastMonthPercent = $crnCurrentMonth / ($crnLastMonth / 100);
-                $crn_data['percentage'] = $lastMonthPercent;
-                if ($lastMonthPercent > 100) {
-                    $crn_data['percentage'] = $lastMonthPercent - 100;
-                } else {
-                    $crn_data['percentage'] = $lastMonthPercent;
-                }
-            }
-        }
-
-        $this->data['crns'] = $crn_data;
+        $this->data['crns'] = total_crns($country);
 
         // ASSETS DATA
-        $filesMd = new FilesModel();
-        $assets_data['total'] = $filesMd->groupBy('uid')->countAllResults();
-
-        $assetLastMonth = $filesMd->groupBy('uid')->where(['time >=' => $last_month_first_day, 'time <=' => $last_month_day])->countAllResults();
-        $assetCurrentMonth = $filesMd->groupBy('uid')->where(['time >' => $last_month_day])->countAllResults();
-
-        if ($assetCurrentMonth == 0) {
-            $assets_data['percentage'] = 0;
-        } else {
-            if ($assetLastMonth == 0) {
-                $assets_data['percentage'] = 100;
-            } else {
-                $lastMonthPercent = $assetCurrentMonth / ($assetLastMonth / 100);
-                $assets_data['percentage'] = $lastMonthPercent;
-                if ($lastMonthPercent > 100) {
-                    $assets_data['percentage'] = $lastMonthPercent - 100;
-                } else {
-                    $assets_data['percentage'] = $lastMonthPercent;
-                }
-            }
-        }
-
-        $this->data['assets'] = $assets_data;
+        $this->data['assets'] = total_assets($country);
 
         // CLIENTS DATA
-        $clientsMd = new AdminModel();
-        $clients_data['total'] = $clientsMd->where('type', 'client')->countAllResults();
-        $clientsLastMonth = $clientsMd->where(['time >=' => $last_month_first_day, 'time <=' => $last_month_day])->countAllResults();
-        $clientsCurrentMonth = $clientsMd->where(['time >' => $last_month_day])->countAllResults();
+        $this->data['clients'] = total_clients($country);
 
-        if ($clientsCurrentMonth == 0) {
-            $clients_data['percentage'] = 0;
-        } else {
-            if ($clientsLastMonth == 0) {
-                $clients_data['percentage'] = 100;
-            } else {
-                $lastMonthPercent = $clientsCurrentMonth / ($clientsLastMonth / 100);
-                $clients_data['percentage'] = $lastMonthPercent;
-                if ($lastMonthPercent > 100) {
-                    $clients_data['percentage'] = $lastMonthPercent - 100;
-                } else {
-                    $clients_data['percentage'] = $lastMonthPercent;
-                }
-            }
+        // PACKING QUALITY DATA
+        $this->data['packagin_quality'] = packagin_quality_chart($country);
+        $packagin_quality_names = [];
+        $packagin_quality_counts = [];
+        $packagin_quality_colors = [];
+        foreach ($this->data['packagin_quality'] as $key => $value) {
+            array_push($packagin_quality_names, $value['name']);
+            array_push($packagin_quality_counts, $value['count']);
+            array_push($packagin_quality_colors, $value['color']);
         }
-
-
-        $this->data['clients'] = $clients_data;
-
+        $this->data['packagin_quality_data'] = [
+            'names' => $packagin_quality_names,
+            'counts' => $packagin_quality_counts,
+            'colors' => $packagin_quality_colors,
+        ];
+        $this->data['crn_statistics'] = crn_statistics($country);
+        $this->data['asset_statistics'] = asset_statistics($country);
+        $this->data['shipment_statistics'] = shipment_statistics($country);
+        // return print_r($this->data['packagin_quality_data']);
 
         // $postdata = $postMd->findAll();
 

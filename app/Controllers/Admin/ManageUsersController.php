@@ -8,7 +8,6 @@ use App\Models\Admin\ManageUserModel;
 
 class ManageUsersController extends BaseController
 {
-
     protected $manageClient;
     protected $manageUser;
     protected $session;
@@ -23,15 +22,23 @@ class ManageUsersController extends BaseController
 
     public function manage_client()
     {
-
-        $this->data['manage_client'] = $this->manageClient->where('type', 'client')->orderBy('id', 'desc')->findAll();
+        if(session()->get('loginType') == 'admin') {
+            $country = session()->get('user.country');
+            $this->data['manage_client'] = $this->manageClient->where('type', 'client')->where('country', $country)->orderBy('id', 'desc')->findAll();
+        } else {
+            $this->data['manage_client'] = $this->manageClient->where('type', 'client')->orderBy('id', 'desc')->findAll();
+        }
         return view('Dashboard/Admin/manage_client', $this->data);
     }
 
     public function testing_staff()
     {
-
-        $this->data['testing_staff'] = $this->manageClient->where('type', 'staff')->orderBy('id', 'desc')->findAll();
+        if(session()->get('loginType') == 'admin') {
+            $country = session()->get('user.country');
+            $this->data['testing_staff'] = $this->manageClient->where('type', 'staff')->where('country', $country)->orderBy('id', 'desc')->findAll();
+        } else {
+            $this->data['testing_staff'] = $this->manageClient->where('type', 'staff')->orderBy('id', 'desc')->findAll();
+        }
         return view('Dashboard/Admin/testing_staff', $this->data);
     }
 
@@ -57,7 +64,7 @@ class ManageUsersController extends BaseController
             $testingEmail = $this->request->getVar('email');
             $testingMobile = $this->request->getVar('mobile');
             $testingCountry = $this->request->getVar('country');
-            $testingPassword = $this->request->getVar('pass');
+            $testingPassword = $this->request->getVar('pass') ? passwordHash($this->request->getVar('pass')) : NULL;
             // return print_r($clientPassword);
             // $this->clientDb = new AdminModel();
             $testingData = [
@@ -98,11 +105,16 @@ class ManageUsersController extends BaseController
         }
     }
 
-    public function shipping_satff()
+    public function shipping_staff()
     {
+        if(session()->get('loginType') == 'admin') {
+            $country = session()->get('user.country');
+            $this->data['shipping_staff'] = $this->manageClient->where('type', 'ship')->where('country', $country)->orderBy('id', 'desc')->findAll();
+        } else {
+            $this->data['shipping_staff'] = $this->manageClient->where('type', 'ship')->orderBy('id', 'desc')->findAll();
+        }
 
-        $this->data['shipping_staff'] = $this->manageClient->where('type', 'ship')->orderBy('id', 'desc')->findAll();
-        return view('Dashboard/Admin/shipping_satff', $this->data);
+        return view('Dashboard/Admin/shipping_staff', $this->data);
     }
 
     public function edit_shipping_staff()
@@ -127,7 +139,7 @@ class ManageUsersController extends BaseController
             $shippingEmail = $this->request->getVar('email');
             $shippingMobile = $this->request->getVar('mobile');
             $shippingCountry = $this->request->getVar('country');
-            $shippingPassword = $this->request->getVar('pass');
+            $shippingPassword = passwordHash($this->request->getVar('pass'));
             // return print_r($clientPassword);
 
             // $this->clientDb = new AdminModel();
@@ -162,7 +174,7 @@ class ManageUsersController extends BaseController
 
             if ($saveQuery) {
                 $this->session->setFlashdata("success", "This is success message");
-                return redirect()->route('shipping_satff');
+                return redirect()->route('shipping_staff');
             } else {
                 $response['message'] = 'User not found';
             }
@@ -171,7 +183,12 @@ class ManageUsersController extends BaseController
 
     public function manage_admin()
     {
-        $this->data['manage_admin'] = $this->manageClient->where('type !=', 'staff')->where('type !=', 'client')->where('type !=', 'ship')->orderBy('id', 'desc')->findAll();
+        if(session()->get('loginType') == 'admin') {
+            $country = session()->get('user.country');
+            $this->data['manage_admin'] = $this->manageClient->where('country', $country)->where('type !=', 'staff')->where('type !=', 'client')->where('type !=', 'ship')->orderBy('id', 'desc')->findAll();
+        } else {
+            $this->data['manage_admin'] = $this->manageClient->where('type !=', 'staff')->where('type !=', 'client')->where('type !=', 'ship')->orderBy('id', 'desc')->findAll();
+        }
         return view('Dashboard/Admin/manage_admin', $this->data);
     }
 
@@ -197,7 +214,7 @@ class ManageUsersController extends BaseController
             $adminEmail = $this->request->getVar('email');
             $adminMobile = $this->request->getVar('mobile');
             $adminCountry = $this->request->getVar('country');
-            $adminPassword = $this->request->getVar('pass');
+            $adminPassword = $this->request->getVar('pass') ? passwordHash($this->request->getVar('pass')) : NULL;
             // return print_r($clientPassword);
 
             // $this->clientDb = new AdminModel();
@@ -239,10 +256,40 @@ class ManageUsersController extends BaseController
         }
     }
 
-
     public function creat_user()
     {
-        $this->data['manage_user'] = $this->manageUser->orderBy('adduserID ', 'desc')->findAll(100);
+        if(session()->get('loginType') == 'admin') {
+            $country = session()->get('user.country');
+            $this->data['manage_user'] = $this->manageClient->where('type', 'guest')->where('country', $country)->orderBy('id', 'desc')->findAll();
+        } else {
+            $this->data['manage_user'] = $this->manageClient->where('type', 'guest')->orderBy('id', 'desc')->findAll();
+        }
+        $guestCounts = $this->manageClient->where('type', 'guest')->countAllResults();
+        $new_username = 'ttg-000001';
+        if ($guestCounts > 0) {
+            $lastGuest = $this->manageClient->where('type', 'guest')->orderBy('id', 'desc')->first();
+            $lastGuestNumber = str_replace('ttg-', '', $lastGuest['username']);
+            // return print_r($lastGuest);
+            if ($lastGuestNumber < 10) {
+                $new_username = 'ttg-00000' . $lastGuestNumber + 1;
+            }
+            if ($lastGuestNumber > 9) {
+                $new_username = 'ttg-0000' . $lastGuestNumber + 1;
+            }
+            if ($lastGuestNumber > 99) {
+                $new_username = 'ttg-000' . $lastGuestNumber + 1;
+            }
+            if ($lastGuestNumber > 999) {
+                $new_username = 'ttg-00' . $lastGuestNumber + 1;
+            }
+            if ($lastGuestNumber > 9999) {
+                $new_username = 'ttg-0' . $lastGuestNumber + 1;
+            }
+            if ($lastGuestNumber > 99999) {
+                $new_username = 'ttg-' . $lastGuestNumber + 1;
+            }
+        }
+        $this->data['new_username'] = $new_username;
         return view('Dashboard/Admin/creat_user', $this->data);
     }
 
@@ -309,6 +356,63 @@ class ManageUsersController extends BaseController
             } else {
                 $response['message'] = 'User not found';
             }
+        }
+    }
+    public function edit_manage_user()
+    {
+        if ($this->request->getMethod() == 'post') {
+
+            // return print_r($this->request->getVar());
+
+            if ($this->request->getVar('delete')) {
+                $getId = $this->request->getVar('id');
+                return $this->manageClient->delete($getId);
+            }
+
+            if ($this->request->getVar('edit')) {
+                $getId = $this->request->getVar('id');
+                return json_encode($this->manageClient->find($getId));
+            }
+
+            $adminId = $this->request->getVar('modal_admin_id');
+            $adminName = $this->request->getVar('name');
+            $adminEmail = $this->request->getVar('email');
+            $adminMobile = $this->request->getVar('mobile');
+            $adminCountry = $this->request->getVar('country');
+            $username = $this->request->getVar('username');
+            $adminPassword = $this->request->getVar('pass') ? passwordHash($this->request->getVar('pass')) : NULL;
+
+            // $this->clientDb = new AdminModel();
+            $adminData = [
+                'name' => $adminName,
+                'email' => $adminEmail,
+                'time' => time(),
+                'mobile' => $adminMobile,
+                'country' => $adminCountry,
+                'username' => $username,
+                'type' => 'guest',
+                'creator_id' => session()->get('user.id')
+            ];
+            if ($adminPassword) {
+                $adminData['pass'] = $adminPassword;
+            }
+
+            if ($adminId > 0) {
+                $adminData['id'] = $adminId;
+            } else {
+                if (isset($adminData['id'])) {
+                    unset($adminData['id']);
+                }
+            }
+            // return print_r($clientData);
+            $saveQuery = $this->manageClient->save($adminData);
+
+            if ($saveQuery) {
+                $this->session->setFlashdata("success", "This is success message");
+            } else {
+                $this->session->setFlashdata("error", "Unable to save user.");
+            }
+            return redirect()->route('creat_user');
         }
     }
 }

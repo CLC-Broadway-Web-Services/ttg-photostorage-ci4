@@ -155,7 +155,7 @@
                             <div class="card-inner">
                                 <div class="card-title-group">
                                     <div class="card-title card-title-sm">
-                                        <h6 class="title">Users by Country</h6>
+                                        <h6 class="title">Global Capabilities</h6>
                                     </div>
                                     <div class="card-tools">
                                         <div class="drodown">
@@ -198,37 +198,48 @@
                             </div>
                         </div><!-- .card -->
                     </div>
+
+                    <div id="packingQualityChartData" class="d-none"><?= json_encode($packagin_quality_data) ?></div>
+                    <div id="crn_statistics" class="d-none"><?= json_encode($crn_statistics) ?></div>
+                    <div id="asset_statistics" class="d-none"><?= json_encode($asset_statistics) ?></div>
+                    <div id="shipment_statistics" class="d-none"><?= json_encode($shipment_statistics) ?></div>
                     <!-- CRN Statistics -->
                     <div class="col-xxl-3 col-md-6">
                         <div class="card h-100">
                             <div class="card-inner">
-                                <div class="card-title-group align-start gx-3 mb-3">
-                                    <div class="card-title">
-                                        <h6 class="title">Sales Overview</h6>
-                                    </div>
-                                    <div class="card-tools">
-                                        <div class="dropdown">
-                                            <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
-                                            <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><span>Download Mini Version</span></a></li>
-                                                    <li><a href="#"><span>Download Full Version</span></a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#"><em class="icon ni ni-opt-alt"></em><span>More Options</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="card-head">
+                                    <h6 class="title">CRN Statistics</h6>
                                 </div>
-                                <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
-                                    <div class="nk-sale-data">
-                                    </div>
-                                    <div class="nk-sale-data">
-                                    </div>
+                                <div class="nk-ck-sm">
+                                    <canvas class="line-chart" id="straightLineChart"></canvas>
                                 </div>
-                                <div class="nk-sales-ck large pt-4">
-                                    <canvas class="sales-overview-chart" id="salesOverview"></canvas>
+                            </div>
+                        </div><!-- .card -->
+                    </div>
+
+                    <!-- Asset Statistics -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-inner">
+                                <div class="card-head">
+                                    <h6 class="title">Asset Statistics</h6>
+                                </div>
+                                <div class="nk-ck-sm">
+                                    <canvas class="line-chart" id="straightLineChart2"></canvas>
+                                </div>
+                            </div>
+                        </div><!-- .card -->
+                    </div>
+
+                    <!-- Shipment Statistics -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-inner">
+                                <div class="card-head">
+                                    <h6 class="title">Shipment Statistics</h6>
+                                </div>
+                                <div class="nk-ck-sm">
+                                    <canvas class="line-chart" id="straightLineChart3"></canvas>
                                 </div>
                             </div>
                         </div><!-- .card -->
@@ -240,9 +251,9 @@
                                 <div class="card-inner flex-grow-1">
                                     <div class="card-title-group mb-4">
                                         <div class="card-title">
-                                            <h6 class="title">Order Statistics</h6>
+                                            <h6 class="title">Package Quality</h6>
                                         </div>
-                                        <div class="card-tools">
+                                        <!-- <div class="card-tools">
                                             <div class="dropdown">
                                                 <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
                                                 <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
@@ -255,36 +266,26 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="nk-ecwg7-ck">
                                         <canvas class="ecommerce-doughnut-s1" id="orderStatistics"></canvas>
                                     </div>
                                     <ul class="nk-ecwg7-legends">
-                                        <li>
-                                            <div class="title">
-                                                <span class="dot dot-lg sq" data-bg="#816bff"></span>
-                                                <span>Completed</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="title">
-                                                <span class="dot dot-lg sq" data-bg="#13c9f2"></span>
-                                                <span>Processing</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="title">
-                                                <span class="dot dot-lg sq" data-bg="#ff82b7"></span>
-                                                <span>Canclled</span>
-                                            </div>
-                                        </li>
+                                        <?php foreach ($packagin_quality as $key => $quality) { ?>
+                                            <li>
+                                                <div class="title">
+                                                    <span class="dot dot-lg sq" data-bg="<?= $quality['color'] ?>"></span>
+                                                    <span><?= $quality['name'] ?></span>
+                                                </div>
+                                            </li>
+                                        <?php } ?>
                                     </ul>
                                 </div><!-- .card-inner -->
                             </div>
                         </div><!-- .card -->
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -294,11 +295,11 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
-<script src="/public/js/charts/chart-analytics.js"></script>
+<!-- <script src="/public/js/charts/chart-analytics.js"></script> -->
 <script src="/public/js/libs/jqvmap.js"></script>
 <script src="/public/js/charts/crn-chart.js"></script>
-<script src="/public/js/charts/asset-chart.js"></script>
-<script src="/public/js/charts/shipment-chart.js"></script>
+<!-- <script src="/public/js/charts/asset-chart.js"></script> -->
+<!-- <script src="/public/js/charts/shipment-chart.js"></script> -->
 <script src="/public/js/charts/package-quality-chart.js"></script>
 <!-- <script src="/public/js/charts/chart-sales.js"></script> -->
 <?= $this->endSection() ?>

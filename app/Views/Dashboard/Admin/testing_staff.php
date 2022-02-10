@@ -29,7 +29,6 @@
                         <th class="nk-tb-col"><span class="sub-text">Staff ID</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Staff Name</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">Action
                         </th>
@@ -64,19 +63,10 @@
                                     </div>
                                 </div>
                             </td>
-                            <!-- <td class="nk-tb-col tb-col-mb" data-order="35040.34">
-                                 <span class="tb-amount"><?= $testing['name'] ?></span>
-                            </td>
-                            <td class="nk-tb-col tb-col-md">
-                                <span><?= $testing['email'] ?></span>
-                            </td>  -->
                             <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
                                 <ul class="list-status">
                                     <li> <span><?= $testing['mobile'] ?></span></li>
                                 </ul>
-                            </td>
-                            <td class="nk-tb-col tb-col-lg">
-                                <span><?= $testing['pass'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-lg">
                                 <span><?= $testing['country'] ?></span>
@@ -108,7 +98,7 @@
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+            <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">

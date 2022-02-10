@@ -14,7 +14,18 @@ class PostsModel extends Model
     // protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
+        'userid',
+        'crn',
+        'files',
+        'description',
+        'time',
+        'uid',
+        'sid',
+        'device',
+        'defect',
         'device_type',
+        'verifyStatus',
+        'user_verify',
         'created_at',
         'updated_at'
     ];
@@ -43,15 +54,15 @@ class PostsModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function asset_data(){
+    public function asset_data()
+    {
 
         return $this->findAll();
-
     }
 
-    public function defect_analysis(){
+    public function defect_analysis()
+    {
 
         return $this->findAll();
-
     }
 }

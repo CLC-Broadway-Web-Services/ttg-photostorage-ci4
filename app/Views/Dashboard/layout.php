@@ -3,6 +3,7 @@
 
 <head>
     <?= view('globals/headermeta') ?>
+    <?= $this->renderSection('css') ?>
     <style>
         .dataTables_processing {
             /* background-color: #ff0000; */
@@ -82,7 +83,7 @@ $uri = current_url(true);
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'shipping-staff' ? 'active current-page' : '' ?>">
-                                    <a href="<?= route_to('shipping_satff') ?>" class="nk-menu-link">
+                                    <a href="<?= route_to('shipping_staff') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Shipping Staff</span>
                                     </a>
@@ -93,7 +94,7 @@ $uri = current_url(true);
                                         <span class="nk-menu-text"> Manage Admins</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'create-user' ? 'active current-page' : '' ?>">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'creat-user' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('creat_user') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Create User</span>
@@ -137,17 +138,22 @@ $uri = current_url(true);
                                 <ul class="nk-quick-nav">
                                     <li class="dropdown chats-dropdown hide-mb-xs">
                                         <a class="dropdown-toggle nk-quick-nav-icon">
-                                            <div class="icon-status icon-status-na">
+                                            <div class="icon-status icon-status-na" onclick="window.location.reload()">
                                                 <em class="icon ni ni-repeat"></em>
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="dropdown chats-dropdown hide-mb-xs">
+                                    <?php if(session()->get('loginType') == 'admin') : ?>
+                                    <li class="">
+                                        <em class="icon ni ni-globe"></em> <?= session()->get('user.country');  ?>
+                                    </li>
+                                    <?php endif; ?>
+                                    <!-- <li class="dropdown chats-dropdown hide-mb-xs">
                                         <a href="<?= route_to('app_chats') ?>" class="dropdown-toggle nk-quick-nav-icon" data-toggle="">
                                             <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
                                         </a>
-                                    </li>
-                                    <li class="dropdown notification-dropdown">
+                                    </li> -->
+                                    <!-- <li class="dropdown notification-dropdown">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
                                             <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
                                         </a>
@@ -212,13 +218,13 @@ $uri = current_url(true);
                                                             <div class="nk-notification-time">2 hrs ago</div>
                                                         </div>
                                                     </div>
-                                                </div><!-- .nk-notification -->
-                                            </div><!-- .nk-dropdown-body -->
+                                                </div>
+                                            </div>
                                             <div class="dropdown-foot center">
                                                 <a href="<?= route_to('notifications') ?>">View All</a>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> -->
                                     <li class="dropdown user-dropdown">
 
 
@@ -277,13 +283,13 @@ $uri = current_url(true);
                         <div class="nk-footer-wrap">
                             <div class="nk-footer-copyright"> &copy; <?= date('Y') ?>
                             </div>
-                            <div class="nk-footer-links">
+                            <!-- <div class="nk-footer-links">
                                 <ul class="nav nav-sm">
                                     <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -313,9 +319,14 @@ $uri = current_url(true);
             $temp.remove();
             alert("Link Copied!");
         }
+
+        function locationReload() {
+            window.location.reload();
+        }
     </script>
 
     <?= $this->renderSection('javascript') ?>
+
 </body>
 
 </html>

@@ -29,7 +29,6 @@
                         <th class="nk-tb-col"><span class="sub-text">Admin ID</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Admin Name</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right">Action
                         </th>
@@ -68,9 +67,6 @@
                                 <ul class="list-status">
                                     <li><span><?= $admin['mobile'] ?></span></li>
                                 </ul>
-                            </td>
-                            <td class="nk-tb-col tb-col-lg">
-                                <span><?= $admin['pass'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
                                 <span><?= $admin['country'] ?></span>

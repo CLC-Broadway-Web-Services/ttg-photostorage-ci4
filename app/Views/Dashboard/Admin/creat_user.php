@@ -10,7 +10,10 @@
                     <h4 class="nk-block-title">Creat User</h4>
                 </div>
                 <div class="col-md-6 col-12">
-                <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New User</span> </a>
+                    <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault">
+                        <em class="icon ni ni-plus"></em>
+                        <span>Add New User</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -20,88 +23,57 @@
             <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col nk-tb-col-check">
-                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                <input type="checkbox" class="custom-control-input" id="uid">
-                                <label class="custom-control-label" for="uid"></label>
-                            </div>
-                        </th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Name</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Username</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">User ID</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Password</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Create date</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right">Action
-                        </th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($manage_user as $key => $user) :
-                        $id = $user['adduserID'];
-
-                    ?>
-
+                    <?php foreach ($manage_user as $key => $user) : ?>
                         <tr class="nk-tb-item">
-                            <td class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="uid1">
-                                    <label class="custom-control-label" for="uid1"></label>
-                                </div>
-                            </td>
-                            <td class="nk-tb-col">
-                                <div class="user-card">
-                                    <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span><?= strtoupper(substr($user['name'], 0, 2)) ?></span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="tb-lead"><?= $user['name'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
-                                        <span><?= $user['email'] ?></span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="nk-tb-col tb-col-mb" data-order="35040.34">
-                                <span><?= $user['username'] ?></span>
+                            <td class="nk-tb-col tb-col-mb">
+                                <span><?= $user['name'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <span><?= $user['userID'] ?></span>
-                            </td>
-                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                <span><?= $user['password'] ?></span>
+                                <span><?= $user['email'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-lg">
-                                <span><?= date("d M Y, g:s A", $user['created_date']) ?></span>
+                                <span><?= $user['mobile'] ?></span>
+                            </td>
+                            <td class="nk-tb-col tb-col-lg">
+                                <span><?= date("d M Y, g:s A", $user['time']) ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <?php if ($user['Astatus'] == 0) { ?>
-                                    <span class="badge badge-dot badge-dot-xs badge-danger">Inactive</span>
-                                <?php  } elseif ($user['Astatus'] == 1) { ?>
-                                    <span class="badge badge-dot badge-dot-xs badge-succcess">active</span>
+                                <?php if ($user['status']) { ?>
+                                    <span class="badge badge-dot badge-dot-xs badge-success">Active</span>
+                                <?php  } else { ?>
+                                    <span class="badge badge-dot badge-dot-xs badge-danger">In-Active</span>
                                 <?php } ?>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
-
                                     <li>
                                         <div class="drodown">
                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <ul class="link-list-opt no-bdr">
-                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?php echo $id; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?php echo $user['id']; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                                 </ul>
+                                            </div>
+                                        </div>
+                                    </li>
                                 </ul>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
-    </li>
-    </ul>
-    </td>
-    </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-</div>
-</div>
-<!-- .card-preview -->
+    <!-- .card-preview -->
 </div>
 <!-- nk-block -->
 <!-- Modal Content Code -->
@@ -116,6 +88,7 @@
             </div>
             <div class="modal-body">
                 <form action="<?= route_to('create') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
+                    <input name="current_user" value="<?= session()->get('user.id') ?>" class="d-none" id="current_user">
                     <input name="modal_create_user_id" value="0" class="d-none" id="modal_create_user_id">
                     <div class="form-group">
                         <label class="form-label" for="default-03">User Name</label>
@@ -123,7 +96,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-user"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_create_user_name" name="username" value="ttg-004" placeholder="User Name">
+                            <input type="text" class="form-control" id="modal_create_user_name" name="username" value="<?= $new_username ?>" placeholder="User Name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -132,7 +105,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-user"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_create_name" name="name" required placeholder="Name">
+                            <input type="text" class="form-control" id="modal_admin_name" name="name" required placeholder="Name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -141,7 +114,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-mail"></em>
                             </div>
-                            <input type="email" class="form-control" id="modal_create_user_email" name="email" required placeholder="Email address">
+                            <input type="email" class="form-control" id="modal_admin_email" name="email" required placeholder="Email address">
                         </div>
                     </div>
                     <div class="form-group">
@@ -151,7 +124,7 @@
                                 <em class="icon ni ni-mobile"></em>
                             </div>
 
-                            <input type="number" class="form-control" id="modal_create_user_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
+                            <input type="number" class="form-control" id="modal_admin_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
                         </div>
                     </div>
                     <div class="form-group">
@@ -161,7 +134,7 @@
                                 <em class="icon ni ni-globe"></em>
                             </div>
                             <!-- <input type="text" class="form-control" name="country" placeholder="Country"> -->
-                            <select name="country" class="country form-control" id="modal_create_user_country" required onchange="edituser(this)" placeholder="Country">
+                            <select name="country" class="country form-control" id="modal_admin_country" required onchange="edituser(this)" placeholder="Country">
                                 <option value="India">India</option>
                                 <option value="australia">Australia</option>
                                 <option value="canada">Canada</option>
@@ -419,11 +392,11 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-eye"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_create_user_password" name="password" required placeholder="Password">
+                            <input type="text" class="form-control" id="modal_admin_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary">Add User</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Add Admin</button>
                     </div>
                 </form>
             </div>
