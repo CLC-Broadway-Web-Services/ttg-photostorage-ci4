@@ -933,9 +933,9 @@ function stopLoader() {
   $('#fullLoader').hide();
 }
 
-$( document ).ajaxStart(function( event, request, settings ) {
+$(document).ajaxStart(function (event, request, settings) {
   startLoader();
 });
-$( document ).ajaxComplete(function( event, request, settings ) {
+$(document).ajaxComplete(function (event, request, settings) {
   stopLoader();
 });

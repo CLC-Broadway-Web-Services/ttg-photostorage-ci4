@@ -25,12 +25,12 @@ class AuthSuperAdmin implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if(session()->get('loginType') !== 'superadmin')
-        {
+        if (session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') {
+            return true;
+        } else {
             session()->destroy();
             return redirect()->route('login');
         }
-        return true;
     }
 
     /**

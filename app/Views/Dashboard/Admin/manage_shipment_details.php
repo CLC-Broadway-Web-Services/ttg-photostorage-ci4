@@ -197,9 +197,9 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
-                            <div class="border rounded p-2">
+                            <div class="border rounded p-2 w-100 text-center">
                                 <label class="form-label">Supervisor Sign</label>
-                                <img src="<?= file_exists('/' . $manage_shipment_details['supervisor_sign']) ? '/' . $manage_shipment_details['supervisor_sign'] : '/public/images/image-not-found.jpg' ?>" class="w-100 rounded">
+                                <img src="<?= file_exists($manage_shipment_details['supervisor_sign']) ? '/' . $manage_shipment_details['supervisor_sign'] : '/public/images/image-not-found.jpg' ?>" class="d-block rounded"style="max-height:200px;margin: auto;">
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
@@ -245,7 +245,7 @@
                             <div class="form-group">
                                 <label class="form-label">Image</label>
                                 <div class="form-control-wrap">
-                                    <img src="<?= file_exists('/' . $files[$i]->$fileKey) ? '/' . $files[$i]->$fileKey : '/public/images/image-not-found.jpg' ?>" class="w-100 rounded">
+                                    <img src="<?= file_exists($files[$i]->$fileKey) ? '/' . $files[$i]->$fileKey : '/public/images/image-not-found.jpg' ?>" class="w-100 rounded">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -269,10 +269,14 @@
     <script>
         function showImages() {
             var detailsImages = document.getElementById('detailsImages');
-            detailsImages.style.display = 'block';
-            detailsImages.scrollIntoView({
-                behavior: "smooth"
-            });
+            if (detailsImages.style.display == 'block') {
+                detailsImages.style.display = 'none';
+            } else {
+                detailsImages.style.display = 'block';
+                detailsImages.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
         }
     </script>
     <?php if (session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') : ?>
@@ -322,12 +326,12 @@
                     var returnData = JSON.parse(response);
                     if (returnData) {
                         swal({
-                                title: "Success",
-                                text: fieldLabel.toUpperCase()+" changed successfully.",
-                                icon: "success",
-                                // buttons: true,
-                                // dangerMode: true,
-                            })
+                            title: "Success",
+                            text: fieldLabel.toUpperCase() + " changed successfully.",
+                            icon: "success",
+                            // buttons: true,
+                            // dangerMode: true,
+                        })
                     }
                 }).fail(function(error) {
                     console.log(error)

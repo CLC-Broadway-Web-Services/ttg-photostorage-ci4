@@ -19,7 +19,6 @@ class ClientController extends BaseController
     }
     public function index()
     {
-
         if ($this->request->getMethod() == 'post') {
 
 
@@ -60,7 +59,7 @@ class ClientController extends BaseController
             $clientEmail = $this->request->getVar('email');
             $clientMobile = $this->request->getVar('mobile');
             $clientCountry = $this->request->getVar('country');
-            $clientPassword = $this->request->getVar('pass');
+            $clientPassword = passwordHash($this->request->getVar('pass'));
             $clientCrnStatus = $this->request->getVar('crn_status');
             // return print_r($clientPassword);
 
@@ -100,28 +99,6 @@ class ClientController extends BaseController
             } else {
                 $response['message'] = 'User not found';
             }
-
-            // if ($clientId == 0) {
-            //     $submitClient = $this->clientDb->insert($clientData);
-            //     $response = ['success' => false, 'message' => ''];
-
-            //     if ($submitClient) {
-            //         // return print_r($submitClient);
-            //         return redirect()->route('manage_client');
-            //     } else {
-            //         $response['message'] = 'User not found';
-            //     }
-            // } else {
-            //     $updateClient = $this->clientDb->where('id', $clientId)->update($clientData);
-            //     $response = ['success' => false, 'message' => ''];
-
-            //     if ($updateClient) {
-            //         // return print_r($submitClient);
-            //         return redirect()->route('manage_client');
-            //     } else {
-            //         $response['message'] = 'User not found';
-            //     }
-            // }
         }
     }
     public function getCrn(){

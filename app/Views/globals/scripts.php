@@ -1,6 +1,6 @@
 <!-- JavaScript -->
-<script src="/public/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="/public/js/bundle.js" type="text/javascript"></script>
+<script src="/public/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="/public/js/scripts.js" type="text/javascript"></script>
 
 <!-- <script src="/public/js/charts/chart-analytics.js"></script> -->

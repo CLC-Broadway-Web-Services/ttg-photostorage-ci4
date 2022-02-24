@@ -16,6 +16,8 @@ class ManageShipmentController extends BaseController
 
     public function manage_shipment()
     {
+
+        // return print_r('shipment');
         if ($this->request->getMethod() == 'post') {
 
             if ($this->request->getVar('csv')) {
@@ -25,6 +27,12 @@ class ManageShipmentController extends BaseController
             if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'del') {
                 $getId = $this->request->getVar('id');
                 return $this->manageShipDb->delete($getId);
+            }
+
+            if ($this->request->getVar('download') && $this->request->getVar('download') == 'pdf') {
+                $getId = $this->request->getVar('id');
+                // return $this->manageShipDb->delete($getId);
+                return $this->generateDownloadPdf($getId);
             }
 
             if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'multiDelete') {
@@ -45,80 +53,161 @@ class ManageShipmentController extends BaseController
 
             $startDate = $this->request->getGet('start_date') ? date('Y-m-d ', strtotime($this->request->getGet('start_date'))) . '00:00:00' : null;
             $endDate = $this->request->getGet('end_date') ? date('Y-m-d ', strtotime($this->request->getGet('end_date'))) . '00:00:00' : null;
-            if ($startDate && $endDate) {
-                if (!empty($search_value)) {
-                    // return print_r($startDate);
-                    $shipments = $this->manageShipDb->distinct()
-                        ->select('ttg_ship.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->like('ttg_ship.userid', $search_value)
-                        ->orLike('ttg_ship.crn', $search_value)
-                        ->orLike('ttg_ship.logistic_company', $search_value)
-                        ->orLike('ttg_ship.box_condition', $search_value)
-                        ->orLike('ttg_login.country', $search_value)
-                        ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
-                        ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
-                    $count = $this->manageShipDb->distinct()
-                        ->select('ttg_ship.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->like('ttg_ship.userid', $search_value)
-                        ->orLike('ttg_ship.crn', $search_value)
-                        ->orLike('ttg_ship.logistic_company', $search_value)
-                        ->orLike('ttg_ship.box_condition', $search_value)
-                        ->orLike('ttg_login.country', $search_value)
-                        ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
-                        ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+
+            if (session()->get('loginType') == 'admin') {
+                $country = session()->get('user.country');
+                if ($startDate && $endDate) {
+                    if (!empty($search_value)) {
+                        // return print_r($startDate);
+                        $shipments = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->like('ttg_ship.userid', $search_value)
+                            ->orLike('ttg_ship.crn', $search_value)
+                            ->orLike('ttg_ship.logistic_company', $search_value)
+                            ->orLike('ttg_ship.box_condition', $search_value)
+                            ->orLike('ttg_login.country', $search_value)
+                            ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->where("ttg_login.country", $country)
+                            ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->like('ttg_ship.userid', $search_value)
+                            ->orLike('ttg_ship.crn', $search_value)
+                            ->orLike('ttg_ship.logistic_company', $search_value)
+                            ->orLike('ttg_ship.box_condition', $search_value)
+                            ->orLike('ttg_login.country', $search_value)
+                            ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->where("ttg_login.country", $country)
+                            ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    } else {
+                        $shipments = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->where("ttg_login.country", $country)
+                            ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->where("ttg_login.country", $country)
+                            ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    }
                 } else {
-                    $shipments = $this->manageShipDb->distinct()
-                        ->select('ttg_ship.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
-                        ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
-                    $count = $this->manageShipDb->distinct()
-                        ->select('ttg_ship.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
-                        ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    if (!empty($search_value)) {
+                        $shipments = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->like('ttg_ship.userid', $search_value)
+                            ->orLike('ttg_ship.crn', $search_value)
+                            ->orLike('ttg_ship.logistic_company', $search_value)
+                            ->orLike('ttg_ship.box_condition', $search_value)
+                            // ->orLike('ttg_ship.time', $search_value)
+                            ->orLike('ttg_login.country', $search_value)
+                            ->where("ttg_login.country", $country)
+                            ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->like('ttg_ship.userid', $search_value)
+                            ->orLike('ttg_ship.crn', $search_value)
+                            ->orLike('ttg_ship.logistic_company', $search_value)
+                            ->orLike('ttg_ship.box_condition', $search_value)
+                            // ->orLike('ttg_ship.time', $search_value)
+                            ->orLike('ttg_login.country', $search_value)
+                            ->where("ttg_login.country", $country)
+                            ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    } else {
+                        $shipments = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->where("ttg_login.country", $country)
+                            ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->where("ttg_login.country", $country)
+                            ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    }
                 }
             } else {
-                if (!empty($search_value)) {
-                    $shipments = $this->manageShipDb->distinct()
-                        ->select('ttg_ship.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->like('ttg_ship.userid', $search_value)
-                        ->orLike('ttg_ship.crn', $search_value)
-                        ->orLike('ttg_ship.logistic_company', $search_value)
-                        ->orLike('ttg_ship.box_condition', $search_value)
-                        // ->orLike('ttg_ship.time', $search_value)
-                        ->orLike('ttg_login.country', $search_value)
-                        ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
-                    $count = $this->manageShipDb->distinct()
-                        ->select('ttg_ship.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->like('ttg_ship.userid', $search_value)
-                        ->orLike('ttg_ship.crn', $search_value)
-                        ->orLike('ttg_ship.logistic_company', $search_value)
-                        ->orLike('ttg_ship.box_condition', $search_value)
-                        // ->orLike('ttg_ship.time', $search_value)
-                        ->orLike('ttg_login.country', $search_value)
-                        ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                if ($startDate && $endDate) {
+                    if (!empty($search_value)) {
+                        // return print_r($startDate);
+                        $shipments = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->like('ttg_ship.userid', $search_value)
+                            ->orLike('ttg_ship.crn', $search_value)
+                            ->orLike('ttg_ship.logistic_company', $search_value)
+                            ->orLike('ttg_ship.box_condition', $search_value)
+                            ->orLike('ttg_login.country', $search_value)
+                            ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->like('ttg_ship.userid', $search_value)
+                            ->orLike('ttg_ship.crn', $search_value)
+                            ->orLike('ttg_ship.logistic_company', $search_value)
+                            ->orLike('ttg_ship.box_condition', $search_value)
+                            ->orLike('ttg_login.country', $search_value)
+                            ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    } else {
+                        $shipments = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->where("ttg_ship.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    }
                 } else {
-                    $shipments = $this->manageShipDb->distinct()
-                        ->select('ttg_ship.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
-                    $count = $this->manageShipDb->distinct()
-                        ->select('ttg_ship.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                        ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    if (!empty($search_value)) {
+                        $shipments = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->like('ttg_ship.userid', $search_value)
+                            ->orLike('ttg_ship.crn', $search_value)
+                            ->orLike('ttg_ship.logistic_company', $search_value)
+                            ->orLike('ttg_ship.box_condition', $search_value)
+                            // ->orLike('ttg_ship.time', $search_value)
+                            ->orLike('ttg_login.country', $search_value)
+                            ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->like('ttg_ship.userid', $search_value)
+                            ->orLike('ttg_ship.crn', $search_value)
+                            ->orLike('ttg_ship.logistic_company', $search_value)
+                            ->orLike('ttg_ship.box_condition', $search_value)
+                            // ->orLike('ttg_ship.time', $search_value)
+                            ->orLike('ttg_login.country', $search_value)
+                            ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    } else {
+                        $shipments = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->orderBy('ttg_ship.id', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageShipDb->distinct()
+                            ->select('ttg_ship.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                            ->orderBy('ttg_ship.id', 'desc')->countAllResults();
+                    }
                 }
             }
 
             foreach ($shipments as $key => $shipment) {
-                $checkBoxHtml = '<div class="custom-control custom-control-sm custom-checkbox notext">
-                            <input type="checkbox" class="custom-control-input" value="uid1" id="uid1">
-                            <label class="custom-control-label" for="uid1"></label>
-                        </div>';
+                // $checkBoxHtml = '<div class="custom-control custom-control-sm custom-checkbox notext">
+                //             <input type="checkbox" class="custom-control-input" value="uid1" id="uid1">
+                //             <label class="custom-control-label" for="uid1"></label>
+                //         </div>';
                 $id = $shipment['id'];
                 $popupWindowUrl = base_url(route_to('manage_shipment_details', base64_encode($id)));
                 $actionsHtml = '<ul class="nk-tb-actions gx-1" dataLink="' . $popupWindowUrl . '">
@@ -129,18 +218,14 @@ class ManageShipmentController extends BaseController
                                                 <ul class="link-list-opt no-bdr">
                                                 <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
                                                     <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                    
                                                     <li><a class="text-danger" href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                    
                                                 </ul>
                                             </div>
                                         </div>
                                     </li>
                                 </ul>';
-                // <li><a href="javascript:void(0);" onclick="getExcel(' . "'" . $id . "'" . ')"><em class="icon ni ni-file-docs"></em><span >Excel</span></a></li>
 
                 $shipments[$key]['condition'] = $shipment['box_condition'];
-                // $shipments[$key]['id'] = str_replace("uid1", $shipment['id'], $checkBoxHtml);
                 $shipments[$key]['actions'] = $actionsHtml;
                 if ($shipment['box_condition'] == 'Poor') {
                     $shipments[$key]['box_condition'] =  '<span class="badge badge-dot badge-dot-xs badge-danger">' . $shipment['box_condition'] . '</span>';
@@ -171,7 +256,6 @@ class ManageShipmentController extends BaseController
         $id = base64_decode($baseid);
         $this->data['manage_shipment_details'] = $this->manageShipDb->find($id);
 
-
         if ($this->request->getMethod() == 'post') {
             // return print_r($this->request->getVar());
             if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'login_form') {
@@ -183,7 +267,7 @@ class ManageShipmentController extends BaseController
                 $getUser = $userDb->where('email', $userEmail)->first();
                 $response = ['success' => false, 'message' => ''];
 
-                if (password_verify($userPassword, $getUser['pass'])) {
+                if (password_verify($userPassword, $getUser['pass']) && $getUser['status']) {
                     // return print_r($getUser);
                     unset($getUser['pass']);
                     unset($getUser['token']);
@@ -194,10 +278,10 @@ class ManageShipmentController extends BaseController
                     $sessionData['user'] = $getUser;
                     session()->set($sessionData);
 
-                    return redirect()->route('manage_shipment_details', [$id]);
+                    return redirect()->route('manage_shipment_details', [$baseid]);
                 } else {
-                    return print_r('not match');
-                    $response['message'] = 'Password or email not matched.';
+                    // return print_r('not match or not activated');
+                    $response['message'] = 'Password or email not matched. Or User not activated yet.';
                 }
             }
             if (session()->get('userLoggedIn')) :
@@ -227,9 +311,5 @@ class ManageShipmentController extends BaseController
     public function get_excel_data($id)
     {
         return $this->manageShipDb->first($id);
-    }
-
-    private function getManageTableData()
-    {
     }
 }

@@ -1,4 +1,4 @@
-<?= $this->extend('Dashboard/layout') ?>
+<?= $this->extend('Dashboard/clientlayout') ?>
 
 <?= $this->section('content') ?>
 
@@ -7,88 +7,50 @@
         <div class="nk-block-head-content">
             <div class="row">
                 <div class="col-md-6 col-12">
-                    <h4 class="nk-block-title">Manage Client</h4>
+                    <h4 class="nk-block-title">Creat User</h4>
                 </div>
                 <div class="col-md-6 col-12">
-                    <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Add New Client</span> </a>
+                    <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault">
+                        <em class="icon ni ni-plus"></em>
+                        <span>Add New User</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
     <div class="card card-preview">
         <div class="card-inner">
-            <table class="datatable-init-export nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+            <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col nk-tb-col-check">
-                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                <input type="checkbox" class="custom-control-input" id="uid">
-                                <label class="custom-control-label" for="uid"></label>
-                            </div>
-                        </th>
-                        <th class="nk-tb-col"><span class="sub-text">Client ID</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">User</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Name</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Create date</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right">Action
-                        </th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr class="nk-tb-item">
-                        <?php foreach ($manage_client as $key => $clients) :
-                            $id = $clients['id'];
-                        ?>
-
-                            <td class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="uid1">
-                                    <label class="custom-control-label" for="uid1"></label>
-                                </div>
-                            </td>
-                            <td class="nk-tb-col">
-                                <div class="user-card">
-                                    <div class="user-info">
-                                        <span class="tb-lead"><?= $clients['id'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="nk-tb-col">
-                                <div class="user-card">
-                                    <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span><?= strtoupper(substr($clients['name'], 0, 2)); ?></span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="tb-lead"><?= $clients['name'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
-                                        <span><?= $clients['email'] ?></span>
-                                    </div>
-                                </div>
-                            </td>
-                            <!-- <td class="nk-tb-col tb-col-mb" data-order="35040.34">
-                                <span class="tb-amount"><?= $clients['name'] ?></span>
+                    <?php foreach ($manage_user as $key => $user) : ?>
+                        <tr class="nk-tb-item">
+                            <td class="nk-tb-col tb-col-mb">
+                                <span><?= $user['name'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <span><?= $clients['email'] ?></span>
-                            </td> -->
-                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                <ul class="list-status">
-                                    <li> <span><?= $clients['mobile'] ?></span></li>
-                                </ul>
+                                <span><?= $user['email'] ?></span>
+                            </td>
+                            <td class="nk-tb-col tb-col-lg">
+                                <span><?= $user['mobile'] ?></span>
+                            </td>
+                            <td class="nk-tb-col tb-col-lg">
+                                <span><?= date("d M Y, g:s A", $user['time']) ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <span><?= $clients['country'] ?></span>
-                            </td>
-                            <td class="nk-tb-col tb-col-md">
-                                <?php if ($clients['crn_status'] == 'super') {
-
-                                ?>
-                                    <span class="badge badge-dot badge-dot-xs badge-success"><?= ucfirst($clients['crn_status']) ?></span>
-                                <?php  } elseif ($clients['crn_status'] == 'normal') { ?>
-                                    <span class="badge badge-dot badge-dot-xs badge-primary"><?= ucfirst($clients['crn_status']) ?></span>
-                                <?php  } elseif ($clients['crn_status'] == 'national') { ?>
-                                    <span class="badge badge-dot badge-dot-xs badge-warning"><?= ucfirst($clients['crn_status']) ?></span>
+                                <?php if ($user['status']) { ?>
+                                    <span class="badge badge-dot badge-dot-xs badge-success">Active</span>
+                                <?php  } else { ?>
+                                    <span class="badge badge-dot badge-dot-xs badge-danger">In-Active</span>
                                 <?php } ?>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
@@ -98,24 +60,22 @@
                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <ul class="link-list-opt no-bdr">
-
-                                                    <?= $clients['crn_status'] == 'super' ? '' : '<li><a href="javascript:void(0);" onclick="grnId(' . "'" . $id . "'" . ')" data-toggle="modal" data-target="#assignCrn"><em class="icon ni ni-user-check-fill"></em><span>Assign CRN</span></a></li>' ?>
-                                                    <li><a href="javascript:void(0);" onclick="editData('<?php echo $id; ?>')"><em class="icon ni ni-pen"></em><span>Edit</span></a></li>
-                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?php echo $id; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-
+                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?php echo $user['id']; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </li>
                                 </ul>
                             </td>
-                    </tr><!-- .nk-tb-item  -->
-                <?php endforeach; ?>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
-    </div><!-- .card-preview -->
-</div> <!-- nk-block -->
+    </div>
+    <!-- .card-preview -->
+</div>
+<!-- nk-block -->
 <!-- Modal Content Code -->
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
@@ -124,18 +84,28 @@
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
-                <h5 class="modal-title">Add Client</h5>
+                <h5 class="modal-title">Add New User</h5>
             </div>
             <div class="modal-body">
-                <form action="<?= route_to('add_client') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
-                    <input name="client_id" value="0" class="d-none" id="modal_client_id">
+                <form action="<?= route_to('client_create') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
+                    <input name="current_user" value="<?= session()->get('user.id') ?>" class="d-none" id="current_user">
+                    <input name="modal_create_user_id" value="0" class="d-none" id="modal_create_user_id">
+                    <div class="form-group">
+                        <label class="form-label" for="default-03">User Name</label>
+                        <div class="form-control-wrap">
+                            <div class="form-icon form-icon-left">
+                                <em class="icon ni ni-user"></em>
+                            </div>
+                            <input type="text" class="form-control" id="modal_create_user_name" name="username" value="<?= $new_username ?>" placeholder="User Name">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="form-label" for="default-03">Name</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-user"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_client_name" name="name" required placeholder="Name">
+                            <input type="text" class="form-control" id="modal_admin_name" name="name" required placeholder="Name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -144,7 +114,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-mail"></em>
                             </div>
-                            <input type="email" class="form-control" id="modal_client_email" name="email" required placeholder="Email address">
+                            <input type="email" class="form-control" id="modal_admin_email" name="email" required placeholder="Email address">
                         </div>
                     </div>
                     <div class="form-group">
@@ -154,7 +124,7 @@
                                 <em class="icon ni ni-mobile"></em>
                             </div>
 
-                            <input type="number" class="form-control" id="modal_client_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
+                            <input type="number" class="form-control" id="modal_admin_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
                         </div>
                     </div>
                     <div class="form-group">
@@ -164,7 +134,7 @@
                                 <em class="icon ni ni-globe"></em>
                             </div>
                             <!-- <input type="text" class="form-control" name="country" placeholder="Country"> -->
-                            <select name="country" class="country form-control" id="modal_client_country" required onchange="edituser(this)" placeholder="Country">
+                            <select name="country" class="country form-control" id="modal_admin_country" required onchange="edituser(this)" placeholder="Country" readonly>
                                 <option value="India">India</option>
                                 <option value="australia">Australia</option>
                                 <option value="canada">Canada</option>
@@ -422,21 +392,11 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-eye"></em>
                             </div>
-                            <input type="text" class="form-control" id="modal_client_password" name="pass" required placeholder="Password">
+                            <input type="text" class="form-control" id="modal_admin_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <div class="form-control-wrap">
-                            <select class="form-select" id="modal_client_crn_status" name="crn_status">
-                                <option value="normal">Normal</option>
-                                <option value="national">National</option>
-                                <option value="super">Super</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary">Save</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Add Admin</button>
                     </div>
                 </form>
             </div>
@@ -447,60 +407,7 @@
     </div>
 </div>
 
-
-
-<!-- Modal Content Code -->
-<div class="modal fade" tabindex="-1" id="assignCrn">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
-                <em class="icon ni ni-cross"></em>
-            </a>
-            <div class="modal-header">
-                <h5 class="modal-title">Assign CRN</h5>
-            </div>
-            <div class="modal-body">
-                <form action="<?= route_to('add_client') ?>" class="input-daterange  input-group" method="post">
-
-                    <input type="hidden" id="as" name="assign_crn" class="form-control">
-                    <input type="text" id="assign_crn" name="assign_crn" class="form-control">
-                    <a href="javascript:void(0);" class="btn btn-dim btn-primary ml-2" onclick="assignCrn('<?php echo $id; ?>')">Assign</a>
-                </form>
-                <div class="card card-preview mt-4 bg-light">
-                    <div class="card-inner">
-                        <table class="nk-tb-list nk-tb-ulist" id="datatableX" data-auto-responsive="false">
-                            <thead>
-                                <tr class="nk-tb-item nk-tb-head">
-                                    <th class="nk-tb-col"><span class="sub-text">CRN</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="nk-tb-col tb-col-md">
-                                        <span>nskjncs</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg">
-                                        <span><a href="#" class="btn btn-dim btn-sm btn-outline-danger">Remove</a></span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div><!-- .card-preview -->
-                </div> <!-- nk-block -->
-                <div class="mt-2">
-                </div>
-            </div>
-            <div class="modal-footer bg-light">
-
-            </div>
-        </div>
-    </div>
-</div>
 <?= $this->endSection() ?>
-
-
 <?= $this->section('javascript') ?>
 <script>
     function deleteData(id) {
@@ -516,7 +423,7 @@
                 if (willDelete) {
                     $.ajax({
                         type: 'POST',
-                        url: '<?= base_url(route_to('add_client')); ?>',
+                        url: '<?= base_url(route_to('client_create')); ?>',
                         data: {
                             delete: 'del',
                             id: id
@@ -524,52 +431,28 @@
                         success: function(result) {
                             console.log(result)
                             location.reload();
-                        },
+                        }
                     });
                 } else {
                     swal("Your file is safe!");
                 }
             });
+
     }
 
-    function grnId(id) {
-        var clientId = id
-        $("#as").val('clientId');
-    }
-
-    function assignCrn() {
-        console.log();
-        grnId();
-        var formData = {
-            id: clientId,
-            assign: 'assign',
-            superheroAlias: $("#assign_crn").val(),
-        };
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url(route_to('add_client')); ?>',
-            data: formData,
-
-            success: function(result) {
-                console.log(result)
-                // location.reload();
-            },
-        });
-    }
     <?php if (session()->getFlashdata("success")) { ?>
         swal({
             title: "Saved",
-            text: "New Client Saved",
+            text: "New User Saved",
             icon: "success",
         });
     <?php } ?>
 
-    async function editData(id) {
+    function editData(id) {
         console.log(id);
-
-        await $.ajax({
+        $.ajax({
             type: 'POST',
-            url: '<?= base_url(route_to('add_client')); ?>',
+            url: '<?= base_url(route_to('client_create')); ?>',
             data: {
                 edit: 'edit',
                 id: id
@@ -578,13 +461,13 @@
                 console.log(result);
                 var response = JSON.parse(result);
 
-                $('#modal_client_id').val(response.id);
-                $('#modal_client_name').val(response.name);
-                $('#modal_client_email').val(response.email);
-                $('#modal_client_mobile').val(response.mobile);
-                $('#modal_client_country').val(response.country);
-                $('#modal_client_crn_status').val(response.crn_status);
-                // $('#modal_client_password').val(response.pass);
+                $('#modal_create_user_id').val(response.id);
+                $('#modal_create_user_name').val(response.username);
+                $('#modal_create_name').val(response.name);
+                $('#modal_create_user_email').val(response.email);
+                $('#modal_create_user_mobile').val(response.mobile);
+                $('#modal_create_user_country').val(response.country);
+                // $('#modal_create_user_password').val(response.pass);
 
                 $('#modalDefault').modal('show')
                 // console.log(result);
@@ -594,13 +477,13 @@
     }
 
     $('#modalDefault').on('hidden.bs.modal', function(event) {
-        $('modal_client_id').val(0);
-        $('modal_client_name').val('');
-        $('modal_client_email').val('');
-        $('modal_client_mobile').val('');
-        $('modal_client_country').val('');
-        $('modal_client_password').val('');
-        $('modal_client_crn_status').val('');
+        $('modal_create_user_id').val(0);
+        $('modal_create_user_name').val('');
+        $('modal_create_name').val('');
+        $('modal_create_user_email').val('');
+        $('modal_create_user_mobile').val('');
+        $('modal_create_user_country').val('');
+        $('modal_create_user_password').val('');
     })
 </script>
 <?= $this->endSection() ?>

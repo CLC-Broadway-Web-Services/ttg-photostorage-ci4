@@ -3,6 +3,7 @@
 
 <head>
     <?= view('globals/headermeta') ?>
+    <?= $this->renderSection('css') ?>
 </head>
 
 <body class="nk-body bg-lighter npc-default has-sidebar">
@@ -50,7 +51,7 @@
                                     </a>
                                 </li>
                                 <li class="nk-menu-item">
-                                    <a href="<?= route_to('client_manage_users') ?>" class="nk-menu-link">
+                                    <a href="<?= route_to('client_creat_user') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
                                         <span class="nk-menu-text">Manage User</span>
                                     </a>
@@ -80,15 +81,11 @@
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
                                     <li class="dropdown chats-dropdown hide-mb-xs">
-                                       
-
                                     </li>
-                                    <li class="dropdown notification-dropdown">
-                                       
+                                    <li class="">
+                                        <em class="icon ni ni-globe"></em> <?= session()->get('user.country');  ?>
                                     </li>
                                     <li class="dropdown user-dropdown">
-
-
                                         <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
                                             <div class="user-toggle">
                                                 <div class="user-avatar sm">
@@ -144,13 +141,13 @@
                         <div class="nk-footer-wrap">
                             <div class="nk-footer-copyright"> &copy; <?= date('Y') ?>
                             </div>
-                            <div class="nk-footer-links">
+                            <!-- <div class="nk-footer-links">
                                 <ul class="nav nav-sm">
                                     <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

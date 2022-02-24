@@ -14,6 +14,26 @@ class ObjectionsModel extends Model
     // protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
+        'userid',
+        'crn',
+        'files',
+        'description',
+        'c_description',
+        'filen',
+        'descn',
+        'time',
+        'uid',
+        'sid',
+        'verifyStatus',
+        'readunread',
+        'userverify',
+        'userType',
+        'senderImg',
+        'UserObID',
+        'rcid',
+        'objectionContent',
+        'objectionRecords',
+        'datetimes',
         'created_at'
     ];
 
