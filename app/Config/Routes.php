@@ -60,6 +60,9 @@ $routes->group('/', ['filter' => 'superadminauth'], function ($routes) {
     $routes->add('', 'Admin\DashboardController::index', ['as' => 'admin_index']);
     $routes->match(['post', 'get'], '/manage-shipment', 'Admin\ManageShipmentController::manage_shipment', ['as' => 'manage_shipment']);
     $routes->match(['post', 'get'], '/manage-data', 'Admin\AssetDataController::manage_data', ['as' => 'manage_data']);
+
+    $routes->match(['post', 'get'], '/download-data-pdf/(:any)/(:any)', 'Admin\AssetDataController::generateDirectPdf/$1/$2', ['as' => 'download_data_pdf']);
+
     $routes->match(['post', 'get'], '/defect-analysis', 'Admin\AssetDataController::defect_analysis', ['as' => 'defect_analysis']);
     $routes->get('/download-all', 'Admin\ManageDataPdfController::downloadAllData', ['as' => 'download_all_shipments']);
     $routes->get('/download-all/data', 'Admin\ManageDataPdfController::downloadAllData/$1', ['as' => 'download_all_data']);

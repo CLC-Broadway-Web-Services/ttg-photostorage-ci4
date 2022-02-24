@@ -27,7 +27,11 @@
             <div class="card-header border-bottom d-inline">
                 Photo List for :<?= $manage_data_details["uid"] ?>
                 <!-- <button class="btn btn-sm btn-success float-end"> -->
-                <a class="ni ni-check-circle text-success float-end fw-bold" title="Verify" href="javascript:void(0);" style="font-size:x-large"></a>
+                <?php if ($manage_data_details['verifyStatus'] == 1) { ?>
+                    <span class="text-success float-end fw-bold">Verified</span>
+                <?php } else { ?>
+                    <a class="ni ni-check-circle text-success float-end fw-bold" title="Verify" onclick="verifyData(<?= $manage_data_details['id'] ?>)" href="javascript:void(0);" style="font-size:x-large"></a>
+                <?php } ?>
                 <!-- </button> -->
             </div>
         </div>
@@ -55,12 +59,12 @@
                     </div>
                     <div class="card-footer border-top text-muted">
                         <?php if (session()->get('user.type') !== 'client') : ?>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="return launchEditor('editableimage1','<?= '/' . $files[$i]->$fileKey ?>');">Edit Image</button>
+                            <!-- <button type="button" class="btn btn-sm btn-primary" onclick="return launchEditor('editableimage1','<?= '/' . $files[$i]->$fileKey ?>');">Edit Image</button> -->
                         <?php endif ?>
                         <button type="button" class="btn btn-sm btn-primary" onclick="updateComment('<?= $commentKey ?>')">Update Comment</button>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="openObjectionBox(<?= $i ?>, '<?= $fileKey ?>')">Objection</button>
+                        <!-- <button type="button" class="btn btn-sm btn-primary" onclick="openObjectionBox(<?= $i ?>, '<?= $fileKey ?>')">Objection</button> -->
                         <?php if (session()->get('user.type') !== 'client') : ?>
-                            <button type="button" class="btn btn-sm btn-danger" onclick="deleteImage('<?= $i + 1 ?>')">Delete</button>
+                            <!-- <button type="button" class="btn btn-sm btn-danger" onclick="deleteImage('<?= $i + 1 ?>')">Delete</button> -->
                         <?php endif ?>
                     </div>
                 </div>
@@ -96,6 +100,8 @@
         </div>
     </div>
 </div>
+<button class="closeButton" style="cursor: pointer" id="closeCurrentWindow" onclick="window.close();"></button>
+
 
 <?= $this->endSection() ?>
 <?= $this->section('javascript') ?>
@@ -177,6 +183,32 @@
                 // console.log(response);
                 // console.log(JSON.parse(response));
                 location.reload();
+            }
+        });
+    }
+
+    function verifyData(id) {
+        // console.log($('#' + id).val());
+        var formData = new FormData();
+        formData.append('verifyData', id);
+        console.log(Array.from(formData));
+        $.ajax({
+            type: 'POST',
+            url: '',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                window.opener.location.reload(false);
+                $('#closeCurrentWindow').click();
+                // window.top.close();
+                // window.open('', '_parent', '');
+                // window.close();
+                // window.open('','_self').close();
+                // var confirm_result = confirm("Are you sure you want to quit?");
+                // if (confirm_result == true) {
+                //     window.close();
+                // }
             }
         });
     }

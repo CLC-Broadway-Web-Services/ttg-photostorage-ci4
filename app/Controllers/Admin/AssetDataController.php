@@ -30,6 +30,9 @@ class AssetDataController extends BaseController
 
     public function manage_data()
     {
+        if ($this->request->getVar('verifyData')) {
+            return $this->verifyData($this->request->getVar('verifyData'));
+        }
         if ($this->request->getMethod() == 'post') {
             if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'del') {
                 $getId = $this->request->getVar('id');
@@ -44,19 +47,6 @@ class AssetDataController extends BaseController
                 // return json_encode($this->request->getVar('id'));
                 // $getId = $this->request->getVar('id');
                 return true;
-            }
-            if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'generate_multiple_pdf') {
-                $ids = $this->request->getVar('id');
-                $data = $this->manageDataDb->select('uid, files')->whereIn('id', $ids)->findAll();
-                return generatePdf($data, 'multiple');
-                // return json_encode($data);
-            }
-            if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'generate_single_pdf') {
-                $ids = $this->request->getVar('id');
-                $data = $this->manageDataDb->select('uid, files')->where('uid', $ids)->first();
-                return generatePdf($data);
-                // return json_encode($data);
-                // return $this->request->getVar();
             }
             $manageData = array();
             $count = 0;
@@ -216,6 +206,7 @@ class AssetDataController extends BaseController
                 $id = $manage['uid'];
                 $popupWindowUrl = base_url(route_to('manage_data_details', base64_encode($id)));
                 // $id = $manage['uid'];
+                // <li><button class="btn btn-link" onclick="onclickSinglePdf(' . "'" . $id . "'" . ')"><em class="icon ni ni-file-pdf"></em><span>PDF</span></button></li>
                 $actionsHtml = '<ul class="nk-tb-actions gx-1" dataLink="' . $popupWindowUrl . '">
                                     <li>
                                         <div class="drodown">
@@ -224,8 +215,8 @@ class AssetDataController extends BaseController
                                                 <ul class="link-list-opt no-bdr">
                                                 <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
                                                 <li><a href="javascript:void(0);" onclick="myFunction(' . "'" . $popupWindowUrl . "'" . ')"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                <li><button class="btn btn-link" onclick="onclickSinglePdf(' . "'" . $id . "'" . ')"><em class="icon ni ni-file-pdf"></em><span>PDF</span></button></li>
-                                                <li><a href=' . route_to('manage_data_excel', base64_encode($id)) . '><em class="icon ni ni-file-docs"></em><span>Excel</span></a></li>
+                                                <li><a href="' . route_to('download_data_pdf', 'generate_single_pdf', $id) . '" target="_blank"><em class="icon ni ni-file-pdf"></em><span>PDF</span></a></li>
+                                                <li><a href="' . route_to('manage_data_excel', base64_encode($id)) . '"><em class="icon ni ni-file-docs"></em><span>Excel</span></a></li>
                                                 <li><a href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                                 </ul>
                                             </div>
@@ -248,13 +239,13 @@ class AssetDataController extends BaseController
                     $manageData[$key]['verifyStatus'] =  '<span class="badge badge-dot badge-dot-xs badge-warning">Pending</span>';
                 }
                 if ($manage['verifyStatus'] == 1) {
-                    $manageData[$key]['verifyStatus'] =  '<span class="badge badge-dot badge-dot-xs badge-danger">Varified</span>';
+                    $manageData[$key]['verifyStatus'] =  '<span class="badge badge-dot badge-dot-xs badge-success">Verified</span>';
                 }
                 if ($manage['verifyStatus'] == 2) {
                     $manageData[$key]['verifyStatus'] =  '<span class="badge badge-dot badge-dot-xs badge-danger">Objected</span>';
                 }
                 if ($manage['verifyStatus'] == 3) {
-                    $manageData[$key]['verifyStatus'] =  '<span class="badge badge-dot badge-dot-xs badge-danger">Re-Verified</span>';
+                    $manageData[$key]['verifyStatus'] =  '<span class="badge badge-dot badge-dot-xs badge-success">Re-Verified</span>';
                 }
                 if ($manage['verifyStatus'] == 4) {
                     $manageData[$key]['verifyStatus'] =  '<span class="badge badge-dot badge-dot-xs badge-danger">Re-Objected</span>';
@@ -275,9 +266,123 @@ class AssetDataController extends BaseController
         return view('Dashboard/Admin/manage_data', $this->data);
     }
 
+    public function generateDirectPdf($pdf = 'generate_single_pdf', $ids = null)
+    {
+        $type = 'single';
+        if ($pdf == 'generate_multiple_pdf') {
+            $id_s = json_decode($ids);
+            $data = $this->manageDataDb->select('uid, files')->whereIn('id', $id_s)->findAll();
+            // return generatePdf($data, 'multiple');
+            $type = 'multiple';
+        }
+        if ($pdf == 'generate_single_pdf') {
+            // $ids = $this->request->getVar('id');
+            $data = $this->manageDataDb->select('uid, files')->where('uid', $ids)->first();
+            // return generatePdf($data);
+        }
+
+        $pdfTitle = '';
+        if ($type == 'multiple') {
+            foreach ($data as $key => $value) {
+                $pdfTitle = $value['uid'] . ', ';
+            }
+        } else {
+            $pdfTitle = $data['uid'];
+        }
+        $html = '<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>' . $pdfTitle . '</title>
+            </head>
+            <body style="margin:auto;">';
+
+        if ($type == 'multiple') {
+            foreach ($data as $key => $value) {
+                $images = json_decode($value['files']);
+                $html .= '<div style="margin-top:20px;page-break-after: always;">
+                                <div style="background: #18416c;padding: 7px 0px 8px 7px;text-align: center;color: white;font-size:large;font-weight:700;">
+                                    PHOTOS FOR : ' . $value['uid'] . '
+                                </div>';
+                foreach ($images as $key => $image) {
+                    $file = 'file' . ($key + 1);
+                    $desc = 'desc' . ($key + 1);
+                    if (file_exists($image->$file)) {
+                        $thisImage = $this->base64_encode_html_image($image->$file, '1x1');
+                        $html .= '<div style="border: 1px solid blue;margin-top: 20px;height: auto;">
+                                    <div style="margin-top: 20px;text-align: left;border: 1px solid blue;margin-right: 150px;margin-left: 150px;height: auto;">
+                                    <div style="text-align: center;height: 300px;">
+                                        ' . $thisImage . '
+                                    </div>
+                                    <div style="min-height: 40px;">
+                                    ' . $image->$desc . '
+                                    </div>
+                                </div></div>';
+                    }
+                }
+
+                $html .= '</div>';
+            }
+        } else {
+            $images = json_decode($data['files']);
+            $html .= '<div style="page-break-after: always;">
+                            <div style="background: #18416c;padding: 7px 0px 8px 7px;text-align: center;color: white;font-size:large;font-weight:700;">
+                                PHOTOS FOR : ' . $data['uid'] . '
+                            </div>';
+            foreach ($images as $key => $image) {
+                $file = 'file' . ($key + 1);
+                $desc = 'desc' . ($key + 1);
+                if (file_exists($image->$file)) {
+                    $thisImage = $this->base64_encode_html_image($image->$file, '1x1');
+                    $html .= '<div style="border: 1px solid blue;margin-top: 20px;height: auto;">
+                                <div style="margin-top: 20px;text-align: left;border: 1px solid blue;margin-right: 150px;margin-left: 150px;height: auto;">
+                                <div style="text-align: center;height: 300px;">
+                                    ' . $thisImage . '
+                                </div>
+                                <div style="min-height: 40px;">
+                                ' . $image->$desc . '
+                                </div>
+                            </div></div>';
+                }
+            }
+
+            $html .= '</div>';
+        }
+
+        $html .= '</body></html>';
+
+        // echo $html;
+        // return;
+
+        // instantiate and use the dompdf class
+        $encodedHtml = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+
+        $dompdf = new Dompdf();
+        $options = $dompdf->getOptions();
+        // $options->setDefaultFont('Courier');
+        $options->setIsHtml5ParserEnabled(true);
+
+        $dompdf->setOptions($options);
+
+        $dompdf->loadHtml($html, 'UTF-8');
+
+        $date = date('d-M-Y', time());
+        $file_name = 'TTG_PHOTOSTORAGE_' . time() . '.pdf';
+
+        $dompdf->loadHtml($encodedHtml);
+        $dompdf->render();
+        ob_end_clean();
+        return $dompdf->stream($file_name);
+    }
+
     public function manage_data_details($encodedID, $imageId = 0)
     {
         $uid = base64_decode($encodedID);
+        if ($this->request->getVar('verifyData')) {
+            return $this->verifyData($this->request->getVar('verifyData'));
+        }
 
         $this->data['encodedID'] = $encodedID;
 
@@ -310,7 +415,7 @@ class AssetDataController extends BaseController
             $objection_filekey = $this->request->getVar('objection_filekey');
             $objection = $this->request->getVar('objection');
             $thisFiles = json_decode($manage_data_details['files']);
-            $objection_desckey = 'desc' . $objection_index + 1;
+            $objection_desckey = 'desc' . ($objection_index + 1);
             // $thisFiles[$key - 1]->$commentKey = $comment;
             // return json_encode($thisFiles);
             // $manage_data_details['files'] = json_encode($thisFiles);
@@ -483,5 +588,38 @@ class AssetDataController extends BaseController
 
         $this->data['crn_data'] = $this->manageDataDb->orderBy('id', 'desc')->groupBy(['crn'])->findAll(10);
         return view('Dashboard/Admin/defect_analysis', $this->data);
+    }
+
+    private function base64_encode_html_image($img_file)
+    {
+        // if (!is_file($img_file)) {
+        //     return false;
+        // }
+
+        // $b64_file = "{$img_file}.b64";
+        // if ($cache && is_file($b64_file)) {
+        //     $b64 = file_get_contents($b64_file);
+        // } else {
+        $bin = file_get_contents($img_file);
+        $b64 = base64_encode($bin);
+
+        // if ($cache) {
+        //     file_put_contents($b64_file, $b64);
+        // }
+        // }
+
+        // if (!$ext) {
+        $ext = pathinfo($img_file, PATHINFO_EXTENSION);
+        // }
+
+        return "<img src='data:image/{$ext};base64,{$b64}' style='height:100%;'/>";
+    }
+    private function verifyData($dataId)
+    {
+        $data = $this->manageDataDb->find($dataId);
+        $data['verifyStatus'] = 1;
+        $saveData = $this->manageDataDb->save($data);
+        // return true;
+        return redirect()->route('manage_data');
     }
 }

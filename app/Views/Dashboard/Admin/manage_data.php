@@ -466,8 +466,16 @@
     }
 
     function onclickPdf(ids, single = true) {
+
+        var url = '/download-data-pdf/generate_multiple_pdf/' + JSON.stringify(ids);
+
+        window.open(url, "_blank");
+
+        return;
+
         // console.log(ids)
         var formName = single ? 'generate_single_pdf' : 'generate_multiple_pdf';
+        $ids = ids;
         $.ajax({
             type: 'POST',
             url: '',
@@ -481,30 +489,31 @@
             },
             success: function(result) {
                 var data = result;
-                console.log(data);
 
-                var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(data);
-                link.download = "TTG_PHOTOSTORAGE_" + new Date() + ".pdf";
-                link.click();
+                // console.log(data);
 
-                // var blob = new Blob([data], {
-                //     type: "application/octetstream"
-                // });
-                // var fileName = 'newPdf';
-                // var isIE = false || !!document.documentMode;
-                // if (isIE) {
-                //     window.navigator.msSaveBlob(blob, fileName);
-                // } else {
-                //     var url = window.URL || window.webkitURL;
-                //     link = url.createObjectURL(blob);
-                //     var a = $("<a />");
-                //     a.attr("download", fileName);
-                //     a.attr("href", link);
-                //     $("body").append(a);
-                //     a[0].click();
-                //     $("body").remove(a);
-                // }
+                // var link = document.createElement('a');
+                // link.href = window.URL.createObjectURL(data);
+                // link.download = "TTG_PHOTOSTORAGE_" + new Date() + ".pdf";
+                // link.click();
+
+                var blob = new Blob([data], {
+                    type: "application/octetstream"
+                });
+                var fileName = 'newPdf.pdf';
+                var isIE = false || !!document.documentMode;
+                if (isIE) {
+                    window.navigator.msSaveBlob(blob, fileName);
+                } else {
+                    var url = window.URL || window.webkitURL;
+                    link = url.createObjectURL(blob);
+                    var a = $("<a />");
+                    a.attr("download", fileName);
+                    a.attr("href", link);
+                    $("body").append(a);
+                    a[0].click();
+                    $("body").remove(a);
+                }
             }
         });
     }

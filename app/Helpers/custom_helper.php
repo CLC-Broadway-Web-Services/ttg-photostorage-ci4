@@ -286,10 +286,10 @@ if (!function_exists('asset_statistics')) {
             array_push($dates, date('d M Y', $currentDayStart));
             if ($country) {
                 $currentCounts = $filesMd->distinct()
-                ->select('ttg_post.*, ttg_login.id as user')
-                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                // ->groupBy('ttg_post.uid')
-                ->where('ttg_login.country', $country)->where(['ttg_post.time >=' => $currentDayStart, 'ttg_post.time <=' => $currentDayEnd])->countAllResults();
+                    ->select('ttg_post.*, ttg_login.id as user')
+                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                    // ->groupBy('ttg_post.uid')
+                    ->where('ttg_login.country', $country)->where(['ttg_post.time >=' => $currentDayStart, 'ttg_post.time <=' => $currentDayEnd])->countAllResults();
                 array_push($counts, $currentCounts);
             } else {
                 $currentCounts = $filesMd->groupBy('uid')->where(['time >=' => $currentDayStart, 'time <=' => $currentDayEnd])->countAllResults();
@@ -320,9 +320,9 @@ if (!function_exists('shipment_statistics')) {
             array_push($dates, date('d M Y', $currentDayStart));
             if ($country) {
                 $currentCounts = $shipMd->distinct()
-                ->select('ttg_ship.id, ttg_login.country')
-                ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
-                ->where('ttg_login.country', $country)->where(['ttg_ship.time >=' => $currentDayStart, 'ttg_ship.time <=' => $currentDayEnd])->countAllResults();
+                    ->select('ttg_ship.id, ttg_login.country')
+                    ->join('ttg_login', 'ttg_login.id = ttg_ship.userid')
+                    ->where('ttg_login.country', $country)->where(['ttg_ship.time >=' => $currentDayStart, 'ttg_ship.time <=' => $currentDayEnd])->countAllResults();
                 array_push($counts, $currentCounts);
             } else {
                 $currentCounts = $shipMd->where(['time >=' => $currentDayStart, 'time <=' => $currentDayEnd])->countAllResults();
@@ -561,18 +561,20 @@ if (!function_exists('generatePdf')) {
                                     PHOTOS FOR : ' . $value['uid'] . '
                                 </div>';
                 foreach ($images as $key => $image) {
-                    $file = 'file' . $key + 1;
-                    $desc = 'desc' . $key + 1;
-                    $thisImage = base64_encode_html_image($image->$file, '1x1');
-                    $html .= '<div style="border: 1px solid blue;margin-top: 20px;height: auto;">
-                                <div style="margin-top: 20px;text-align: left;border: 1px solid blue;margin-right: 150px;margin-left: 150px;height: auto;">
-                                <div style="text-align: center;height: 300px;">
-                                    ' . $thisImage . '
-                                </div>
-                                <div style="min-height: 40px;">
-                                ' . $image->$desc . '
-                                </div>
-                            </div></div>';
+                    $file = 'file' . ($key + 1);
+                    $desc = 'desc' . ($key + 1);
+                    if (file_exists($image->$file)) {
+                        $thisImage = base64_encode_html_image($image->$file, '1x1');
+                        $html .= '<div style="border: 1px solid blue;margin-top: 20px;height: auto;">
+                                    <div style="margin-top: 20px;text-align: left;border: 1px solid blue;margin-right: 150px;margin-left: 150px;height: auto;">
+                                    <div style="text-align: center;height: 300px;">
+                                        ' . $thisImage . '
+                                    </div>
+                                    <div style="min-height: 40px;">
+                                    ' . $image->$desc . '
+                                    </div>
+                                </div></div>';
+                    }
                 }
 
                 $html .= '</div>';
@@ -584,18 +586,20 @@ if (!function_exists('generatePdf')) {
                                 PHOTOS FOR : ' . $data['uid'] . '
                             </div>';
             foreach ($images as $key => $image) {
-                $file = 'file' . $key + 1;
-                $desc = 'desc' . $key + 1;
-                $thisImage = base64_encode_html_image($image->$file, '1x1');
-                $html .= '<div style="border: 1px solid blue;margin-top: 20px;height: auto;">
-                            <div style="margin-top: 20px;text-align: left;border: 1px solid blue;margin-right: 150px;margin-left: 150px;height: auto;">
-                            <div style="text-align: center;height: 300px;">
-                                ' . $thisImage . '
-                            </div>
-                            <div style="min-height: 40px;">
-                            ' . $image->$desc . '
-                            </div>
-                        </div></div>';
+                $file = 'file' . ($key + 1);
+                $desc = 'desc' . ($key + 1);
+                if (file_exists($image->$file)) {
+                    $thisImage = base64_encode_html_image($image->$file, '1x1');
+                    $html .= '<div style="border: 1px solid blue;margin-top: 20px;height: auto;">
+                                <div style="margin-top: 20px;text-align: left;border: 1px solid blue;margin-right: 150px;margin-left: 150px;height: auto;">
+                                <div style="text-align: center;height: 300px;">
+                                    ' . $thisImage . '
+                                </div>
+                                <div style="min-height: 40px;">
+                                ' . $image->$desc . '
+                                </div>
+                            </div></div>';
+                }
             }
 
             $html .= '</div>';
@@ -604,21 +608,50 @@ if (!function_exists('generatePdf')) {
         $html .= '</body></html>';
 
         // instantiate and use the dompdf class
+        $encodedHtml = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+
         $dompdf = new Dompdf();
         $options = $dompdf->getOptions();
         // $options->setDefaultFont('Courier');
         $options->setIsHtml5ParserEnabled(true);
 
+        $dompdf->setOptions($options);
+
         $dompdf->loadHtml($html, 'UTF-8');
 
+        $date = date('d-M-Y', time());
+        $file_name = 'TTG_PHOTOSTORAGE_' . $date . '.pdf';
+
+        $dompdf->loadHtml($encodedHtml);
+        $dompdf->render();
+        ob_end_clean();
+        return $dompdf->stream($file_name, array("Attachment" => false));
+        
         // (Optional) Setup the paper size and orientation
         // $dompdf->setPaper('A4', 'landscape');
 
         // Render the HTML as PDF
-        $dompdf->render();
+        // $dompdf->render();
+
+
+        // $html = mb_convert_encoding($output1, 'HTML-ENTITIES', 'UTF-8');
+        // $pdf = new Pdf();
+        // $options = $pdf->getOptions();
+
+        // $pdf->setOptions($options);
+
+        // $file_name = 'Halal-Certificate-' . $row["order_no"] . '.pdf';
+        // $pdf->loadHtml($html);
+        // $pdf->render();
+        // ob_end_clean();
+        // $pdf->stream($file_name, array("Attachment" => false));
+        // // die();
+
+
+
 
         // Output the generated PDF to Browser
-        return $dompdf->stream();
+        // return $dompdf->stream('TTG_PHOTOSTORAGE_' . $date . '.pdf', array("Attachment" => false));
     }
 }
 
@@ -654,5 +687,3 @@ if (!function_exists('verifyPassword')) {
     {
     }
 }
-
-
