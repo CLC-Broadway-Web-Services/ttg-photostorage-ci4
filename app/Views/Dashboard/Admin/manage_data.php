@@ -83,14 +83,11 @@
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Files</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right">Action
-                        </th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right"></th>
                     </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
-
             </table>
         </div>
     </div><!-- .card-preview -->
@@ -148,9 +145,10 @@
         return thisData;
     }
     var thisTable = NioApp.DataTable('#datatableX', {
+            fixedHeader: true,
         lengthMenu: [
-            [10, 15, 30, 50, 100, 200],
-            [10, 15, 30, 50, 100, 200]
+            [10, 15, 30, 50, 100, 200, 500, 1000],
+            [10, 15, 30, 50, 100, 200, 500, 1000]
         ],
         buttons: [{
                 extend: 'copy',
@@ -232,7 +230,7 @@
             },
             {
                 data: "actions",
-                className: "nk-tb-col nk-tb-col-tools",
+                className: "nk-tb-col py-0 text-right",
                 render: function(data, type, row) {
                     return type === 'export' ? formatLink(data) : data;
                 }

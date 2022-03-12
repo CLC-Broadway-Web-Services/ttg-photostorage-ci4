@@ -27,9 +27,9 @@ class ClientController extends BaseController
                 $getId = $this->request->getVar('id');
                 return $this->clientDb->delete($getId);
             }
-            
+
             if ($this->request->getVar('assign')) {
-               
+
                 $getId = $this->request->getVar('id');
                 $new_crn = $this->request->getVar('superheroAlias');
                 $crnData = [
@@ -37,9 +37,9 @@ class ClientController extends BaseController
                     'userid' => $getId,
                     'time' => time(),
                 ];
-            //   return print_r(json_encode($crnData));
-                 $this->crnAssign->save($crnData);
-                $assi = $this->crnAssign->where('userid',$getId)->find();
+                //   return print_r(json_encode($crnData));
+                $this->crnAssign->save($crnData);
+                $assi = $this->crnAssign->where('userid', $getId)->find();
                 return print_r(json_encode($assi));
                 // return json_encode(array_merge($assignedCrn,$assi));
                 // if ($assignedCrn) {
@@ -74,34 +74,30 @@ class ClientController extends BaseController
                 'type' => 'client',
             ];
 
-            if($clientPassword) {
+            if ($clientPassword) {
                 $clientData['pass'] = $clientPassword;
             }
 
-            if($clientId > 0) {
+            if ($clientId > 0) {
                 $clientData['id'] = $clientId;
-            } else{
-                // new client here
-                // $check = $this->clientDb->where('email', $clientEmail)->first();
-                // if ($check) {
-                //     return redirect()->route('manage_client')->with('error', 'email exist');
-                // }
-                if(isset($clientData['id'])) {
+            } else {
+                if (isset($clientData['id'])) {
                     unset($clientData['id']);
                 }
             }
             // return print_r($clientData);
-            $saveQuery = $this->clientDb->save($clientData);
-  
-            if ($saveQuery) {
+            // $saveQuery = $this->clientDb->save($clientData);
+
+            if ($this->clientDb->save($clientData)) {
                 $this->session->setFlashdata("success", "This is success message");
-                return redirect()->route('manage_client');
             } else {
-                $response['message'] = 'User not found';
+                $this->session->setFlashdata("error", json_encode($this->clientDb->errors()));
+                // $response['message'] = 'User not found';
             }
+            return redirect()->route('manage_client');
         }
     }
-    public function getCrn(){
-
+    public function getCrn()
+    {
     }
 }

@@ -682,8 +682,8 @@ if (!function_exists('base64_encode_html_image')) {
     }
 }
 
-if (!function_exists('verifyPassword')) {
-    function verifyPassword()
-    {
-    }
-}
+// if (!function_exists('verifyPassword')) {
+//     function verifyPassword()
+//     {
+//     }
+// }

@@ -7,7 +7,7 @@
         <div class="nk-block-head-content">
             <div class="row">
                 <div class="col-md-6 col-12">
-                    <h4 class="nk-block-title">Creat User</h4>
+                    <h4 class="nk-block-title">Create User</h4>
                 </div>
                 <div class="col-md-6 col-12">
                     <a href="#" type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalDefault">

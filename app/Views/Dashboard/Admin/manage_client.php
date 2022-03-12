@@ -36,11 +36,8 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr class="nk-tb-item">
-                        <?php foreach ($manage_client as $key => $clients) :
-                            $id = $clients['id'];
-                        ?>
+                    <?php foreach ($manage_client as $key => $clients) : ?>
+                        <tr class="nk-tb-item">
 
                             <td class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
@@ -99,9 +96,9 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <ul class="link-list-opt no-bdr">
 
-                                                    <?= $clients['crn_status'] == 'super' ? '' : '<li><a href="javascript:void(0);" onclick="grnId(' . "'" . $id . "'" . ')" data-toggle="modal" data-target="#assignCrn"><em class="icon ni ni-user-check-fill"></em><span>Assign CRN</span></a></li>' ?>
-                                                    <li><a href="javascript:void(0);" onclick="editData('<?php echo $id; ?>')"><em class="icon ni ni-pen"></em><span>Edit</span></a></li>
-                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?php echo $id; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+                                                    <?= $clients['crn_status'] == 'super' ? '' : '<li><a href="javascript:void(0);" onclick="grnId(' . "'" . $clients['id'] . "'" . ')" data-toggle="modal" data-target="#assignCrn"><em class="icon ni ni-user-check-fill"></em><span>Assign CRN</span></a></li>' ?>
+                                                    <li><a href="javascript:void(0);" onclick="editData('<?= $clients['id']; ?>')"><em class="icon ni ni-pen"></em><span>Edit</span></a></li>
+                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?= $clients['id']; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
 
                                                 </ul>
                                             </div>
@@ -109,8 +106,8 @@
                                     </li>
                                 </ul>
                             </td>
-                    </tr><!-- .nk-tb-item  -->
-                <?php endforeach; ?>
+                        </tr><!-- .nk-tb-item  -->
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -464,7 +461,7 @@
 
                     <input type="hidden" id="as" name="assign_crn" class="form-control">
                     <input type="text" id="assign_crn" name="assign_crn" class="form-control">
-                    <a href="javascript:void(0);" class="btn btn-dim btn-primary ml-2" onclick="assignCrn('<?php echo $id; ?>')">Assign</a>
+                    <a href="javascript:void(0);" class="btn btn-dim btn-primary ml-2" onclick="assignCrn('<?= $clients['id']; ?>')">Assign</a>
                 </form>
                 <div class="card card-preview mt-4 bg-light">
                     <div class="card-inner">
@@ -561,6 +558,26 @@
             title: "Saved",
             text: "New Client Saved",
             icon: "success",
+        });
+    <?php } ?>
+    <?php if (session()->getFlashdata("error")) { ?>
+        const errors = <?= session()->getFlashdata("error") ?>;
+        // const errors = {
+        //     "email": "Sorry. That email has already been taken. Please choose another.",
+        //     "mobile": "Sorry. That mobile has already been taken. Please choose another."
+        // };
+        var errorsArray = Object.keys(errors).map((key) => [key, errors[key]]);
+        console.log(errorsArray);
+
+        var errorMessages = '';
+        errorsArray.forEach(function(element) {
+            errorMessages += element[1] + "\n";
+        });
+        console.log(errorMessages);
+        swal({
+            title: "Sorry",
+            text: errorMessages + '',
+            icon: "error",
         });
     <?php } ?>
 

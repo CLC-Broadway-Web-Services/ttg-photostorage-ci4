@@ -208,22 +208,23 @@ class ManageShipmentController extends BaseController
                 //             <input type="checkbox" class="custom-control-input" value="uid1" id="uid1">
                 //             <label class="custom-control-label" for="uid1"></label>
                 //         </div>';
+                // <li><a class="text-danger" href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                 $id = $shipment['id'];
                 $popupWindowUrl = base_url(route_to('manage_shipment_details', base64_encode($id)));
-                $actionsHtml = '<ul class="nk-tb-actions gx-1" dataLink="' . $popupWindowUrl . '">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                    <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '"><em class="icon ni ni-share"></em><span>Share</span></a></li>
-                                                    <li><a class="text-danger" href="javascript:void(0);" onclick="deleteData(' . "'" . $id . "'" . ')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>';
+                // $actionsHtml = '<ul class="nk-tb-actions gx-1" dataLink="' . $popupWindowUrl . '">
+                //                     <li>
+                //                         <div class="drodown">
+                //                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                //                             <div class="dropdown-menu dropdown-menu-right">
+                //                                 <ul class="link-list-opt no-bdr">
+                //                                     <li><a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="open_new_window"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                //                                     <li><a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '"><em class="icon ni ni-share"></em><span>Share</span></a></li>
+                //                                 </ul>
+                //                             </div>
+                //                         </div>
+                //                     </li>
+                //                 </ul>';
+                $actionsHtml = '<a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
 
                 $shipments[$key]['condition'] = $shipment['box_condition'];
                 $shipments[$key]['actions'] = $actionsHtml;
