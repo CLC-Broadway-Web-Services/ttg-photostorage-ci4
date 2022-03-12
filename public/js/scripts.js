@@ -488,16 +488,17 @@
   NioApp.DataTable = function (elm, opt) {
     if ($(elm).exists()) {
       $(elm).each(function () {
-        var auto_responsive = $(this).data('auto-responsive'),
+        var auto_responsive = $(this).data('auto-responsive') ? 'table-responsive' : '',
           has_export = typeof opt.buttons !== 'undefined' && opt.buttons ? true : false;
         // var export_title = $(this).data('export-title') ? $(this).data('export-title') : 'Export';
         var export_title = $(this).data('export-title') ? $(this).data('export-title') : '';
         var btn = has_export ? '<"dt-export-buttons d-flex align-center"<"dt-export-title d-none d-md-inline-block">B>' : '',
           btn_cls = has_export ? ' with-export' : '';
-        var dom_normal = '<"row justify-between g-2' + btn_cls + '"<"col-7 col-sm-4 text-left"f><"col-5 col-sm-8 text-right"<"datatable-filter"<"d-flex justify-content-end g-2"' + btn + 'l>>>><"datatable-wrap my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-left text-md-right"i>>';
+        var dom_normal = '<"row justify-between g-2' + btn_cls + '"<"col-7 col-sm-4 text-left"f><"col-5 col-sm-8 text-right"<"datatable-filter"<"d-flex justify-content-end g-2"' + btn + 'l>>>><"datatable-wrap ' + auto_responsive + ' my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-left text-md-right"i>>';
         var dom_separate = '<"row justify-between g-2' + btn_cls + '"<"col-7 col-sm-4 text-left"f><"col-5 col-sm-8 text-right"<"datatable-filter"<"d-flex justify-content-end g-2"' + btn + 'l>>>><"my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-left text-md-right"i>>';
         var dom = $(this).hasClass('is-separate') ? dom_separate : dom_normal;
         var def = {
+          // fixedHeader: $(this).data('auto-responsive') ? $(this).data('auto-responsive') : false,
           responsive: true,
           autoWidth: false,
           dom: dom + 'r',
@@ -939,3 +940,12 @@ $(document).ajaxStart(function (event, request, settings) {
 $(document).ajaxComplete(function (event, request, settings) {
   stopLoader();
 });
+
+
+// if($('.nav-link').length) {
+//   $('.nav-link').on('click', function(){
+//     if($(this).className) {
+
+//     }
+//   })
+// }

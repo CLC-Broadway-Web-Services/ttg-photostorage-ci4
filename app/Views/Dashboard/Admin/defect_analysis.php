@@ -117,10 +117,8 @@
                                 <th class="nk-tb-col tb-col-mb"><span class="sub-text">CRN</span></th>
                                 <th class="nk-tb-col tb-col-md"><span class="sub-text">Asset ID</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text">Time</span></th>
-                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Device Type</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Device<br>Type</span></th>
                                 <th class="nk-tb-col tb-col-lg"><span class="sub-text"> Defects</span></th>
-                                <!-- <th class="nk-tb-col nk-tb-col-tools text-right">Action
-                        </th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -205,16 +203,14 @@
 
 
         NioApp.DataTable('#datatableX', {
-            responsive: {
-                details: true
-            },
+            fixedHeader: true,
             createdRow: function(row, data, dataIndex) {
                 // Set the data-status attribute, and add a class
                 $(row).addClass('nk-tb-item');
             },
             lengthMenu: [
-                [10, 15, 30, 50, 100, 200],
-                [10, 15, 30, 50, 100, 200]
+                [10, 15, 30, 50, 100, 200, 500, 1000],
+                [10, 15, 30, 50, 100, 200, 500, 1000]
             ], // page length options
             bProcessing: true,
             serverSide: true,

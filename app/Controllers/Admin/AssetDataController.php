@@ -224,6 +224,8 @@ class AssetDataController extends BaseController
                                     </li>
                                 </ul>';
 
+                $actionsHtml = '<a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>|<a href="javascript:void(0);" onclick="myFunction(' . "'" . $popupWindowUrl . "'" . ')" class="btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
+
                 $manageData[$key]['actions'] = $actionsHtml;
 
                 $manageData[$key]['time'] = '<span>' . date("d M Y, g:s A", $manage['time']) . '</span>';

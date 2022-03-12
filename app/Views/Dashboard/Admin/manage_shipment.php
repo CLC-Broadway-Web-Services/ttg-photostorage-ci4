@@ -42,21 +42,20 @@
     </div>
 
     <div class="card card-preview">
-        <div class="card-inner table-responsive">
+        <div class="card-inner">
 
             <!-- <form id="frm-example" action="/path/to/your/script.php" method="POST"> -->
-            <table class="nk-tb-list nk-tb-ulist nowrap dtr-inline table" id="datatableX" data-auto-responsive="false">
+            <table class="nk-tb-list nk-tb-ulist nowrap dtr-inline table" id="datatableX" data-auto-responsive="true">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col"></th>
                         <th class="nk-tb-col"><span class="sub-text">Staff Id</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">CRN</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Date & <br>Time</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Logistic <br> Company</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Country</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Packaging <br>Quality</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right">Action
-                        </th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">CRN</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Date-Time</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Logistic<br>Company</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Packaging<br>Quality</span></th>
+                        <th class="nk-tb-col text-right"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,9 +77,10 @@
         return thisData;
     }
     var thisTable = NioApp.DataTable('#datatableX', {
+            fixedHeader: true,
         lengthMenu: [
-            [10, 15, 30, 50, 100, 200],
-            [10, 15, 30, 50, 100, 200]
+            [10, 15, 30, 50, 100, 200, 500, 1000],
+            [10, 15, 30, 50, 100, 200, 500, 1000]
         ],
         buttons: [{
                 extend: 'copy',
@@ -153,27 +153,27 @@
             },
             {
                 data: "crn",
-                className: "nk-tb-col"
+                className: "nk-tb-col tb-col-md"
             },
             {
                 data: "time",
-                className: "nk-tb-col"
+                className: "nk-tb-col tb-col-md"
             },
             {
                 data: "logistic_company",
-                className: "nk-tb-col"
+                className: "nk-tb-col tb-col-md"
             },
             {
                 data: "userCountry",
-                className: "nk-tb-col"
+                className: "nk-tb-col tb-col-md"
             },
             {
                 data: "box_condition",
-                className: "nk-tb-col"
+                className: "nk-tb-col tb-col-md"
             },
             {
                 data: "actions",
-                className: "nk-tb-col nk-tb-col-tools py-0",
+                className: "nk-tb-col py-0 text-right",
                 render: function(data, type, row) {
                     return type === 'export' ? formatLink(data) : data;
                 }

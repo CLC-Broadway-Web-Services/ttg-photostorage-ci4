@@ -8,17 +8,21 @@ use App\Models\Admin\ManageUserModel;
 
 class ManageUsersController extends BaseController
 {
-
+    protected $client;
     protected $manageClient;
     protected $manageUser;
     protected $session;
 
     public function __construct()
     {
-
+        $this->client = (object) session()->get('user');
         $this->manageClient = new AdminModel();
         $this->manageUser = new ManageUserModel();
         $this->session = session();
+        if($this->client['crn_status'] != 'super'){
+            return redirect()->route('client_index');
+            exit;
+        }
     }
 
     public function creat_user()
@@ -36,22 +40,22 @@ class ManageUsersController extends BaseController
             $lastGuestNumber = str_replace('ttg-', '', $lastGuest['username']);
             // return print_r($lastGuest);
             if ($lastGuestNumber < 10) {
-                $new_username = 'ttg-00000' . $lastGuestNumber + 1;
+                $new_username = 'ttg-00000' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 9) {
-                $new_username = 'ttg-0000' . $lastGuestNumber + 1;
+                $new_username = 'ttg-0000' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 99) {
-                $new_username = 'ttg-000' . $lastGuestNumber + 1;
+                $new_username = 'ttg-000' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 999) {
-                $new_username = 'ttg-00' . $lastGuestNumber + 1;
+                $new_username = 'ttg-00' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 9999) {
-                $new_username = 'ttg-0' . $lastGuestNumber + 1;
+                $new_username = 'ttg-0' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 99999) {
-                $new_username = 'ttg-' . $lastGuestNumber + 1;
+                $new_username = 'ttg-' . intval(intval($lastGuestNumber) + 1);
             }
         }
         $this->data['new_username'] = $new_username;

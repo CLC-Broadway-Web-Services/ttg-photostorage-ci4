@@ -40,8 +40,21 @@ class AdminModel extends Model
     // protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules      = [
+        'name'     => 'required|alpha_numeric_space|min_length[3]',
+        'email'        => 'required|valid_email|is_unique[ttg_login.email]',
+        'mobile'        => 'required|is_unique[ttg_login.mobile]',
+        'country'        => 'required',
+        'password'     => 'required|min_length[8]'
+    ];
+    protected $validationMessages   = [
+        'email'        => [
+            'is_unique' => 'That email has already been taken.',
+        ],
+        'mobile'        => [
+            'is_unique' => 'That mobile has already been taken.',
+        ],
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
@@ -58,7 +71,6 @@ class AdminModel extends Model
 
     public function manage_client()
     {
-
         return $this->findAll();
     }
 }

@@ -22,7 +22,7 @@ class ManageUsersController extends BaseController
 
     public function manage_client()
     {
-        if(session()->get('loginType') == 'admin') {
+        if (session()->get('loginType') == 'admin') {
             $country = session()->get('user.country');
             $this->data['manage_client'] = $this->manageClient->where('type', 'client')->where('country', $country)->orderBy('id', 'desc')->findAll();
         } else {
@@ -33,7 +33,7 @@ class ManageUsersController extends BaseController
 
     public function testing_staff()
     {
-        if(session()->get('loginType') == 'admin') {
+        if (session()->get('loginType') == 'admin') {
             $country = session()->get('user.country');
             $this->data['testing_staff'] = $this->manageClient->where('type', 'staff')->where('country', $country)->orderBy('id', 'desc')->findAll();
         } else {
@@ -107,7 +107,7 @@ class ManageUsersController extends BaseController
 
     public function shipping_staff()
     {
-        if(session()->get('loginType') == 'admin') {
+        if (session()->get('loginType') == 'admin') {
             $country = session()->get('user.country');
             $this->data['shipping_staff'] = $this->manageClient->where('type', 'ship')->where('country', $country)->orderBy('id', 'desc')->findAll();
         } else {
@@ -183,7 +183,7 @@ class ManageUsersController extends BaseController
 
     public function manage_admin()
     {
-        if(session()->get('loginType') == 'admin') {
+        if (session()->get('loginType') == 'admin') {
             $country = session()->get('user.country');
             $this->data['manage_admin'] = $this->manageClient->where('country', $country)->where('type !=', 'staff')->where('type !=', 'client')->where('type !=', 'ship')->orderBy('id', 'desc')->findAll();
         } else {
@@ -258,7 +258,7 @@ class ManageUsersController extends BaseController
 
     public function creat_user()
     {
-        if(session()->get('loginType') == 'admin') {
+        if (session()->get('loginType') == 'admin') {
             $country = session()->get('user.country');
             $this->data['manage_user'] = $this->manageClient->where('type', 'guest')->where('country', $country)->orderBy('id', 'desc')->findAll();
         } else {
@@ -271,22 +271,22 @@ class ManageUsersController extends BaseController
             $lastGuestNumber = str_replace('ttg-', '', $lastGuest['username']);
             // return print_r($lastGuest);
             if ($lastGuestNumber < 10) {
-                $new_username = 'ttg-00000' . $lastGuestNumber + 1;
+                $new_username = 'ttg-00000' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 9) {
-                $new_username = 'ttg-0000' . $lastGuestNumber + 1;
+                $new_username = 'ttg-0000' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 99) {
-                $new_username = 'ttg-000' . $lastGuestNumber + 1;
+                $new_username = 'ttg-000' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 999) {
-                $new_username = 'ttg-00' . $lastGuestNumber + 1;
+                $new_username = 'ttg-00' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 9999) {
-                $new_username = 'ttg-0' . $lastGuestNumber + 1;
+                $new_username = 'ttg-0' . intval(intval($lastGuestNumber) + 1);
             }
             if ($lastGuestNumber > 99999) {
-                $new_username = 'ttg-' . $lastGuestNumber + 1;
+                $new_username = 'ttg-' . intval(intval($lastGuestNumber) + 1);
             }
         }
         $this->data['new_username'] = $new_username;
