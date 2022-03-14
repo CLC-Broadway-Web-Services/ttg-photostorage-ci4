@@ -19,7 +19,7 @@ class ManageUsersController extends BaseController
         $this->manageClient = new AdminModel();
         $this->manageUser = new ManageUserModel();
         $this->session = session();
-        if($this->client['crn_status'] != 'super'){
+        if($this->client->crn_status != 'super'){
             return redirect()->route('client_index');
             exit;
         }

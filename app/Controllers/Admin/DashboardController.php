@@ -3,10 +3,6 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\Admin\AdminModel;
-use App\Models\Admin\FilesModel;
-use App\Models\Admin\ManageShipmentModel;
-use App\Models\Admin\PostsModel;
 
 class DashboardController extends BaseController
 {

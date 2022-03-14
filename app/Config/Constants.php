@@ -79,3 +79,4 @@ defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define('APP_NAME', 'TTG-PHOTOSTORAGE');
+define('APP_EMAIL_MAIN', 'inf0@ttg-photostorage.com');
