@@ -96,7 +96,7 @@
 <!-- Modal Content Code -->
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <form class="modal-content" action="" novalidate="novalidate" method="post">
             <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                 <em class="icon ni ni-cross"></em>
             </a>
@@ -104,9 +104,9 @@
                 <h5 class="modal-title">Add Admin</h5>
             </div>
             <div class="modal-body">
-                <form action="<?= route_to('edit_manage_admin') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
+                <div class="form-validate is-alter row">
                     <input name="modal_admin_id" value="0" class="d-none" id="modal_admin_id">
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Name</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -115,7 +115,7 @@
                             <input type="text" class="form-control" id="modal_admin_name" name="name" required placeholder="Name">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Email address</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -124,7 +124,7 @@
                             <input type="email" class="form-control" id="modal_admin_email" name="email" required placeholder="Email address">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Phone</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -134,7 +134,7 @@
                             <input type="number" class="form-control" id="modal_admin_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Country</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -393,7 +393,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Password</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -402,15 +402,22 @@
                             <input type="text" class="form-control" id="modal_admin_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary">Add Admin</button>
+                    <input name="add_admin" class="d-none" value="add_admin">
+                    <div class="form-group col-12">
+                        <label class="form-label" for="user_avatarLabel">Profile Pic</label>
+                        <div class="form-control-wrap">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="user_avatar" name="profile_pic">
+                                <label class="custom-file-label" for="user_avatar">Choose file</label>
+                            </div>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer bg-light">
-                <span class="sub-text">TTG Photostorage</span>
+            <div class="modal-footer bg-light py-1">
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -490,5 +497,28 @@
         $('modal_admin_country').val('');
         $('modal_admin_password').val('');
     })
+    <?php if (session()->get("adminsave")) { ?>
+        // console.log('adminsave found');
+        const savedData = '<?= session()->get("adminsave.success") ?>'
+        const message = "<?= session()->get("adminsave.message") ?>";
+        console.log(savedData);
+        console.log(message);
+        if (savedData == true) {
+            console.log('adminsave success found');
+            swal({
+                title: "Saved",
+                text: message,
+                icon: "success",
+            });
+        } else {
+            console.log('adminsave success not found');
+            swal({
+                title: "Sorry",
+                text: message,
+                icon: "error",
+            });
+        }
+    <?php } ?>
+    <?php session()->remove("adminsave") ?>
 </script>
 <?= $this->endSection() ?>

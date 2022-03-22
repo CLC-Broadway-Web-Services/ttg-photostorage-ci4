@@ -32,21 +32,21 @@ class ReportsController extends BaseController
                     $country = session()->get('user.country');
                     $activityData = $this->activityLogs
                         ->where("country", $country)
-                        ->where('datauid', $search_value)
+                        ->like('datauid', $search_value)
                         ->orderBy('id', 'desc')->offset($start)->findAll($length);
                     $count = $this->activityLogs
                         ->where("country", $country)
-                        ->where('datauid', $search_value)
+                        ->like('datauid', $search_value)
                         ->orderBy('id', 'desc')->countAllResults();
 
                     // $this->data['activity_logs'] = $this->activityLogs->where('country', $country)->orderBy('id', 'desc')->findAll();
                 } else {
                     // $this->data['activity_logs'] = $this->activityLogs->orderBy('id', 'desc')->findAll(50);
                     $activityData = $this->activityLogs
-                        ->where('datauid', $search_value)
+                        ->like('datauid', $search_value)
                         ->orderBy('id', 'desc')->offset($start)->findAll($length);
                     $count = $this->activityLogs
-                        ->where('datauid', $search_value)
+                        ->like('datauid', $search_value)
                         ->orderBy('id', 'desc')->countAllResults();
                 }
             } else {

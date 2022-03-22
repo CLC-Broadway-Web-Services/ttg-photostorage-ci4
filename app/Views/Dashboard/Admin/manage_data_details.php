@@ -100,7 +100,7 @@
         </div>
     </div>
 </div>
-<button class="closeButton" style="cursor: pointer" id="closeCurrentWindow" onclick="window.close();"></button>
+<!-- <button class="closeButton" style="cursor: pointer" id="closeCurrentWindow" onclick="window.close();"></button> -->
 
 
 <?= $this->endSection() ?>

@@ -34945,3 +34945,6 @@ body.dark-mode.ui-shady, body.dark-mode.ui-clean, body.dark-mode.bg-lighter, .du
         background-color: #212d3d;
     }
 }
+.is-invalid {
+    margin-bottom: 0 !important;
+}

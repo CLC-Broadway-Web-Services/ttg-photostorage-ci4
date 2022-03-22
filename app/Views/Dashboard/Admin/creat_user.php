@@ -1,4 +1,4 @@
-<?= $this->extend('Dashboard/layout') ?>
+<?= $this->extend('Dashboard/' . $layout) ?>
 
 <?= $this->section('content') ?>
 
@@ -79,7 +79,7 @@
 <!-- Modal Content Code -->
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <form class="modal-content" action="" novalidate="novalidate" method="post">
             <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                 <em class="icon ni ni-cross"></em>
             </a>
@@ -87,10 +87,9 @@
                 <h5 class="modal-title">Add New User</h5>
             </div>
             <div class="modal-body">
-                <form action="<?= route_to('create') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
-                    <input name="current_user" value="<?= session()->get('user.id') ?>" class="d-none" id="current_user">
+                <div class="form-validate is-alter row">
                     <input name="modal_create_user_id" value="0" class="d-none" id="modal_create_user_id">
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12 d-none">
                         <label class="form-label" for="default-03">User Name</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -99,7 +98,7 @@
                             <input type="text" class="form-control" id="modal_create_user_name" name="username" value="<?= $new_username ?>" placeholder="User Name">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Name</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -108,7 +107,7 @@
                             <input type="text" class="form-control" id="modal_admin_name" name="name" required placeholder="Name">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Email address</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -117,7 +116,7 @@
                             <input type="email" class="form-control" id="modal_admin_email" name="email" required placeholder="Email address">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Phone</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -127,7 +126,7 @@
                             <input type="number" class="form-control" id="modal_admin_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Country</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -386,7 +385,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Password</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
@@ -395,15 +394,22 @@
                             <input type="text" class="form-control" id="modal_admin_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary">Add Admin</button>
+                    <input name="add_guest_user" class="d-none" value="add_guest_user">
+                    <div class="form-group col-12">
+                        <label class="form-label" for="user_avatarLabel">Profile Pic</label>
+                        <div class="form-control-wrap">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="user_avatar" name="profile_pic">
+                                <label class="custom-file-label" for="user_avatar">Choose file</label>
+                            </div>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer bg-light">
-                <span class="sub-text">TTG Photostorage</span>
+            <div class="modal-footer bg-light py-1">
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -423,7 +429,7 @@
                 if (willDelete) {
                     $.ajax({
                         type: 'POST',
-                        url: '<?= base_url(route_to('create')); ?>',
+                        url: '',
                         data: {
                             delete: 'del',
                             id: id
@@ -452,7 +458,7 @@
         console.log(id);
         $.ajax({
             type: 'POST',
-            url: '<?= base_url(route_to('create')); ?>',
+            url: '',
             data: {
                 edit: 'edit',
                 id: id
@@ -485,5 +491,28 @@
         $('modal_create_user_country').val('');
         $('modal_create_user_password').val('');
     })
+    <?php if (session()->get("guestsave")) { ?>
+        // console.log('guestsave found');
+        const savedData = '<?= session()->get("guestsave.success") ?>'
+        const message = "<?= session()->get("guestsave.message") ?>";
+        console.log(savedData);
+        console.log(message);
+        if (savedData == true) {
+            console.log('guestsave success found');
+            swal({
+                title: "Saved",
+                text: message,
+                icon: "success",
+            });
+        } else {
+            console.log('guestsave success not found');
+            swal({
+                title: "Sorry",
+                text: message,
+                icon: "error",
+            });
+        }
+    <?php } ?>
+    <?php session()->remove("guestsave") ?>
 </script>
 <?= $this->endSection() ?>

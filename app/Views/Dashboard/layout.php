@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx" class="js">
+<html lang="en" class="js">
 
 <head>
     <?= view('globals/headermeta') ?>
@@ -143,10 +143,10 @@ $uri = current_url(true);
                                             </div>
                                         </a>
                                     </li>
-                                    <?php if(session()->get('loginType') == 'admin') : ?>
-                                    <li class="">
-                                        <em class="icon ni ni-globe"></em> <?= session()->get('user.country');  ?>
-                                    </li>
+                                    <?php if (session()->get('loginType') == 'admin') : ?>
+                                        <li class="">
+                                            <em class="icon ni ni-globe"></em> <?= session()->get('user.country');  ?>
+                                        </li>
                                     <?php endif; ?>
                                     <!-- <li class="dropdown chats-dropdown hide-mb-xs">
                                         <a href="<?= route_to('app_chats') ?>" class="dropdown-toggle nk-quick-nav-icon" data-toggle="">
@@ -226,15 +226,18 @@ $uri = current_url(true);
                                         </div>
                                     </li> -->
                                     <li class="dropdown user-dropdown">
-
-
                                         <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
                                             <div class="user-toggle">
                                                 <div class="user-avatar sm">
-                                                    <em class="icon ni ni-user-alt"></em>
+                                                    <?php if (!empty(session()->get('user.profile_pic')) && session()->get('user.profile_pic')) { ?>
+                                                        <img src="<?= session()->get('user.profile_pic') ?>">
+                                                    <?php } else { ?>
+                                                        <em class="icon ni ni-user-alt"></em>
+                                                        <!-- <img src="/public/images/default-image-512.jpg"> -->
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="user-info d-none d-xl-block">
-                                                    <div class="user-status user-status-unverified"><?php  ?></div>
+                                                    <div class="user-status user-status-verified"><?= ucfirst(session()->get('user.type')) ?></div>
                                                     <div class="user-name dropdown-indicator"><?= session()->get('user.name');  ?></div>
                                                 </div>
                                             </div>
@@ -243,7 +246,11 @@ $uri = current_url(true);
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span><?= strtoupper(substr(session()->get('user.name'), 0, 2)); ?></span>
+                                                    <?php if (!empty(session()->get('user.profile_pic')) && session()->get('user.profile_pic')) { ?>
+                                                        <img src="<?= session()->get('user.profile_pic') ?>">
+                                                        <?php } else { ?>
+                                                            <span><?= strtoupper(substr(session()->get('user.name'), 0, 2)); ?></span>
+                                                        <?php } ?>
                                                     </div>
                                                     <div class="user-info">
                                                         <span class="lead-text"><?= session()->get('user.name');  ?></span>
@@ -253,9 +260,9 @@ $uri = current_url(true);
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <!-- <li><a href="#"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
+                                                    <li><a href="<?= route_to('admin_profile') ?>"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                    <!-- <li><a href="#"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
+                                                    <!-- <li><a href="#"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>
                                             </div>

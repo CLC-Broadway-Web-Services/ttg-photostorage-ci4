@@ -484,7 +484,6 @@ class AssetDataController extends BaseController
 
     public function defect_analysis()
     {
-
         // $testData = $this->manageDataDb->selectCount('defect')->select('device_type','crn')->where('crn', 'EOL-000002711')->groupBy(['device_type'])->findAll();
         // $testData = $this->manageDataDb->select('device_type, defect')->where('crn', 'EOL-000002711')->findAll();
         // $testData = $this->manageDataDb->select('device_type, defect')->where('crn', 'EOL-000000589')->groupBy(['device_type', 'defect'])->findAll();
