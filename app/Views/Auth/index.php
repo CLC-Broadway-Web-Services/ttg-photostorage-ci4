@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx" class="js">
+<html lang="en" class="js">
 
 <head>
     <base href="../../../">
@@ -98,5 +98,17 @@
     <!-- JavaScript -->
     <script src="/public/js/bundle.js?ver=2.4.0"></script>
     <script src="/public/js/scripts.js?ver=2.4.0"></script>
+    <script src="/public/js/libs/sweetalert.min.js" type="text/javascript"></script>
+    <?php if (session()->get('loginError')) { ?>
+        <script>
+            Swal.fire(
+                'Error!',
+                '<?= session()->get('loginError') ?>',
+                'error'
+            );
+        </script>
+    <?php }
+    session()->remove('loginError') ?>
+</body>
 
 </html>

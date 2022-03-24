@@ -1,0 +1,317 @@
+[05-Jul-2020 18:03:21 UTC] PHP Warning:  fopen(/home/nnucoin/public_html/wes/hex.pdf): failed to open stream: No such file or directory in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php on line 44
+[05-Jul-2020 18:03:21 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: No stream given. in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php:106
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php(45): setasign\Fpdi\PdfParser\StreamReader->__construct(false, true)
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdiTrait.php(142): setasign\Fpdi\PdfParser\StreamReader::createByFile('/home/nnucoin/p...')
+#2 /home/gkgwag1klb6b/public_html/wes/src/FpdiTrait.php(178): setasign\Fpdi\Fpdi->getPdfReaderId('/home/nnucoin/p...')
+#3 /home/gkgwag1klb6b/public_html/wes/reports.php(8): setasign\Fpdi\Fpdi->setSourceFile('/home/nnucoin/p...')
+#4 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php on line 106
+[05-Jul-2020 18:05:17 UTC] PHP Warning:  fopen(/home/nnucoin/public_html/wes/hex.pdf): failed to open stream: No such file or directory in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php on line 44
+[05-Jul-2020 18:05:17 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: No stream given. in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php:106
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php(45): setasign\Fpdi\PdfParser\StreamReader->__construct(false, true)
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdiTrait.php(142): setasign\Fpdi\PdfParser\StreamReader::createByFile('/home/nnucoin/p...')
+#2 /home/gkgwag1klb6b/public_html/wes/src/FpdiTrait.php(178): setasign\Fpdi\Fpdi->getPdfReaderId('/home/nnucoin/p...')
+#3 /home/gkgwag1klb6b/public_html/wes/reports.php(8): setasign\Fpdi\Fpdi->setSourceFile('/home/nnucoin/p...')
+#4 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php on line 106
+[05-Jul-2020 18:05:21 UTC] PHP Warning:  fopen(/home/nnucoin/public_html/wes/hex.pdf): failed to open stream: No such file or directory in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php on line 44
+[05-Jul-2020 18:05:21 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: No stream given. in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php:106
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php(45): setasign\Fpdi\PdfParser\StreamReader->__construct(false, true)
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdiTrait.php(142): setasign\Fpdi\PdfParser\StreamReader::createByFile('/home/nnucoin/p...')
+#2 /home/gkgwag1klb6b/public_html/wes/src/FpdiTrait.php(178): setasign\Fpdi\Fpdi->getPdfReaderId('/home/nnucoin/p...')
+#3 /home/gkgwag1klb6b/public_html/wes/reports.php(8): setasign\Fpdi\Fpdi->setSourceFile('/home/nnucoin/p...')
+#4 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php on line 106
+[05-Jul-2020 18:06:21 UTC] PHP Warning:  fopen(/home/nnucoin/public_html/wes/hex.pdf): failed to open stream: No such file or directory in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php on line 44
+[05-Jul-2020 18:06:21 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: No stream given. in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php:106
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php(45): setasign\Fpdi\PdfParser\StreamReader->__construct(false, true)
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdiTrait.php(142): setasign\Fpdi\PdfParser\StreamReader::createByFile('/home/nnucoin/p...')
+#2 /home/gkgwag1klb6b/public_html/wes/src/FpdiTrait.php(178): setasign\Fpdi\Fpdi->getPdfReaderId('/home/nnucoin/p...')
+#3 /home/gkgwag1klb6b/public_html/wes/reports.php(8): setasign\Fpdi\Fpdi->setSourceFile('/home/nnucoin/p...')
+#4 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/src/PdfParser/StreamReader.php on line 106
+[05-Jul-2020 18:08:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function hex() in /home/gkgwag1klb6b/public_html/wes/reports.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 35
+[05-Jul-2020 18:08:32 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function hex() in /home/gkgwag1klb6b/public_html/wes/reports.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 35
+[06-Jul-2020 14:55:02 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function hex() in /home/gkgwag1klb6b/public_html/wes/reports.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 35
+[06-Jul-2020 14:55:03 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function hex() in /home/gkgwag1klb6b/public_html/wes/reports.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 35
+[06-Jul-2020 14:58:49 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function hex() in /home/gkgwag1klb6b/public_html/wes/reports.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 14:58:51 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function hex() in /home/gkgwag1klb6b/public_html/wes/reports.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:05:41 UTC] PHP Notice:  Undefined variable: x in /home/gkgwag1klb6b/public_html/wes/reports.php on line 13
+[06-Jul-2020 15:05:41 UTC] PHP Notice:  Undefined variable: m in /home/gkgwag1klb6b/public_html/wes/reports.php on line 13
+[06-Jul-2020 15:05:41 UTC] PHP Notice:  Undefined variable: c in /home/gkgwag1klb6b/public_html/wes/reports.php on line 13
+[06-Jul-2020 15:05:41 UTC] PHP Notice:  Undefined variable: y in /home/gkgwag1klb6b/public_html/wes/reports.php on line 13
+[06-Jul-2020 15:05:41 UTC] PHP Notice:  Undefined variable: n in /home/gkgwag1klb6b/public_html/wes/reports.php on line 13
+[06-Jul-2020 15:05:41 UTC] PHP Notice:  Undefined variable: d in /home/gkgwag1klb6b/public_html/wes/reports.php on line 13
+[06-Jul-2020 15:05:41 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:07:00 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:07:18 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:07:32 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:07:44 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:07:56 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:08:08 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:08:42 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:08:57 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:09:10 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 16
+[06-Jul-2020 15:10:30 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 19
+[06-Jul-2020 15:11:12 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 19
+[06-Jul-2020 15:11:39 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 19
+[06-Jul-2020 15:11:56 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 19
+[06-Jul-2020 15:12:08 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 19
+[06-Jul-2020 15:12:23 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 19
+[06-Jul-2020 15:13:54 UTC] PHP Fatal error:  Uncaught Exception: FPDF error: No font has been set in /home/gkgwag1klb6b/public_html/wes/fpdf.php:271
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/fpdf.php(775): FPDF->Error('No font has bee...')
+#1 /home/gkgwag1klb6b/public_html/wes/reports.php(15): FPDF->Write(1, 'CRN000000000001')
+#2 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 271
+[06-Jul-2020 15:13:56 UTC] PHP Fatal error:  Uncaught Exception: FPDF error: No font has been set in /home/gkgwag1klb6b/public_html/wes/fpdf.php:271
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/fpdf.php(775): FPDF->Error('No font has bee...')
+#1 /home/gkgwag1klb6b/public_html/wes/reports.php(15): FPDF->Write(1, 'CRN000000000001')
+#2 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 271
+[06-Jul-2020 15:14:10 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 19
+[06-Jul-2020 15:16:24 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 22
+[06-Jul-2020 15:19:56 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 25
+[06-Jul-2020 15:19:56 UTC] PHP Fatal error:  Uncaught Exception: FPDF error: The document is closed in /home/gkgwag1klb6b/public_html/wes/fpdf.php:271
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/fpdf.php(1452): FPDF->Error('The document is...')
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdfTpl.php(455): FPDF->_out('BT 87.87 545.34...')
+#2 /home/gkgwag1klb6b/public_html/wes/fpdf.php(643): setasign\Fpdi\FpdfTpl->_out('BT 87.87 545.34...')
+#3 /home/gkgwag1klb6b/public_html/wes/fpdf.php(851): FPDF->Cell(4.2333333333333, 1, '2', 0, 0, '', false, '')
+#4 /home/gkgwag1klb6b/public_html/wes/reports.php(29): FPDF->Write(1, '2')
+#5 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 271
+[06-Jul-2020 15:20:25 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 25
+[06-Jul-2020 15:20:25 UTC] PHP Fatal error:  Uncaught Exception: FPDF error: The document is closed in /home/gkgwag1klb6b/public_html/wes/fpdf.php:271
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/fpdf.php(1452): FPDF->Error('The document is...')
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdfTpl.php(455): FPDF->_out('BT 87.87 545.34...')
+#2 /home/gkgwag1klb6b/public_html/wes/fpdf.php(643): setasign\Fpdi\FpdfTpl->_out('BT 87.87 545.34...')
+#3 /home/gkgwag1klb6b/public_html/wes/fpdf.php(851): FPDF->Cell(16.933333333333, 1, '2888', 0, 0, '', false, '')
+#4 /home/gkgwag1klb6b/public_html/wes/reports.php(29): FPDF->Write(1, '2888')
+#5 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 271
+[06-Jul-2020 15:20:54 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 25
+[06-Jul-2020 15:20:54 UTC] PHP Fatal error:  Uncaught Exception: FPDF error: The document is closed in /home/gkgwag1klb6b/public_html/wes/fpdf.php:271
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/fpdf.php(1452): FPDF->Error('The document is...')
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdfTpl.php(455): FPDF->_out('BT 87.87 610.54...')
+#2 /home/gkgwag1klb6b/public_html/wes/fpdf.php(643): setasign\Fpdi\FpdfTpl->_out('BT 87.87 610.54...')
+#3 /home/gkgwag1klb6b/public_html/wes/fpdf.php(851): FPDF->Cell(16.933333333333, 1, '2888', 0, 0, '', false, '')
+#4 /home/gkgwag1klb6b/public_html/wes/reports.php(29): FPDF->Write(1, '2888')
+#5 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 271
+[06-Jul-2020 15:21:17 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 30
+[06-Jul-2020 15:21:30 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 30
+[06-Jul-2020 15:21:48 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 30
+[06-Jul-2020 15:22:02 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 30
+[06-Jul-2020 15:22:33 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 36
+[06-Jul-2020 15:24:54 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 36
+[06-Jul-2020 15:25:24 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 36
+[06-Jul-2020 15:25:38 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 36
+[06-Jul-2020 15:25:49 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 36
+[06-Jul-2020 15:26:46 UTC] PHP Notice:  Undefined offset: 5 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 36
+[06-Jul-2020 15:26:46 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 40
+[06-Jul-2020 15:27:55 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 41
+[06-Jul-2020 15:28:35 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 41
+[06-Jul-2020 15:28:47 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 41
+[06-Jul-2020 15:29:06 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 41
+[06-Jul-2020 15:29:56 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 45
+[06-Jul-2020 15:30:34 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 46
+[06-Jul-2020 15:30:46 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 46
+[06-Jul-2020 15:31:00 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 46
+[06-Jul-2020 15:37:45 UTC] PHP Parse error:  syntax error, unexpected '$pdf' (T_VARIABLE) in /home/gkgwag1klb6b/public_html/wes/reports.php on line 50
+[06-Jul-2020 15:38:01 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 50
+[06-Jul-2020 15:39:05 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:39:21 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:39:34 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:39:49 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:40:06 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:40:22 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:40:58 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:41:38 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:48:57 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:49:19 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:49:42 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:49:57 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:50:23 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:50:45 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:51:31 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:52:08 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:52:24 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:53:29 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:54:04 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:54:24 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 15:56:55 UTC] PHP Notice:  Undefined variable: start in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 16:06:23 UTC] PHP Notice:  Undefined variable: x3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 15
+[06-Jul-2020 16:15:49 UTC] PHP Fatal error:  Uncaught Exception: FPDF error: Undefined font:  B in /home/gkgwag1klb6b/public_html/wes/fpdf.php:271
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/fpdf.php(510): FPDF->Error('Undefined font:...')
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdfTpl.php(384): FPDF->SetFont('', 'B', 10)
+#2 /home/gkgwag1klb6b/public_html/wes/reports.php(23): setasign\Fpdi\FpdfTpl->SetFont('', 'B', 10)
+#3 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 271
+[06-Jul-2020 16:16:09 UTC] PHP Fatal error:  Uncaught Exception: FPDF error: Undefined font: times new roman B in /home/gkgwag1klb6b/public_html/wes/fpdf.php:271
+Stack trace:
+#0 /home/gkgwag1klb6b/public_html/wes/fpdf.php(510): FPDF->Error('Undefined font:...')
+#1 /home/gkgwag1klb6b/public_html/wes/src/FpdfTpl.php(384): FPDF->SetFont('times new roman', 'B', 10)
+#2 /home/gkgwag1klb6b/public_html/wes/reports.php(23): setasign\Fpdi\FpdfTpl->SetFont('Times New Roman', 'B', 10)
+#3 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 271
+[06-Jul-2020 16:19:14 UTC] PHP Fatal error:  Uncaught Error: Using $this when not in object context in /home/gkgwag1klb6b/public_html/wes/reports.php:42
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 42
+[06-Jul-2020 16:19:16 UTC] PHP Fatal error:  Uncaught Error: Using $this when not in object context in /home/gkgwag1klb6b/public_html/wes/reports.php:42
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 42
+[06-Jul-2020 16:49:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function jason_decode() in /home/gkgwag1klb6b/public_html/wes/reports.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 10
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 11
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 2 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 12
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 34
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 34
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 37
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 37
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 4 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 40
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 40
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:45 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:45 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 43
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 2 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 43
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 46
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 2 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 46
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 51
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 2 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 54
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 54
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 57
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 57
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 4 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 60
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 60
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 63
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 4 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 63
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 66
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 4 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 66
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 69
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 5 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 69
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 72
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 6 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 72
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 3 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 75
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 6 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 75
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 777
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 653
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 79
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/reports.php on line 79
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 8 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 79
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 924
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 1 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 81
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/reports.php on line 81
+[06-Jul-2020 16:49:46 UTC] PHP Notice:  Uninitialized string offset: 7 in /home/gkgwag1klb6b/public_html/wes/reports.php on line 81
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 580
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 634
+[06-Jul-2020 16:49:46 UTC] PHP Warning:  A non-numeric value encountered in /home/gkgwag1klb6b/public_html/wes/fpdf.php on line 648
+[06-Jul-2020 16:50:32 UTC] PHP Fatal error:  Uncaught Error: Cannot use object of type stdClass as array in /home/gkgwag1klb6b/public_html/wes/reports.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 11
+[06-Jul-2020 16:50:35 UTC] PHP Fatal error:  Uncaught Error: Cannot use object of type stdClass as array in /home/gkgwag1klb6b/public_html/wes/reports.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 11
+[06-Jul-2020 16:51:14 UTC] PHP Fatal error:  Uncaught Error: Cannot use object of type stdClass as array in /home/gkgwag1klb6b/public_html/wes/reports.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/gkgwag1klb6b/public_html/wes/reports.php on line 11

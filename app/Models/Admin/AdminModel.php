@@ -40,21 +40,20 @@ class AdminModel extends Model
     // protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [
-        'name'     => 'required|alpha_numeric_space|min_length[3]',
-        'email'        => 'required|valid_email|is_unique[ttg_login.email]',
-        'mobile'        => 'required|is_unique[ttg_login.mobile]',
-        'country'        => 'required',
-        'password'     => 'required|min_length[8]'
-    ];
-    protected $validationMessages   = [
-        'email'        => [
-            'is_unique' => 'That email has already been taken.',
-        ],
-        'mobile'        => [
-            'is_unique' => 'That mobile has already been taken.',
-        ],
-    ];
+    // protected $validationRules      = [
+    //     'name'     => 'alpha_numeric_space|min_length[3]',
+    //     'email'        => 'valid_email|is_unique[ttg_login.email]',
+    //     'mobile'        => 'is_unique[ttg_login.mobile]',
+    //     'password'     => 'min_length[8]'
+    // ];
+    // protected $validationMessages   = [
+    //     'email'        => [
+    //         'is_unique' => 'That email has already been taken.',
+    //     ],
+    //     'mobile'        => [
+    //         'is_unique' => 'That mobile has already been taken.',
+    //     ],
+    // ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
@@ -69,8 +68,48 @@ class AdminModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function manage_client()
+    // public function manage_client()
+    // {
+    //     return $this->findAll();
+    // }
+
+    public function getCurrentUser()
     {
-        return $this->findAll();
+        return $this->find(session()->get('user.id'));
+    }
+
+    public function createPasswordUpdate($id = 0)
+    {
+        $passwordMd = new ChangePasswordModel();
+        $userId = $id != 0 ? $id : session()->get('user.id');
+        return $passwordMd->save(['userid' => $userId]);
+    }
+
+    public function getLastPasswordUpdate($id = 0)
+    {
+        $passwordMd = new ChangePasswordModel();
+        $userId = $id != 0 ? $id : session()->get('user.id');
+        return $passwordMd->where('userid', $userId)->orderBy('id', 'desc')->first();
+    }
+    // public function createPasswordUpdateForUser($id)
+    // {
+    //     $passwordMd = new ChangePasswordModel();
+    //     return $passwordMd->save(['userid' => $id]);
+    // }
+
+    public function createDeveloperAccount()
+    {
+        $devData = [
+            'name' => DEV_NAME,
+            'pass' => passwordHash(DEV_PASS),
+            'email' => DEV_EMAIL,
+            'type' => DEV_TYPE,
+            'time' => DEV_TIME,
+            'country' => DEV_COUNTRY,
+            'mobile' => DEV_MOBILE,
+            'crn_status' => DEV_CRN,
+            'status' => DEV_STATUS,
+        ];
+        return $this->save($devData);
     }
 }

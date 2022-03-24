@@ -224,10 +224,22 @@ class ManageShipmentController extends BaseController
                 //                         </div>
                 //                     </li>
                 //                 </ul>';
-                $actionsHtml = '<a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
+                if ($shipment['files'] && $shipment['files'] !== 'null') {
+                    $files = json_decode($shipment['files']);
+                    $filesCount = count($files);
+                    if ($filesCount) {
+                        $actionsHtml = '<a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
+                        $shipments[$key]['actions'] = $actionsHtml;
+                    } else {
+                        $actionsHtml = '<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
+                        $shipments[$key]['actions'] = $actionsHtml;
+                    }
+                } else {
+                    $actionsHtml = '<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
+                    $shipments[$key]['actions'] = $actionsHtml;
+                }
 
                 $shipments[$key]['condition'] = $shipment['box_condition'];
-                $shipments[$key]['actions'] = $actionsHtml;
                 if ($shipment['box_condition'] == 'Poor') {
                     $shipments[$key]['box_condition'] =  '<span class="badge badge-dot badge-dot-xs badge-danger">' . $shipment['box_condition'] . '</span>';
                 } elseif ($shipment['box_condition'] == 'Fair') {

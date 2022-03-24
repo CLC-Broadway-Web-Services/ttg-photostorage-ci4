@@ -116,7 +116,7 @@
 <!-- Modal Content Code -->
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <form class="modal-content" action="" novalidate="novalidate" method="post" enctype="multipart/form-data">
             <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                 <em class="icon ni ni-cross"></em>
             </a>
@@ -124,10 +124,10 @@
                 <h5 class="modal-title">Add Client</h5>
             </div>
             <div class="modal-body">
-                <form action="<?= route_to('add_client') ?>" class="form-validate is-alter" novalidate="novalidate" method="post">
+                <div class="form-validate is-alter row">
                     <input name="client_id" value="0" class="d-none" id="modal_client_id">
-                    <div class="form-group">
-                        <label class="form-label" for="default-03">Name</label>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="dmodal_client_name">Name</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-user"></em>
@@ -135,8 +135,8 @@
                             <input type="text" class="form-control" id="modal_client_name" name="name" required placeholder="Name">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="default-03">Email address</label>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="modal_client_email">Email address</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-mail"></em>
@@ -144,8 +144,8 @@
                             <input type="email" class="form-control" id="modal_client_email" name="email" required placeholder="Email address">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="default-03">Phone</label>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="modal_client_mobile">Phone</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-mobile"></em>
@@ -154,8 +154,8 @@
                             <input type="number" class="form-control" id="modal_client_mobile" name="mobile" required maxlength="10" minlength="10" placeholder="Phone">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="default-03">Country</label>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="modal_client_country">Country</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-globe"></em>
@@ -413,8 +413,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="default-03">Password</label>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="modal_client_password">Password</label>
                         <div class="form-control-wrap">
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-eye"></em>
@@ -422,25 +422,33 @@
                             <input type="text" class="form-control" id="modal_client_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Status</label>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="modal_client_crn_status">Status</label>
                         <div class="form-control-wrap">
-                            <select class="form-select" id="modal_client_crn_status" name="crn_status">
+                            <select class="form-select" id="modal_client_crn_status" name="crn_status" required>
+                                <option value="">Select Client Status</option>
                                 <option value="normal">Normal</option>
                                 <option value="national">National</option>
                                 <option value="super">Super</option>
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary">Save</button>
+                    <input name="add_client" class="d-none" value="add_client">
+                    <div class="form-group col-12">
+                        <label class="form-label" for="user_avatarLabel">Profile Pic</label>
+                        <div class="form-control-wrap">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="user_avatar" name="profile_pic">
+                                <label class="custom-file-label" for="user_avatar">Choose file</label>
+                            </div>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer bg-light">
-                <span class="sub-text">TTG Photostorage</span>
+            <div class="modal-footer bg-light py-1">
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -457,7 +465,7 @@
                 <h5 class="modal-title">Assign CRN</h5>
             </div>
             <div class="modal-body">
-                <form action="<?= route_to('add_client') ?>" class="input-daterange  input-group" method="post">
+                <form action="" class="input-daterange  input-group" method="post">
 
                     <input type="hidden" id="as" name="assign_crn" class="form-control">
                     <input type="text" id="assign_crn" name="assign_crn" class="form-control">
@@ -513,7 +521,7 @@
                 if (willDelete) {
                     $.ajax({
                         type: 'POST',
-                        url: '<?= base_url(route_to('add_client')); ?>',
+                        url: '',
                         data: {
                             delete: 'del',
                             id: id
@@ -544,7 +552,7 @@
         };
         $.ajax({
             type: 'POST',
-            url: '<?= base_url(route_to('add_client')); ?>',
+            url: '',
             data: formData,
 
             success: function(result) {
@@ -553,46 +561,18 @@
             },
         });
     }
-    <?php if (session()->getFlashdata("success")) { ?>
-        swal({
-            title: "Saved",
-            text: "New Client Saved",
-            icon: "success",
-        });
-    <?php } ?>
-    <?php if (session()->getFlashdata("error")) { ?>
-        const errors = <?= session()->getFlashdata("error") ?>;
-        // const errors = {
-        //     "email": "Sorry. That email has already been taken. Please choose another.",
-        //     "mobile": "Sorry. That mobile has already been taken. Please choose another."
-        // };
-        var errorsArray = Object.keys(errors).map((key) => [key, errors[key]]);
-        console.log(errorsArray);
-
-        var errorMessages = '';
-        errorsArray.forEach(function(element) {
-            errorMessages += element[1] + "\n";
-        });
-        console.log(errorMessages);
-        swal({
-            title: "Sorry",
-            text: errorMessages + '',
-            icon: "error",
-        });
-    <?php } ?>
-
     async function editData(id) {
         console.log(id);
 
         await $.ajax({
             type: 'POST',
-            url: '<?= base_url(route_to('add_client')); ?>',
+            url: '',
             data: {
                 edit: 'edit',
                 id: id
             },
             success: function(result) {
-                console.log(result);
+                // console.log(result);
                 var response = JSON.parse(result);
 
                 $('#modal_client_id').val(response.id);
@@ -618,6 +598,30 @@
         $('modal_client_country').val('');
         $('modal_client_password').val('');
         $('modal_client_crn_status').val('');
-    })
+    });
+
+    <?php if (session()->get("clientsave")) { ?>
+        // console.log('clientsave found');
+        const savedData = '<?= session()->get("clientsave.success") ?>'
+        const message = "<?= session()->get("clientsave.message") ?>";
+        console.log(savedData);
+        console.log(message);
+        if (savedData == true) {
+            console.log('clientsave success found');
+            swal({
+                title: "Saved",
+                text: message,
+                icon: "success",
+            });
+        } else {
+            console.log('clientsave success not found');
+            swal({
+                title: "Sorry",
+                text: message,
+                icon: "error",
+            });
+        }
+    <?php } ?>
+    <?php session()->remove("clientsave") ?>
 </script>
 <?= $this->endSection() ?>

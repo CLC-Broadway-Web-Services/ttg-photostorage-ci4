@@ -10,59 +10,58 @@
 
     <div class="card card-preview">
         <div class="card-inner">
-            <div class="row gy-4">
+            <form class="row gy-4" method="GET" onSubmit="return checkform(this)">
                 <div class="col-md-6 col-12">
-                    <div class="form-group w-100">
-                        <label class="form-label">Search Data by Date Range</label>
-                        <div class="form-control-wrap">
-                            <form class="input-daterange date-picker-range input-group" method="get">
-                                <input type="text" class="form-control" name="start_date" autocomplete="new-start_date" value="<?= isset($_GET['start_date']) ? $_GET['start_date'] : '' ?>">
-                                <div class="input-group-addon">TO</div>
-                                <input type="text" class="form-control" name="end_date" autocomplete="new-end_date" value="<?= isset($_GET['end_date']) ? $_GET['end_date'] : '' ?>">
-                                <button type="submit" class="btn btn-dim btn-primary input-group-addon" name="form_name" value="date_form">Filter Data</button>
-                                <?php if (isset($_GET['end_date'])) : ?>
-                                    <a class="btn btn-dim btn-danger input-group-addon" title="Reset Form" href="<?= route_to('manage_data') ?>">
-                                        <em class="ni ni-reload-alt"></em>
-                                    </a>
-                                <?php endif; ?>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label class="form-label">Search Shipment by Date Range</label>
+                        <label class="form-label">Search Assets by Attributes</label>
                         <div class="form-control-wrap">
-                            <div class="input-daterange date-picker-range input-group">
-                                <input type="text" class="form-control">
-                                <div class="input-group-addon">TO</div>
-                                <input type="text" class="form-control">
-                                <a href="#" class="input-group-addon btn btn-dim btn-primary">Filter Data</a>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="attributeSearch" name="search" value="<?= isset($_GET['search']) ? $_GET['search'] : '' ?>" placeholder="Enter Staff ID, CRN, Asset ID, Country" autocomplete="search">
+                            </div>
+                            <div class="mt-2">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="staffid" name="searchType" value="userid" class="custom-control-input" <?= isset($_GET['searchType']) && $_GET['searchType'] == 'userid' ? 'checked' : '' ?>>
+                                    <label class="custom-control-label" for="staffid">Staff Id</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="crnsearch" name="searchType" value="crn" class="custom-control-input" <?= isset($_GET['searchType']) && $_GET['searchType'] == 'crn' ? 'checked' : '' ?>>
+                                    <label class="custom-control-label" for="crnsearch">CRN</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="assetsearch" name="searchType" value="uid" class="custom-control-input" <?= isset($_GET['searchType']) && $_GET['searchType'] == 'uid' ? 'checked' : '' ?>>
+                                    <label class="custom-control-label" for="assetsearch">Asset ID</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="countrysearch" name="searchType" value="country" class="custom-control-input" <?= isset($_GET['searchType']) && $_GET['searchType'] == 'country' ? 'checked' : '' ?>>
+                                    <label class="custom-control-label" for="countrysearch">Country</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div> -->
-                <!-- <div class="col-md-4 d-none">
-                    <div class="form-group">
-                        <label class="form-label">Search Multiple Attributes</label>
-                        <div class="form-control-wrap">
-                            <input type="text" class="form-control" placeholder="Input placeholder">
-                        </div>
-                        <div class="form-control-wrap mt-2">
-                            <a href="#" class="btn btn-dim btn-primary">Filter Data</a>
-                        </div>
-                    </div>
-                </div> -->
+                </div>
                 <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label class="form-label">&nbsp;</label>
+                        <label class="form-label">Search Data by Date Range</label>
                         <div class="form-control-wrap">
-                            <!-- <a href="#" class="btn btn-primary ml-2"><em class="icon ni ni-download"></em><span>Download All Data</span> </a> -->
-                            <a href="#" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalDefault"><em class="icon ni ni-plus"></em><span>Replace Data</span> </a>
+                            <div class="input-daterange date-picker-range input-group">
+                                <input type="text" class="form-control" name="start_date" id="startDate" autocomplete="new-start_date" value="<?= isset($_GET['start_date']) ? $_GET['start_date'] : '' ?>">
+                                <div class="input-group-addon">TO</div>
+                                <input type="text" class="form-control" name="end_date" id="endDate" autocomplete="new-end_date" value="<?= isset($_GET['end_date']) ? $_GET['end_date'] : '' ?>">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="col-12 mt-0 text-end">
+                    <div class="btn-group" aria-label="Basic example">
+                        <button type="submit" class="btn btn-primary">Filter Data</button>
+                        <?php if (isset($_GET['end_date']) || isset($_GET['search'])) : ?>
+                            <a class="btn btn-dim btn-danger" title="Reset Filters" href="<?= route_to('manage_data') ?>">
+                                <em class="ni ni-reload-alt"></em>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <div class="card card-preview">
@@ -83,7 +82,7 @@
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Files</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right"></th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right"><span style="display: none;">Link</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,71 +92,108 @@
     </div><!-- .card-preview -->
 </div> <!-- nk-block -->
 <!-- Modal Content Code -->
-<div class="modal fade" tabindex="-1" id="modalDefault">
+<div class="modal fade" tabindex="-1" id="replaceDataModal">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+        <form class="modal-content" id="replaceDataForm">
+            <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
-                <h5 class="modal-title">Modal Title</h5>
+                <h5 class="modal-title">Replce CRN or Asset ID to Selected data</h5>
             </div>
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header border-bottom">Replce any CRN or Asset ID</div>
+                    <!-- <div class="card-header border-bottom">Replce any CRN or Asset ID</div> -->
                     <div class="card-body">
+                        <div class="form-group mt-3">
+                            <!-- <div class="form-group"> -->
+                            <label class="form-label" for="replaceText">Replace to:- <b><span id="replacedDataCount">0</span></b> data</label>
+                            <input type="text" class="form-control" id="replaceText" name="replaceText" placeholder="CRN / Asset ID" required>
+                            <input type="text" class="d-none" id="dataIds" name="replaceDataIds">
+                            <!-- </div> -->
+                        </div>
                         <div class="preview-block">
                             <div class="custom-control custom-radio">
-                                <input type="radio" name="customRadio" class="custom-control-input">
-                                <label class="custom-control-label">CRN</label>
+                                <input type="radio" id="selectCrn" name="replace_data" value="crn" class="custom-control-input" required>
+                                <label class="custom-control-label" for="selectCrn">CRN</label>
                             </div>
                             <div class="custom-control custom-radio ml-3">
-                                <input type="radio" name="customRadio" class="custom-control-input">
-                                <label class="custom-control-label">Asset Id</label>
+                                <input type="radio" id="selectAsset" name="replace_data" value="uid" class="custom-control-input" required>
+                                <label class="custom-control-label" for="selectAsset">Asset Id</label>
                             </div>
-                        </div>
-                        <div class="form-group mt-3">
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" placeholder="Replace">
-                            </div>
-                            <div class="form-control-wrap mt-2">
-                                <a href="#" type="button" class="btn btn-dim btn-primary ">Replace</a>
-                            </div>
-                        </div>
-                        <div class="col-12">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer bg-light">
-                <span class="sub-text">Modal Footer Text</span>
+                <span class="sub-text">
+                    <button href="#" type="submit" class="btn btn-dim btn-primary ">Replace</button>
+                </span>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
 <script>
+    function checkform(form) {
+        var formData = new FormData($(form)[0]);
+        console.log(Array.from(formData));
+
+        var attributeSearch = $('#attributeSearch');
+        var attributeType = $('input[name="searchType"]:checked');
+        var startDate = $('#startDate');
+        var endDate = $('#endDate');
+        console.log(attributeSearch.val());
+        console.log(startDate.val());
+        console.log(endDate.val());
+        console.log(attributeType.val());
+
+        if (attributeSearch.val() == '' && endDate.val() == '') {
+            return false;
+        }
+        if (attributeSearch.val() !== '' && attributeType.val() == undefined) {
+            swal({
+                title: "Attribute",
+                text: "Select Type of search you want to proceed, EG: Staffid, CRN, Asset ID, Country",
+                icon: "warning",
+                // buttons: true,
+                // dangerMode: true,
+            })
+            return false;
+        }
+        return true;
+        // swal({
+        //     title: "Are you sure?",
+        //     text: "Once deleted, you will not be able to recover these data!",
+        //     icon: "warning",
+        //     buttons: true,
+        //     dangerMode: true,
+        // })
+    }
+
     function formatLink(data) {
         var thisData = $(data).attr('dataLink');
         // console.log(thisData);
         return thisData;
     }
     var thisTable = NioApp.DataTable('#datatableX', {
-            fixedHeader: true,
+        fixedHeader: true,
+        bFilter: false,
         lengthMenu: [
             [10, 15, 30, 50, 100, 200, 500, 1000],
             [10, 15, 30, 50, 100, 200, 500, 1000]
         ],
-        buttons: [{
-                extend: 'copy',
-                titleAttr: 'Copy Data',
-                exportOptions: {
-                    columns: [1, 2, 3, 4, 5, 6, 7, 8],
-                    orthogonal: 'export'
-                },
-            },
+        buttons: [
+            // {
+            //     extend: 'copy',
+            //     titleAttr: 'Copy Data',
+            //     exportOptions: {
+            //         columns: [1, 2, 3, 4, 5, 6, 7, 8],
+            //         orthogonal: 'export'
+            //     },
+            // },
             {
                 extend: 'excel',
                 titleAttr: 'Download Excel',
@@ -258,6 +294,7 @@
 
     function datatableCustomButtons() {
         var tableButtons = document.getElementsByClassName('dt-buttons')[0];
+
         var button = document.createElement('button');
         var emphasized = document.createElement('em');
         emphasized.classList.add('px-2');
@@ -293,13 +330,34 @@
         button.classList.add('btn');
         // button.classList.add('btn-sm');
         button.classList.add('btn-secondary');
-        button.classList.add('buttons-delete');
+        // button.classList.add('buttons-delete');
         button.classList.add('buttons-html5');
         button.setAttribute('type', 'submit');
         button.setAttribute('title', 'Download PDF');
         button.setAttribute('tabindex', '0');
         button.setAttribute('aria-controls', 'datatableX');
         button.appendChild(emphasized);
+        tableButtons.append(button);
+
+        var button = document.createElement('button');
+        var emphasized = document.createElement('em');
+        emphasized.classList.add('px-2');
+        emphasized.style.fontSize = '18px';
+        emphasized.classList.add('ni');
+        emphasized.classList.add('ni-repeat');
+        button.setAttribute('type', 'button');
+        button.setAttribute('id', 'deleteButton');
+        button.setAttribute('onclick', 'replaceData()')
+        button.classList.add('btn');
+        button.classList.add('btn-secondary');
+        // button.classList.add('buttons-copy');
+        button.classList.add('buttons-html5');
+        button.setAttribute('type', 'submit');
+        button.setAttribute('title', 'Replace Data');
+        button.setAttribute('tabindex', '0');
+        button.setAttribute('aria-controls', 'datatableX');
+        button.appendChild(emphasized);
+
         tableButtons.append(button);
     }
 
@@ -363,7 +421,10 @@
         // var mainUrl = window.location.origin;
         const _url = url;
         navigator.clipboard.writeText(_url);
-        alert("Copied the text: " + _url);
+        swal({
+            text: "Link copied successfully."
+        })
+        // alert("Link copied successfully.");
     }
 
     function deleteData(id) {
@@ -487,14 +548,6 @@
             },
             success: function(result) {
                 var data = result;
-
-                // console.log(data);
-
-                // var link = document.createElement('a');
-                // link.href = window.URL.createObjectURL(data);
-                // link.download = "TTG_PHOTOSTORAGE_" + new Date() + ".pdf";
-                // link.click();
-
                 var blob = new Blob([data], {
                     type: "application/octetstream"
                 });
@@ -515,5 +568,81 @@
             }
         });
     }
+
+    function onClickReplaceData(ids) {
+        console.log(ids);
+        $('#dataIds').val(ids);
+        $('#replacedDataCount').html(ids.length);
+        var myModal = new bootstrap.Modal(document.getElementById('replaceDataModal'));
+        myModal.show();
+    }
+
+    function replaceData() {
+        var rows_selected = thisTable.rows('.selected');
+        // console.log(rows_selected);
+        if ($(rows_selected)[0].length) {
+            var ids = [];
+            $(rows_selected)[0].forEach(element => {
+                var dataId = $('tr#tableRow_' + element);
+                // console.log(dataId.attr('dataId'));
+                ids.push(dataId.attr('dataId'));
+            });
+            onClickReplaceData(ids);
+        } else {
+            $('#dataIds').val('');
+            $('#replacedDataCount').html('0');
+            swal({
+                title: "No data selected",
+                icon: "warning",
+            })
+        }
+    }
+
+    $('#replaceDataForm').submit(function(e) {
+        e.preventDefault();
+        var formData = new FormData($(this)[0]);
+        console.log(Array.from(formData));
+
+        $.ajax({
+            url: '',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false
+        }).done(function(request) {
+            console.log(request);
+            var response = JSON.parse(request);
+            if (response.success) {
+                swal({
+                    title: "Success",
+                    text: "Data Updated Successfully.",
+                    icon: "success",
+                    // buttons: true,
+                    // dangerMode: true,
+                }).then((result) => {
+                    location.reload();
+                })
+            } else {
+                swal({
+                    title: "Success",
+                    text: "Partially Data Updated Successfully.",
+                    icon: "success",
+                    // buttons: true,
+                    // dangerMode: true,
+                }).then((result) => {
+                    location.reload();
+                })
+            }
+        }).fail(function(error) {
+            console.log(error)
+            swal({
+                title: "Error",
+                text: "Some error happening in updating data, please contact administration.",
+                icon: "error",
+                // buttons: true,
+                // dangerMode: true,
+            })
+        })
+    })
 </script>
 <?= $this->endSection() ?>
