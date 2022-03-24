@@ -12,11 +12,12 @@ class AuthController extends BaseController
     {
         // return print_r(create_dates());
 
+        $userDb = new AdminModel();
+        // $userDb->createDeveloperAccount();
         if ($this->request->getMethod() == 'post') {
             $userEmail = $this->request->getVar('email');
             $userPassword = $this->request->getVar('password');
 
-            $userDb = new AdminModel();
             $getUser = $userDb->where('email', $userEmail)->first();
             $response = ['success' => false, 'message' => ''];
 

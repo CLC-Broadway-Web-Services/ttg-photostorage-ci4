@@ -14,12 +14,13 @@ class Defectanalysis extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        // 'staff_id',
-        // 'crn',
-        // 'asset_id',
-        // 'time',
+        'staff_id',
+        'crn',
+        'asset_id',
+        'time',
         // 'device_type',
-        // 'defect'
+        'defect',
+        'created_at'
     ];
 
     // Dates

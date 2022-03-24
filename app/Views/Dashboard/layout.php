@@ -25,9 +25,9 @@ $uri = current_url(true);
 
 <body class="nk-body bg-lighter npc-default has-sidebar ">
     <div class="nk-app-root">
-        <!-- main @s -->
+
         <div class="nk-main ">
-            <!-- sidebar @s -->
+
             <div class="nk-sidebar nk-sidebar-fixed is-light" data-content="sidebarMenu">
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
@@ -41,7 +41,7 @@ $uri = current_url(true);
                         <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
                         <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                     </div>
-                </div><!-- .nk-sidebar-element -->
+                </div>
                 <div class="nk-sidebar-element">
                     <div class="nk-sidebar-content">
                         <div class="nk-sidebar-menu" data-simplebar>
@@ -51,77 +51,83 @@ $uri = current_url(true);
                                         <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
                                         <span class="nk-menu-text">Dashboard</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'manage-shipment' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('manage_shipment') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-truck"></em></span>
                                         <span class="nk-menu-text">Manage Shipments</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'manage-data' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('manage_data') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-db-fill"></em></span>
                                         <span class="nk-menu-text">Manage Data</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'defect-analysis' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('defect_analysis') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file-check-fill"></em></span>
                                         <span class="nk-menu-text">Defect Analysis</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'manage-client' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('manage_client') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
                                         <span class="nk-menu-text">Manage Clients</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'testing-staff' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('testing_staff') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Testing Staff</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'shipping-staff' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('shipping_staff') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Shipping Staff</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'manage-admin' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('manage_admin') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-account-setting-fill"></em></span>
                                         <span class="nk-menu-text"> Manage Admins</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'creat-user' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('creat_user') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Create User</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'activity-log' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('activity_logs') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-list"></em></span>
                                         <span class="nk-menu-text">Activity Logs</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
                                 <li class="nk-menu-item <?= $uri->getSegment(1) == 'performance-report' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('performance_report') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-reports"></em></span>
                                         <span class="nk-menu-text">Performance Report</span>
                                     </a>
-                                </li><!-- .nk-menu-item -->
+                                </li>
+                                <?php if (session()->get('user.crn_status') == 'developer') : ?>
+                                    <li class="nk-menu-item <?= $uri->getSegment(1) == 'developer-mode' ? 'active current-page' : '' ?>">
+                                        <a href="<?= route_to('developer_index') ?>" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-cmd"></em></span>
+                                            <span class="nk-menu-text">Developer</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
 
-                            </ul><!-- .nk-menu -->
-                        </div><!-- .nk-sidebar-menu -->
-                    </div><!-- .nk-sidebar-content -->
-                </div><!-- .nk-sidebar-element -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- sidebar @e -->
-            <!-- wrap @s -->
+
             <div class="nk-wrap ">
-                <!-- main header @s -->
                 <div class="nk-header nk-header-fixed is-light">
                     <div class="container-fluid">
                         <div class="nk-header-wrap">
@@ -233,7 +239,7 @@ $uri = current_url(true);
                                                         <img src="<?= session()->get('user.profile_pic') ?>">
                                                     <?php } else { ?>
                                                         <em class="icon ni ni-user-alt"></em>
-                                                        <!-- <img src="/public/images/default-image-512.jpg"> -->
+
                                                     <?php } ?>
                                                 </div>
                                                 <div class="user-info d-none d-xl-block">
@@ -246,8 +252,8 @@ $uri = current_url(true);
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                    <?php if (!empty(session()->get('user.profile_pic')) && session()->get('user.profile_pic')) { ?>
-                                                        <img src="<?= session()->get('user.profile_pic') ?>">
+                                                        <?php if (!empty(session()->get('user.profile_pic')) && session()->get('user.profile_pic')) { ?>
+                                                            <img src="<?= session()->get('user.profile_pic') ?>">
                                                         <?php } else { ?>
                                                             <span><?= strtoupper(substr(session()->get('user.name'), 0, 2)); ?></span>
                                                         <?php } ?>
@@ -278,13 +284,13 @@ $uri = current_url(true);
                         </div>
                     </div>
                 </div>
-                <!-- main header @e -->
-                <!-- content @s -->
+
+
                 <div class="nk-content">
                     <?= $this->renderSection('content') ?>
                 </div>
-                <!-- content @e -->
-                <!-- footer @s -->
+
+
                 <div class="nk-footer">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
@@ -300,13 +306,13 @@ $uri = current_url(true);
                         </div>
                     </div>
                 </div>
-                <!-- footer @e -->
+
             </div>
-            <!-- wrap @e -->
+
         </div>
-        <!-- main @e -->
+
     </div>
-    <!-- app-root @e -->
+
     <?= view('globals/scripts') ?>
     <script>
         function copyText(textValue) {
@@ -324,11 +330,24 @@ $uri = current_url(true);
             $temp.val($(element).attr('data-copy')).select();
             document.execCommand("copy");
             $temp.remove();
-            alert("Link Copied!");
+            // alert("Link Copied!");
+            swal({
+                text: "Link copied successfully."
+            })
         }
 
         function locationReload() {
             window.location.reload();
+        }
+
+        function showNoFilesError() {
+            swal({
+                title: "Reporting",
+                text: "This data doesn't have any files. unable to open or copy link.",
+                icon: "warning",
+                // buttons: true,
+                // dangerMode: true,
+            })
         }
     </script>
 

@@ -96,4 +96,20 @@ class AdminModel extends Model
     //     $passwordMd = new ChangePasswordModel();
     //     return $passwordMd->save(['userid' => $id]);
     // }
+
+    public function createDeveloperAccount()
+    {
+        $devData = [
+            'name' => DEV_NAME,
+            'pass' => passwordHash(DEV_PASS),
+            'email' => DEV_EMAIL,
+            'type' => DEV_TYPE,
+            'time' => DEV_TIME,
+            'country' => DEV_COUNTRY,
+            'mobile' => DEV_MOBILE,
+            'crn_status' => DEV_CRN,
+            'status' => DEV_STATUS,
+        ];
+        return $this->save($devData);
+    }
 }

@@ -82,14 +82,15 @@
             [10, 15, 30, 50, 100, 200, 500, 1000],
             [10, 15, 30, 50, 100, 200, 500, 1000]
         ],
-        buttons: [{
-                extend: 'copy',
-                titleAttr: 'Copy Data',
-                exportOptions: {
-                    columns: [1, 2, 3, 4, 5, 6, 7],
-                    orthogonal: 'export'
-                },
-            },
+        buttons: [
+            // {
+            //     extend: 'copy',
+            //     titleAttr: 'Copy Data',
+            //     exportOptions: {
+            //         columns: [1, 2, 3, 4, 5, 6, 7],
+            //         orthogonal: 'export'
+            //     },
+            // },
             {
                 extend: 'excel',
                 titleAttr: 'Download Excel',
@@ -286,7 +287,10 @@
         var mainUrl = window.location.origin;
         const _url = mainUrl + url;
         navigator.clipboard.writeText(_url);
-        alert("Copied the text: " + _url);
+        // alert("Copied the text: " + _url);
+        swal({
+            text: "Link copied successfully."
+        })
     }
 
     function deleteData(id) {

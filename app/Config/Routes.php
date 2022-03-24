@@ -78,7 +78,7 @@ $routes->group('/', ['filter' => 'superadminauth'], function ($routes) {
     // shipping staff
     $routes->add('/shipping-staff', 'Admin\ManageUsersController::shipping_staff', ['as' => 'shipping_staff']);
     // $routes->add('/shipping-staff/edit_shipping_staff', 'Admin\ManageUsersController::edit_shipping_staff', ['as' => 'edit_shipping_staff']);
-    
+
     // admin user
     $routes->add('/manage-admin', 'Admin\ManageUsersController::manage_admin', ['as' => 'manage_admin']);
     // $routes->add('/manage-admin/edit_manage_admin', 'Admin\ManageUsersController::edit_manage_admin', ['as' => 'edit_manage_admin']);
@@ -96,6 +96,8 @@ $routes->group('/', ['filter' => 'superadminauth'], function ($routes) {
     $routes->add('/pdf/(:any)', 'Admin\ManageDataPdfController::manage_data_pdf/$1', ['as' => 'manage_data_pdf']);
     $routes->add('/excel/(:any)', 'Admin\ManageDataPdfController::manage_data_excel/$1', ['as' => 'manage_data_excel']);
     $routes->add('/manage-data/details/(:any)/imagedelete/(:num)', 'Admin\AssetDataController::manage_data_details/$1/$2', ['as' => 'manage_data_details_image_delete']);
+
+    $routes->add('/developer-mode', 'Developer\DevController::index', ['as' => 'developer_index']);
 });
 // $routes->add('/', 'Admin\DashboardController::index', ['filter' => 'adminauth', 'as' => 'admin_index']);
 // $routes->add('/client', 'Admin\DashboardController::client', [ 'as' => 'client_index']);

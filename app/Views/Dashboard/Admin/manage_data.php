@@ -82,7 +82,7 @@
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Files</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right"></th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right"><span style="display: none;">Link</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -330,32 +330,33 @@
         button.classList.add('btn');
         // button.classList.add('btn-sm');
         button.classList.add('btn-secondary');
-        button.classList.add('buttons-delete');
+        // button.classList.add('buttons-delete');
         button.classList.add('buttons-html5');
         button.setAttribute('type', 'submit');
         button.setAttribute('title', 'Download PDF');
         button.setAttribute('tabindex', '0');
         button.setAttribute('aria-controls', 'datatableX');
         button.appendChild(emphasized);
+        tableButtons.append(button);
 
         var button = document.createElement('button');
         var emphasized = document.createElement('em');
         emphasized.classList.add('px-2');
         emphasized.style.fontSize = '18px';
         emphasized.classList.add('ni');
-        emphasized.classList.add('ni-file-pdf');
+        emphasized.classList.add('ni-repeat');
         button.setAttribute('type', 'button');
         button.setAttribute('id', 'deleteButton');
         button.setAttribute('onclick', 'replaceData()')
         button.classList.add('btn');
         button.classList.add('btn-secondary');
-        button.classList.add('buttons-copy');
+        // button.classList.add('buttons-copy');
         button.classList.add('buttons-html5');
         button.setAttribute('type', 'submit');
         button.setAttribute('title', 'Replace Data');
         button.setAttribute('tabindex', '0');
         button.setAttribute('aria-controls', 'datatableX');
-        button.prepend(emphasized);
+        button.appendChild(emphasized);
 
         tableButtons.append(button);
     }
@@ -420,7 +421,10 @@
         // var mainUrl = window.location.origin;
         const _url = url;
         navigator.clipboard.writeText(_url);
-        alert("Copied the text: " + _url);
+        swal({
+            text: "Link copied successfully."
+        })
+        // alert("Link copied successfully.");
     }
 
     function deleteData(id) {

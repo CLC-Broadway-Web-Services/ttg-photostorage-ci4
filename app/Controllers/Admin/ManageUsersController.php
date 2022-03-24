@@ -144,9 +144,9 @@ class ManageUsersController extends BaseController
     {
         if (session()->get('loginType') == 'admin') {
             $country = session()->get('user.country');
-            $this->data['manage_admin'] = $this->userMd->where('country', $country)->where('type !=', 'staff')->where('type !=', 'client')->where('type !=', 'ship')->orderBy('id', 'desc')->findAll();
+            $this->data['manage_admin'] = $this->userMd->where('country', $country)->where('type', 'admin')->orderBy('id', 'desc')->findAll();
         } else {
-            $this->data['manage_admin'] = $this->userMd->where('type !=', 'staff')->where('type !=', 'client')->where('type !=', 'ship')->orderBy('id', 'desc')->findAll();
+            $this->data['manage_admin'] = $this->userMd->where('type', 'admin')->orderBy('id', 'desc')->findAll();
         }
 
         if ($this->request->getVar('add_admin')) {

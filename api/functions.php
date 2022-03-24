@@ -336,7 +336,7 @@ function add_post($response)
     foreach ($allDefects as $key => $value) {
       $defect = trim($value);
       if (!empty($defect)) {
-        $saveDefect = saveDefect($userid, $crn, $uid, $device_type, $defect, $device);
+        $saveDefect = saveDefect($userid, $crn, $uid, $device_type, $defect);
         if ($saveDefect) {
         } else {
           $response['error'] = "unable to save data to defect analysis.";
@@ -358,13 +358,13 @@ function add_post($response)
   }
 }
 
-function saveDefect($userId, $crn, $uid, $deviceType, $defect, $userDevice)
+function saveDefect($userId, $crn, $uid, $deviceType, $defect)
 {
   connectsql();
   $time_stamp = time();
   global $conn;
-  $sql1 = "INSERT INTO defect_analysis(staff_id,crn,asset_id,time,device_type,defect,user_device)
-	VALUES ('$userId','$crn','$uid','$time_stamp','$deviceType','$defect','$userDevice')";
+  $sql1 = "INSERT INTO defect_analysis(staff_id,crn,asset_id,time,device_type,defect)
+	VALUES ('$userId','$crn','$uid','$time_stamp','$deviceType','$defect')";
   $result = $conn->query($sql1);
   if ($result) {
     return true;

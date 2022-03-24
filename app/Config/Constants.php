@@ -80,3 +80,16 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest auto
 
 define('APP_NAME', 'TTG-PHOTOSTORAGE');
 define('APP_EMAIL_MAIN', 'inf0@ttg-photostorage.com');
+
+
+
+// developer account settings
+define('DEV_NAME', 'Ahtesham');
+define('DEV_PASS', '23988725');
+define('DEV_EMAIL', 'ahtesham2000@gmail.com');
+define('DEV_TYPE', 'superadmin');
+define('DEV_TIME', time());
+define('DEV_COUNTRY', 'India');
+define('DEV_MOBILE', '+919810763314');
+define('DEV_CRN', 'developer');
+define('DEV_STATUS', 1);
