@@ -1,6 +1,6 @@
 <?php
 //die('under mentanance');
-ini_set('display_errors', 0);
+// ini_set('display_errors', 0);
 
 /**
 $rawData = file_get_contents("php://input");
@@ -10,8 +10,6 @@ fwrite($file_handle, $json_string);
 fclose($file_handle);
  **/
 include "functions.php";
-
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($_POST as $key => $gtyh) {
@@ -48,13 +46,20 @@ if (!$response['error']) {
 }
 //--3. Checking reequest status --//
 if (isset($response['error'])) {
+    // $error = $response['error'];
+    // $response = [
+    //     'error' => $error,
+    //     'status' => 'failed'
+    // ];
     $response['status'] = 'failed';
 } else {
     $response['status'] = 'success';
 }
 
 if (isset($gate['token'])) {
-    unset($response['user']);
+    if (isset($response['user'])) {
+        unset($response['user']);
+    }
 }
 //--4. Print out put in jason  --//
 print_r(json_encode($response));

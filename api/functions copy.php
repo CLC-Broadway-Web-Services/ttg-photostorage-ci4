@@ -108,17 +108,6 @@ function load_admin($emailtoload)
   return $retuser;
 }
 
-// function load_admin($emailtoload)
-// {
-//   connectsql();
-//   $table =  'ttg_login';
-//   global $conn;
-//   $sql = "SELECT * FROM $table WHERE email='$emailtoload' OR id='$emailtoload'";
-//   $result = $conn->query($sql);
-//   $retuser = $result->fetch_assoc();
-//   return $retuser;
-// }
-
 //-- 2. load users--//
 function load_users($query, $type = '', $country = '')
 {
@@ -1549,52 +1538,24 @@ function add_shipment($response)
   // die($sql1.$conn->error);
 }
 
-function  get_shipment($crn)
+function get_shipment($crn)
 {
-  $exp = explode(",", $crn);
-  $exp = array_map('test_input', $exp);
-  $exp = array_filter($exp, 'remove_empty');
-  $exp = array_map('add_colon', $exp);
-  if (!count($exp)) {
-    return false;
-  }
-  $imp = implode(",", $exp);
-  $crn = $imp;
   connectsql();
+  $table = 'ttg_ship';
   global $conn;
-  global $userid;
-  $country = load_admin($userid)['country'];
-
-  $sql = "SELECT ttg_ship.* FROM ttg_ship LEFT JOIN ttg_crn ON ttg_ship.crn = ttg_crn.crn WHERE (ttg_ship.crn IN ($crn) )  LIMIT 2000";
+  $sql = "SELECT * FROM $table WHERE crn='$crn'";
   $result = $conn->query($sql);
   $j = 0;
   while ($retuser[$j] = $result->fetch_assoc()) {
     $retuser[$j]['pdfurl'] = "https://ttg-photostorage.com/?filehash=" . $retuser[$j]['hash'];
     $retuser[$j]['printpdf'] = "https://ttg-photostorage.com/?print_file=true&filehash=" . $retuser[$j]['hash'];
     $retuser[$j]['files'] = json_decode($retuser[$j]['files']);
+    // $retuser[$j]['files'] = convertFilesUrl(json_decode($retuser[$j]['files']));
     $j = $j + 1;
   }
 
   return $retuser;
 }
-// function get_shipment($crn)
-// {
-//   connectsql();
-//   $table = 'ttg_ship';
-//   global $conn;
-//   $sql = "SELECT * FROM $table WHERE crn='$crn'";
-//   $result = $conn->query($sql);
-//   $j = 0;
-//   while ($retuser[$j] = $result->fetch_assoc()) {
-//     $retuser[$j]['pdfurl'] = "https://ttg-photostorage.com/?filehash=" . $retuser[$j]['hash'];
-//     $retuser[$j]['printpdf'] = "https://ttg-photostorage.com/?print_file=true&filehash=" . $retuser[$j]['hash'];
-//     $retuser[$j]['files'] = json_decode($retuser[$j]['files']);
-//     // $retuser[$j]['files'] = convertFilesUrl(json_decode($retuser[$j]['files']));
-//     $j = $j + 1;
-//   }
-
-//   return $retuser;
-// }
 
 function delete_shipment($id)
 {
@@ -1709,7 +1670,8 @@ function change_box_condition($condition, $hash)
 
 function short_shipments($data, $hash)
 {
-  $k = 1;
+  $newdata = [];
+  // $k = 1;
   foreach ($data as $singledata) {
     if (isset($singledata['crn'])) {
       $time = gettimefromunix($singledata['ship_time'], $_POST['input_time']);
@@ -1717,18 +1679,19 @@ function short_shipments($data, $hash)
       $snewdata['ship_date_formatted'] = $time['date'];
       $singledata['ship_time_formatted'] = $time['time'];
       $singledata['ship_date_formatted'] = $time['date'];
-      // $singledata['files'] = unified($singledata['files']);
-      // $snewdata['files'] = $singledata['files'];
-      // $snewdata['files'] = unified($singledata['files']);
-      // $snewdata['files'] = convertFilesUrl2(unified($singledata['files']));
-      // $snewdata['files'] = unified(convertFilesUrl(json_decode($singledata['files'])));
-      $snewdata['files'] = unified(convertFilesUrl2($singledata['files']));
+      $singledata['files'] = unified($singledata['files']);
+      // $singledata['files'] = convertFilesUrl2(unified($singledata['files']));
+      // $singledata['files'] = unified(convertFilesUrl(json_decode($singledata['files'])));
+      // $singledata['files'] = unified(convertFilesUrl2($singledata['files']));
+
+      $snewdata['files'] = $singledata['files'];
       $snewdata['ship_time'] = $singledata['ship_time'];
       $snewdata['crn'] = $singledata['crn'];
       $snewdata['box_condition'] = $singledata['box_condition'];
       $snewdata['hash'] = $singledata['hash'];
       $snewdata['is_reject'] = $singledata['is_reject'];
       $snewdata['input_time'] = $singledata['input_time'];
+      $newdata['supervisor_sign'] = $singledata['supervisor_sign'] ? MEDIA_URL . $singledata['supervisor_sign'] : '';
       $newdata[] = $snewdata;
       unset($snewdata);
       if ($hash != '') {
@@ -1736,7 +1699,7 @@ function short_shipments($data, $hash)
           return $singledata;
         }
       }
-      $k = $k + 1;
+      // $k = $k + 1;
     }
     //return $data;
 
@@ -1756,59 +1719,6 @@ function unified($data)
 
   return $newfirstdata;
 }
-
-
-// function short_shipments($data, $hash)
-// {
-//   $newdata = [];
-//   // $k = 1;
-//   foreach ($data as $singledata) {
-//     if (isset($singledata['crn'])) {
-//       $time = gettimefromunix($singledata['ship_time'], $_POST['input_time']);
-//       $snewdata['ship_time_formatted'] = $time['time'];
-//       $snewdata['ship_date_formatted'] = $time['date'];
-//       $singledata['ship_time_formatted'] = $time['time'];
-//       $singledata['ship_date_formatted'] = $time['date'];
-//       $singledata['files'] = unified($singledata['files']);
-//       // $singledata['files'] = convertFilesUrl2(unified($singledata['files']));
-//       // $singledata['files'] = unified(convertFilesUrl(json_decode($singledata['files'])));
-//       // $singledata['files'] = unified(convertFilesUrl2($singledata['files']));
-
-//       $snewdata['files'] = $singledata['files'];
-//       $snewdata['ship_time'] = $singledata['ship_time'];
-//       $snewdata['crn'] = $singledata['crn'];
-//       $snewdata['box_condition'] = $singledata['box_condition'];
-//       $snewdata['hash'] = $singledata['hash'];
-//       $snewdata['is_reject'] = $singledata['is_reject'];
-//       $snewdata['input_time'] = $singledata['input_time'];
-//       $newdata['supervisor_sign'] = $singledata['supervisor_sign'] ? MEDIA_URL . $singledata['supervisor_sign'] : '';
-//       $newdata[] = $snewdata;
-//       unset($snewdata);
-//       if ($hash != '') {
-//         if ($hash == $singledata['hash']) {
-//           return $singledata;
-//         }
-//       }
-//       // $k = $k + 1;
-//     }
-//     //return $data;
-
-//   }
-//   return $newdata;
-// }
-
-// function unified($data)
-// {
-//   foreach ($data as $firstdata) {
-//     foreach ($firstdata as $key => $seconddata) {
-//       $key = substr($key, 0, 4);
-//       $newseconddata[$key] = $seconddata;
-//     }
-//     $newfirstdata[] = $newseconddata;
-//   }
-
-//   return $newfirstdata;
-// }
 
 function update_shipmentimages_desc($uid, $json)
 {

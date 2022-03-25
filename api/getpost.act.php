@@ -16,6 +16,7 @@ if (isset($gate['uid'])) {
                 $q++;
             }
         }
+        $response['files'] = convertFilesUrl($response['files']);
     } else {
         $response['error'] = "Asset ID not found ";
     }
