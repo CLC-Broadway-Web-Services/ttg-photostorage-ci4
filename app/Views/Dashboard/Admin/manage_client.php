@@ -17,34 +17,22 @@
     </div>
     <div class="card card-preview">
         <div class="card-inner">
-            <table class="datatable-init-export nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+            <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col nk-tb-col-check">
-                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                <input type="checkbox" class="custom-control-input" id="uid">
-                                <label class="custom-control-label" for="uid"></label>
-                            </div>
-                        </th>
                         <th class="nk-tb-col"><span class="sub-text">Client ID</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">User</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">CRN Type</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right">Action
+                        <th class="nk-tb-col nk-tb-col-tools text-right">
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($manage_client as $key => $clients) : ?>
                         <tr class="nk-tb-item">
-
-                            <td class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="uid1">
-                                    <label class="custom-control-label" for="uid1"></label>
-                                </div>
-                            </td>
                             <td class="nk-tb-col">
                                 <div class="user-card">
                                     <div class="user-info">
@@ -78,15 +66,16 @@
                                 <span><?= $clients['country'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <?php if ($clients['crn_status'] == 'super') {
-
-                                ?>
+                                <?php if ($clients['crn_status'] == 'super') { ?>
                                     <span class="badge badge-dot badge-dot-xs badge-success"><?= ucfirst($clients['crn_status']) ?></span>
                                 <?php  } elseif ($clients['crn_status'] == 'normal') { ?>
                                     <span class="badge badge-dot badge-dot-xs badge-primary"><?= ucfirst($clients['crn_status']) ?></span>
                                 <?php  } elseif ($clients['crn_status'] == 'national') { ?>
                                     <span class="badge badge-dot badge-dot-xs badge-warning"><?= ucfirst($clients['crn_status']) ?></span>
                                 <?php } ?>
+                            </td>
+                            <td class="nk-tb-col tb-col-md">
+                                    <span class="badge badge-dot badge-dot-xs badge-<?= intval($clients['status']) ? 'success' : 'danger' ?>"><?= intval($clients['status']) ? 'Active' : 'In-Active' ?></span>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
@@ -117,7 +106,7 @@
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
         <form class="modal-content" action="" novalidate="novalidate" method="post" enctype="multipart/form-data">
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+            <a href="javascript:void(0);" class="close"  data-dismiss="modal">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
@@ -161,7 +150,7 @@
                                 <em class="icon ni ni-globe"></em>
                             </div>
                             <!-- <input type="text" class="form-control" name="country" placeholder="Country"> -->
-                            <select name="country" class="country form-control" id="modal_client_country" required onchange="edituser(this)" placeholder="Country">
+                            <select name="country" class="country form-control" id="modal_client_country" required placeholder="Country">
                                 <option value="India">India</option>
                                 <option value="australia">Australia</option>
                                 <option value="canada">Canada</option>
@@ -423,13 +412,21 @@
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-12">
-                        <label class="form-label" for="modal_client_crn_status">Status</label>
+                        <label class="form-label" for="modal_client_crn_status">Type</label>
                         <div class="form-control-wrap">
-                            <select class="form-select" id="modal_client_crn_status" name="crn_status" required>
-                                <option value="">Select Client Status</option>
+                            <select class="form-select" id="modal_client_crn_status" name="crn_status" required placeholder="Select Client Status">
                                 <option value="normal">Normal</option>
                                 <option value="national">National</option>
                                 <option value="super">Super</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="user_status">Status</label>
+                        <div class="form-control-wrap">
+                            <select class="form-select" id="user_status" name="status" required>
+                                <option value="1">Active</option>
+                                <option value="0">In-Active</option>
                             </select>
                         </div>
                     </div>
@@ -458,7 +455,7 @@
 <div class="modal fade" tabindex="-1" id="assignCrn">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+            <a href="javascript:void(0);" class="close" data-dismiss="modal">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
@@ -580,7 +577,9 @@
                 $('#modal_client_email').val(response.email);
                 $('#modal_client_mobile').val(response.mobile);
                 $('#modal_client_country').val(response.country);
-                $('#modal_client_crn_status').val(response.crn_status);
+                // NioApp.Select2('#modal_client_crn_status')
+                $('#modal_client_crn_status').val(response.crn_status).trigger('change');
+                $('#user_status').val(response.status).trigger('change');
                 // $('#modal_client_password').val(response.pass);
 
                 $('#modalDefault').modal('show')
@@ -591,13 +590,14 @@
     }
 
     $('#modalDefault').on('hidden.bs.modal', function(event) {
-        $('modal_client_id').val(0);
-        $('modal_client_name').val('');
-        $('modal_client_email').val('');
-        $('modal_client_mobile').val('');
-        $('modal_client_country').val('');
-        $('modal_client_password').val('');
-        $('modal_client_crn_status').val('');
+        $('#modal_client_id').val(0);
+        $('#modal_client_name').val('');
+        $('#modal_client_email').val('');
+        $('#modal_client_mobile').val('');
+        $('#modal_client_country').val('');
+        $('#modal_client_password').val('');
+        $('#modal_client_crn_status').val('');
+        $('#user_status').val('');
     });
 
     <?php if (session()->get("clientsave")) { ?>

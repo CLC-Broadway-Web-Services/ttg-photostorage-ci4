@@ -36,7 +36,7 @@ $routes->add('/forget-password', 'AuthController::forget_password', ['as' => 'fo
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->add('/login-guest', 'AuthController::login_guest', ['as' => 'login_guest']);
+// $routes->add('/login-guest', 'AuthController::login_guest', ['as' => 'login_guest']);
 
 // CLIENT ONLY ROUTES
 $routes->group('client', ['filter' => 'clientauth'], function ($routes) {

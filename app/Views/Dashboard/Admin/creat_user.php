@@ -28,7 +28,7 @@
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Create date</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right">Action</th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,7 +47,7 @@
                                 <span><?= date("d M Y, g:s A", $user['time']) ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <?php if ($user['status']) { ?>
+                                <?php if (intval($user['status'])) { ?>
                                     <span class="badge badge-dot badge-dot-xs badge-success">Active</span>
                                 <?php  } else { ?>
                                     <span class="badge badge-dot badge-dot-xs badge-danger">In-Active</span>
@@ -80,7 +80,7 @@
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
         <form class="modal-content" action="" novalidate="novalidate" method="post">
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+            <a href="javascript:void(0);" class="close"  data-dismiss="modal">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
@@ -89,15 +89,6 @@
             <div class="modal-body">
                 <div class="form-validate is-alter row">
                     <input name="modal_create_user_id" value="0" class="d-none" id="modal_create_user_id">
-                    <div class="form-group col-md-6 col-12 d-none">
-                        <label class="form-label" for="default-03">User Name</label>
-                        <div class="form-control-wrap">
-                            <div class="form-icon form-icon-left">
-                                <em class="icon ni ni-user"></em>
-                            </div>
-                            <input type="text" class="form-control" id="modal_create_user_name" name="username" value="<?= $new_username ?>" placeholder="User Name">
-                        </div>
-                    </div>
                     <div class="form-group col-md-6 col-12">
                         <label class="form-label" for="default-03">Name</label>
                         <div class="form-control-wrap">
@@ -133,7 +124,7 @@
                                 <em class="icon ni ni-globe"></em>
                             </div>
                             <!-- <input type="text" class="form-control" name="country" placeholder="Country"> -->
-                            <select name="country" class="country form-control" id="modal_admin_country" required onchange="edituser(this)" placeholder="Country">
+                            <select name="country" class="country form-control" id="modal_admin_country" required placeholder="Country">
                                 <option value="India">India</option>
                                 <option value="australia">Australia</option>
                                 <option value="canada">Canada</option>
@@ -394,6 +385,15 @@
                             <input type="text" class="form-control" id="modal_admin_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="user_status">Status</label>
+                        <div class="form-control-wrap">
+                            <select class="form-select" id="user_status" name="status" required>
+                                <option value="1">Active</option>
+                                <option value="0">In-Active</option>
+                            </select>
+                        </div>
+                    </div>
                     <input name="add_guest_user" class="d-none" value="add_guest_user">
                     <div class="form-group col-12">
                         <label class="form-label" for="user_avatarLabel">Profile Pic</label>
@@ -472,7 +472,8 @@
                 $('#modal_create_name').val(response.name);
                 $('#modal_create_user_email').val(response.email);
                 $('#modal_create_user_mobile').val(response.mobile);
-                $('#modal_create_user_country').val(response.country);
+                $('#modal_create_user_country').val(response.country).trigger('change');
+                $('#user_status').val(response.status).trigger('change');
                 // $('#modal_create_user_password').val(response.pass);
 
                 $('#modalDefault').modal('show')
@@ -483,14 +484,16 @@
     }
 
     $('#modalDefault').on('hidden.bs.modal', function(event) {
-        $('modal_create_user_id').val(0);
-        $('modal_create_user_name').val('');
-        $('modal_create_name').val('');
-        $('modal_create_user_email').val('');
-        $('modal_create_user_mobile').val('');
-        $('modal_create_user_country').val('');
-        $('modal_create_user_password').val('');
+        $('#modal_create_user_id').val(0);
+        $('#modal_create_user_name').val('');
+        $('#modal_create_name').val('');
+        $('#modal_create_user_email').val('');
+        $('#modal_create_user_mobile').val('');
+        $('#modal_create_user_country').val('');
+        $('#modal_create_user_password').val('');
+        $('#user_status').val('');
     })
+
     <?php if (session()->get("guestsave")) { ?>
         // console.log('guestsave found');
         const savedData = '<?= session()->get("guestsave.success") ?>'

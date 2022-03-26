@@ -21,3 +21,9 @@
         </div>
     </div>
 </div>
+<script>
+    function closeModal(id) {
+        var myModal = new bootstrap.Modal(document.getElementById(id));
+        myModal.hide();
+    }
+</script>

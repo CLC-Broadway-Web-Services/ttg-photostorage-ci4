@@ -94,7 +94,7 @@ $uri = current_url(true);
                                         <span class="nk-menu-text"> Manage Admins</span>
                                     </a>
                                 </li>
-                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'creat-user' ? 'active current-page' : '' ?>">
+                                <li class="nk-menu-item <?= $uri->getSegment(1) == 'create-user' ? 'active current-page' : '' ?>">
                                     <a href="<?= route_to('creat_user') ?>" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user-add-fill"></em></span>
                                         <span class="nk-menu-text">Create User</span>

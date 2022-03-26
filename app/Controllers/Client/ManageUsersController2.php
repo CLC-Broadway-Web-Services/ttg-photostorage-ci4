@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\Admin\AdminModel;
 use App\Models\Admin\ManageUserModel;
 
-class ManageUsersController extends BaseController
+class ManageUsersController2 extends BaseController
 {
     protected $client;
     protected $manageClient;
@@ -19,7 +19,7 @@ class ManageUsersController extends BaseController
         $this->manageClient = new AdminModel();
         $this->manageUser = new ManageUserModel();
         $this->session = session();
-        if($this->client->crn_status != 'super'){
+        if ($this->client->crn_status != 'super') {
             return redirect()->route('client_index');
             exit;
         }
@@ -27,12 +27,31 @@ class ManageUsersController extends BaseController
 
     public function creat_user()
     {
-        if(session()->get('loginType') == 'admin') {
+        if (session()->get('loginType') == 'admin') {
             $country = session()->get('user.country');
             $this->data['manage_user'] = $this->manageClient->where('type', 'guest')->where('country', $country)->orderBy('id', 'desc')->findAll();
         } else {
             $this->data['manage_user'] = $this->manageClient->where('type', 'guest')->orderBy('id', 'desc')->findAll();
         }
+
+
+        if ($this->request->getVar('add_guest_user')) {
+            $userData = [
+                'name' => $this->request->getVar('name') ? $this->request->getVar('name') : NULL,
+                'email' => $this->request->getVar('email') ? $this->request->getVar('email') : NULL,
+                'mobile' => $this->request->getVar('mobile') ? $this->request->getVar('mobile') : NULL,
+                'country' => $this->request->getVar('country') ? $this->request->getVar('country') : NULL,
+                // 'crn_status' => $this->request->getVar('crn_status') ? $this->request->getVar('crn_status') : NULL,
+                'pass' => $this->request->getVar('pass') ? $this->request->getVar('pass') : NULL,
+                'profile_pic' => $this->request->getFile('profile_pic')
+            ];
+            $saveUser = $this->createUser($userData, 'guest', intval($this->request->getVar('modal_create_user_id')));
+            session()->set('guestsave', $saveUser);
+            return redirect()->route('creat_user');
+        }
+
+
+
         $guestCounts = $this->manageClient->where('type', 'guest')->countAllResults();
         $new_username = 'ttg-000001';
         if ($guestCounts > 0) {
@@ -182,5 +201,146 @@ class ManageUsersController extends BaseController
             }
             return redirect()->route('client_creat_user');
         }
+    }
+
+
+    private function createUser($data, $type = NULL, $id = 0)
+    {
+        $response = ['success' => false];
+        $clientData = $data;
+        $clientData['type'] = $type;
+        $clientData['time'] = time();
+        $clientData['creator_id'] = session()->get('user.id');
+        unset($clientData['pass']);
+
+        $haveProfilePic = false;
+
+        if (isset($data['profile_pic'])) {
+            // $validationRules['profile_pic'] = [
+            //     'label' => 'Profile picture',
+            //     'rules'  => 'max_size[profile_pic,1024]',
+            //     'errors' => [
+            //         'max_size' => 'Image size should be maximum 1MB or less',
+            //     ],
+            // ];
+            $haveProfilePic = true;
+        } else {
+            unset($clientData['profile_pic']);
+        }
+        $email = $this->userMd->where('email', $data['email'])->first();
+
+        if ($id > 0) {
+            $user = $this->userMd->find($id);
+            if ($email && $data['email'] != $user['email']) {
+                // $response['success'] = false;
+                $response['message'] = 'This email is already in use, please input another email.';
+            } else {
+                $response['success'] = true;
+                $mobile = $this->userMd->where('mobile', $data['mobile'])->first();
+                if ($mobile) {
+                    // $response['success'] = false;
+                    $response['message'] = 'This mobile number is already in use, please input another mobile number.';
+                } else {
+                    $response['success'] = true;
+                }
+            }
+            $clientData['id'] = $id;
+            if ($data['name'] && $data['name'] != $user['name']) {
+                $clientData['name'] = $data['name'];
+            } else {
+                unset($clientData['name']);
+            }
+            if ($data['status'] && $data['status'] != $user['status']) {
+                $clientData['status'] = $data['status'];
+            } else {
+                unset($clientData['status']);
+            }
+            if ($data['email'] && $data['email'] != $user['email']) {
+                $clientData['email'] = $data['email'];
+            } else {
+                unset($clientData['email']);
+            }
+            if ($data['mobile'] && $data['mobile'] != $user['mobile']) {
+                $clientData['mobile'] = $data['mobile'];
+            } else {
+                unset($clientData['mobile']);
+            }
+            if ($data['country'] && $data['country'] != $user['country']) {
+                $clientData['country'] = $data['country'];
+            } else {
+                unset($clientData['country']);
+            }
+            if (isset($data['crn_status']) && $data['crn_status'] != $user['crn_status']) {
+                $clientData['crn_status'] = $data['crn_status'];
+            } else {
+                unset($clientData['crn_status']);
+            }
+            if ($type && $type != $user['type']) {
+                $clientData['type'] = $type;
+            } else {
+                unset($clientData['type']);
+            }
+            unset($clientData['time']);
+        } else {
+            if ($email) {
+                // $response['success'] = false;
+                $response['message'] = 'This email is already in use, please input another email.';
+            } else {
+                $response['success'] = true;
+                $mobile = $this->userMd->where('mobile', $data['mobile'])->first();
+                if ($mobile) {
+                    // $response['success'] = false;
+                    $response['message'] = 'This mobile number is already in use, please input another mobile number.';
+                } else {
+                    $response['success'] = true;
+                }
+            }
+        }
+        if ($data['pass']) {
+            $clientData['pass'] = passwordHash($data['pass']);
+        }
+        // $this->validation->setRules($validationRules);
+
+        // if (!$this->validation->run($clientData)) {
+        // if (!$this->validation->run($clientData)) {
+        //     $response['success'] = false;
+        //     $response['error_type'] = 'validation';
+        //     $response['message'] = $this->validation->listErrors();
+        // } else {
+        // save data to database
+        if ($response['success']) {
+            if ($haveProfilePic) {
+                $img = $data['profile_pic'];
+                if ($img->isValid() && !$img->hasMoved()) {
+                    $newName = $img->getRandomName();
+                    $img->move('uploads/profile_pic', $newName);
+                    $imgUrl = '/uploads/profile_pic/' . $newName;
+                    $clientData['profile_pic'] = $imgUrl;
+                } else {
+                    unset($clientData['profile_pic']);
+                }
+            } else {
+                unset($clientData['profile_pic']);
+            }
+            if ($this->userMd->save($clientData)) {
+                $response['success'] = true;
+                $message = $id > 0 ? 'Profile updated successfully.' : ucfirst($type) . ' created successfully.';
+                $response['message'] = $message;
+            } else {
+                $response['success'] = false;
+                $response['error_type'] = 'user_model';
+                $response['message'] = json_encode($this->userMd->error());
+            }
+        }
+        // }
+        // $success = json_encode($response['success']);
+        // $response['success'] = $success;
+
+        return $response;
+        // return $this->validation->listErrors();
+        // return $this->validate($validationRules);
+
+        // $validationRules = [];
+        // $this->userMd->setValidationRules($validationRules);
     }
 }

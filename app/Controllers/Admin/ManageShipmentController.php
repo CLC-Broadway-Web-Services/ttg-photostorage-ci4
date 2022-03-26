@@ -273,29 +273,39 @@ class ManageShipmentController extends BaseController
             // return print_r($this->request->getVar());
             if ($this->request->getVar('form_name') && $this->request->getVar('form_name') == 'login_form') {
 
-                $userEmail = $this->request->getVar('email');
-                $userPassword = $this->request->getVar('password');
+                // $userEmail = $this->request->getVar('email');
+                // $userPassword = $this->request->getVar('password');
 
-                $userDb = new AdminModel();
-                $getUser = $userDb->where('email', $userEmail)->first();
-                $response = ['success' => false, 'message' => ''];
+                $loginResponse = user_login($this->request->getVar('email'), $this->request->getVar('password'));
 
-                if (password_verify($userPassword, $getUser['pass']) && $getUser['status']) {
-                    // return print_r($getUser);
-                    unset($getUser['pass']);
-                    unset($getUser['token']);
-                    // return print_r($getUser);
-
-                    $sessionData['userLoggedIn'] = true;
-                    $sessionData['loginType'] = $getUser['type'];
-                    $sessionData['user'] = $getUser;
-                    session()->set($sessionData);
-
-                    return redirect()->route('manage_shipment_details', [$baseid]);
-                } else {
-                    // return print_r('not match or not activated');
-                    $response['message'] = 'Password or email not matched. Or User not activated yet.';
+                if (!$loginResponse['success']) {
+                    $sessionData = [
+                        'loginError' => $loginResponse['message']
+                    ];
+                    session()->setFlashdata($sessionData);
                 }
+
+                return redirect()->route('manage_shipment_details', [$baseid]);
+                // $userDb = new AdminModel();
+                // $getUser = $userDb->where('email', $userEmail)->first();
+                // $response = ['success' => false, 'message' => ''];
+
+                // if (password_verify($userPassword, $getUser['pass']) && $getUser['status']) {
+                //     // return print_r($getUser);
+                //     unset($getUser['pass']);
+                //     unset($getUser['token']);
+                //     // return print_r($getUser);
+
+                //     $sessionData['userLoggedIn'] = true;
+                //     $sessionData['loginType'] = $getUser['type'];
+                //     $sessionData['user'] = $getUser;
+                //     session()->set($sessionData);
+
+                //     return redirect()->route('manage_shipment_details', [$baseid]);
+                // } else {
+                //     // return print_r('not match or not activated');
+                //     $response['message'] = 'Password or email not matched. Or User not activated yet.';
+                // }
             }
             if (session()->get('userLoggedIn')) :
                 if (session()->get('loginType') == 'client' || session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') :

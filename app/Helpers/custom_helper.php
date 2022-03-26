@@ -626,7 +626,7 @@ if (!function_exists('generatePdf')) {
         $dompdf->render();
         ob_end_clean();
         return $dompdf->stream($file_name, array("Attachment" => false));
-        
+
         // (Optional) Setup the paper size and orientation
         // $dompdf->setPaper('A4', 'landscape');
 
@@ -679,6 +679,38 @@ if (!function_exists('base64_encode_html_image')) {
         }
 
         return "<img alt='{$alt}' src='data:image/{$ext};base64,{$b64}' style='height:100%;'/>";
+    }
+}
+
+if (!function_exists('user_login')) {
+    function user_login($userEmail, $userPassword)
+    {
+        $response = ['success' => false, 'message' => '', 'user_data' => []];
+        $userDb = new AdminModel();
+        $getUser = $userDb->where('email', $userEmail)->first();
+
+        if ($getUser['status'] == 0 || $getUser['status'] == '0') {
+            $response['message'] = 'You are not activated, please contact adminstration.';
+        } else {
+            if (password_verify($userPassword, $getUser['pass']) && $getUser['status']) {
+                // return print_r($getUser);
+                unset($getUser['pass']);
+                unset($getUser['token']);
+                // return print_r($getUser);
+
+                $sessionData['userLoggedIn'] = true;
+                $sessionData['loginType'] = $getUser['type'];
+                $sessionData['user'] = $getUser;
+                session()->set($sessionData);
+                $response['success'] = true;
+                $response['user_data'] = $getUser;
+            } else {
+                // return print_r('not match or not activated');
+                $response['message'] = 'Password or email not matched. Or User not activated yet.';
+            }
+        }
+
+        return $response;
     }
 }
 

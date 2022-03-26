@@ -71,13 +71,12 @@ class ManageUsersController extends BaseController
                 'country' => $this->request->getVar('country') ? $this->request->getVar('country') : NULL,
                 'crn_status' => $this->request->getVar('crn_status') ? $this->request->getVar('crn_status') : NULL,
                 'pass' => $this->request->getVar('pass') ? $this->request->getVar('pass') : NULL,
+                'status' => $this->request->getVar('status'),
                 'profile_pic' => $this->request->getFile('profile_pic')
             ];
-            // return print_r(json_encode($this->createUser($clientData, 'client', intval($this->request->getVar('client_id')))));
-            // return print_r($this->createUser($clientData, 'client', intval($this->request->getVar('client_id'))));
             $saveClient = $this->createUser($clientData, 'client', intval($this->request->getVar('client_id')));
             // session()->set('clientsave', $saveClient);
-            // return print_r($saveClient);
+            // return print_r($clientData);
             session()->set('clientsave', $saveClient);
             // session()->set('clientsaveMessage', $saveClient['message']);
             return redirect()->route('manage_client');
@@ -95,13 +94,17 @@ class ManageUsersController extends BaseController
             $this->data['testing_staff'] = $this->userMd->where('type', 'staff')->orderBy('id', 'desc')->findAll();
         }
 
+        if ($this->request->getVar('edit')) {
+            $getId = $this->request->getVar('id');
+            return json_encode($this->userMd->find($getId));
+        }
         if ($this->request->getVar('add_testing_staff')) {
             $userData = [
                 'name' => $this->request->getVar('name') ? $this->request->getVar('name') : NULL,
                 'email' => $this->request->getVar('email') ? $this->request->getVar('email') : NULL,
                 'mobile' => $this->request->getVar('mobile') ? $this->request->getVar('mobile') : NULL,
                 'country' => $this->request->getVar('country') ? $this->request->getVar('country') : NULL,
-                // 'crn_status' => $this->request->getVar('crn_status') ? $this->request->getVar('crn_status') : NULL,
+                'status' => $this->request->getVar('status') ? $this->request->getVar('status') : NULL,
                 'pass' => $this->request->getVar('pass') ? $this->request->getVar('pass') : NULL,
                 'profile_pic' => $this->request->getFile('profile_pic')
             ];
@@ -112,7 +115,6 @@ class ManageUsersController extends BaseController
         return view('Dashboard/Admin/testing_staff', $this->data);
     }
 
-
     public function shipping_staff()
     {
         if (session()->get('loginType') == 'admin') {
@@ -122,13 +124,17 @@ class ManageUsersController extends BaseController
             $this->data['shipping_staff'] = $this->userMd->where('type', 'ship')->orderBy('id', 'desc')->findAll();
         }
 
+        if ($this->request->getVar('edit')) {
+            $getId = $this->request->getVar('id');
+            return json_encode($this->userMd->find($getId));
+        }
         if ($this->request->getVar('add_shipping_staff')) {
             $userData = [
                 'name' => $this->request->getVar('name') ? $this->request->getVar('name') : NULL,
                 'email' => $this->request->getVar('email') ? $this->request->getVar('email') : NULL,
                 'mobile' => $this->request->getVar('mobile') ? $this->request->getVar('mobile') : NULL,
                 'country' => $this->request->getVar('country') ? $this->request->getVar('country') : NULL,
-                // 'crn_status' => $this->request->getVar('crn_status') ? $this->request->getVar('crn_status') : NULL,
+                'status' => $this->request->getVar('status') ? $this->request->getVar('status') : NULL,
                 'pass' => $this->request->getVar('pass') ? $this->request->getVar('pass') : NULL,
                 'profile_pic' => $this->request->getFile('profile_pic')
             ];
@@ -139,7 +145,6 @@ class ManageUsersController extends BaseController
         return view('Dashboard/Admin/shipping_staff', $this->data);
     }
 
-
     public function manage_admin()
     {
         if (session()->get('loginType') == 'admin') {
@@ -149,13 +154,17 @@ class ManageUsersController extends BaseController
             $this->data['manage_admin'] = $this->userMd->where('type', 'admin')->orderBy('id', 'desc')->findAll();
         }
 
+        if ($this->request->getVar('edit')) {
+            $getId = $this->request->getVar('id');
+            return json_encode($this->userMd->find($getId));
+        }
         if ($this->request->getVar('add_admin')) {
             $userData = [
                 'name' => $this->request->getVar('name') ? $this->request->getVar('name') : NULL,
                 'email' => $this->request->getVar('email') ? $this->request->getVar('email') : NULL,
                 'mobile' => $this->request->getVar('mobile') ? $this->request->getVar('mobile') : NULL,
                 'country' => $this->request->getVar('country') ? $this->request->getVar('country') : NULL,
-                // 'crn_status' => $this->request->getVar('crn_status') ? $this->request->getVar('crn_status') : NULL,
+                'status' => $this->request->getVar('status') ? $this->request->getVar('status') : NULL,
                 'pass' => $this->request->getVar('pass') ? $this->request->getVar('pass') : NULL,
                 'profile_pic' => $this->request->getFile('profile_pic')
             ];
@@ -200,7 +209,7 @@ class ManageUsersController extends BaseController
                 'email' => $this->request->getVar('email') ? $this->request->getVar('email') : NULL,
                 'mobile' => $this->request->getVar('mobile') ? $this->request->getVar('mobile') : NULL,
                 'country' => $this->request->getVar('country') ? $this->request->getVar('country') : NULL,
-                // 'crn_status' => $this->request->getVar('crn_status') ? $this->request->getVar('crn_status') : NULL,
+                'status' => $this->request->getVar('status') ? $this->request->getVar('status') : NULL,
                 'pass' => $this->request->getVar('pass') ? $this->request->getVar('pass') : NULL,
                 'profile_pic' => $this->request->getFile('profile_pic')
             ];
@@ -251,13 +260,6 @@ class ManageUsersController extends BaseController
         $haveProfilePic = false;
 
         if (isset($data['profile_pic'])) {
-            // $validationRules['profile_pic'] = [
-            //     'label' => 'Profile picture',
-            //     'rules'  => 'max_size[profile_pic,1024]',
-            //     'errors' => [
-            //         'max_size' => 'Image size should be maximum 1MB or less',
-            //     ],
-            // ];
             $haveProfilePic = true;
         } else {
             unset($clientData['profile_pic']);
@@ -285,6 +287,11 @@ class ManageUsersController extends BaseController
             } else {
                 unset($clientData['name']);
             }
+            // if ($data['status'] && intval($data['status']) != intval($user['status'])) {
+                $clientData['status'] = $data['status'];
+            // } else {
+            //     unset($clientData['status']);
+            // }
             if ($data['email'] && $data['email'] != $user['email']) {
                 $clientData['email'] = $data['email'];
             } else {
@@ -329,14 +336,7 @@ class ManageUsersController extends BaseController
         if ($data['pass']) {
             $clientData['pass'] = passwordHash($data['pass']);
         }
-        // $this->validation->setRules($validationRules);
-
-        // if (!$this->validation->run($clientData)) {
-        // if (!$this->validation->run($clientData)) {
-        //     $response['success'] = false;
-        //     $response['error_type'] = 'validation';
-        //     $response['message'] = $this->validation->listErrors();
-        // } else {
+        
         // save data to database
         if ($response['success']) {
             if ($haveProfilePic) {
@@ -362,297 +362,7 @@ class ManageUsersController extends BaseController
                 $response['message'] = json_encode($this->userMd->error());
             }
         }
-        // }
-        // $success = json_encode($response['success']);
-        // $response['success'] = $success;
 
         return $response;
-        // return $this->validation->listErrors();
-        // return $this->validate($validationRules);
-
-        // $validationRules = [];
-        // $this->userMd->setValidationRules($validationRules);
     }
-
-    // no needed functions
-
-    // public function create()
-    // {
-    //     if ($this->request->getVar('delete')) {
-
-    //         $getId = $this->request->getVar('id');
-    //         return $this->manageUser->delete($getId);
-    //     }
-
-    //     if ($this->request->getVar('edit')) {
-
-    //         $getId = $this->request->getVar('id');
-    //         return json_encode($this->manageUser->find($getId));
-    //     }
-
-    //     $createUserId = $this->request->getVar('modal_create_user_id');
-    //     $createUserUserName = $this->request->getVar('username');
-    //     $createUserName = $this->request->getVar('name');
-    //     $createUserEmail = $this->request->getVar('email');
-    //     $createUserMobile = $this->request->getVar('mobile');
-    //     $createUserCountry = $this->request->getVar('country');
-    //     $createUserPassword = $this->request->getVar('password');
-    //     // return print_r($clientPassword);
-
-    //     // $this->userMd = new AdminModel();
-    //     $createUserData = [
-    //         'name' => $createUserName,
-    //         'username' => $createUserUserName,
-    //         'email' => $createUserEmail,
-    //         'created_date' => time(),
-    //         'mobile' => $createUserMobile,
-    //         'country' => $createUserCountry,
-    //         'type' => 'client',
-    //     ];
-    //     if ($createUserPassword) {
-
-    //         $createUserData['password'] = $createUserPassword;
-    //     }
-
-    //     if ($createUserId > 0) {
-
-    //         $createUserData['adduserID'] = $createUserId;
-    //     } else {
-    //         // new client here
-    //         // $check = $this->userMd->where('email', $clientEmail)->first();
-    //         // if ($check) {
-    //         //     return redirect()->route('manage_client')->with('error', 'email exist');
-    //         // }
-    //         if (isset($createUserData['adduserID'])) {
-    //             unset($createUserData['adduserID']);
-    //         }
-    //     }
-    //     // return print_r($createUserData);
-    //     $saveQuery = $this->manageUser->save($createUserData);
-
-    //     if ($saveQuery) {
-    //         $this->session->setFlashdata("success", "This is success message");
-    //         return redirect()->route('creat_user');
-    //     } else {
-    //         $response['message'] = 'User not found';
-    //     }
-    // }
-    public function edit_manage_user()
-    {
-
-        $adminId = $this->request->getVar('modal_admin_id');
-        $adminName = $this->request->getVar('name');
-        $adminEmail = $this->request->getVar('email');
-        $adminMobile = $this->request->getVar('mobile');
-        $adminCountry = $this->request->getVar('country');
-        $username = $this->request->getVar('username');
-        $adminPassword = $this->request->getVar('pass') ? passwordHash($this->request->getVar('pass')) : NULL;
-
-        // $this->userMd = new AdminModel();
-        $adminData = [
-            'name' => $adminName,
-            'email' => $adminEmail,
-            'time' => time(),
-            'mobile' => $adminMobile,
-            'country' => $adminCountry,
-            'username' => $username,
-            'type' => 'guest',
-            'creator_id' => session()->get('user.id')
-        ];
-        if ($adminPassword) {
-            $adminData['pass'] = $adminPassword;
-        }
-
-        if ($adminId > 0) {
-            $adminData['id'] = $adminId;
-        } else {
-            if (isset($adminData['id'])) {
-                unset($adminData['id']);
-            }
-        }
-        // return print_r($clientData);
-        $saveQuery = $this->userMd->save($adminData);
-
-        if ($saveQuery) {
-            $this->session->setFlashdata("success", "This is success message");
-        } else {
-            $this->session->setFlashdata("error", "Unable to save user.");
-        }
-        return redirect()->route('creat_user');
-    }
-    // public function edit_manage_admin()
-    // {
-    //     if ($this->request->getVar('delete')) {
-
-    //         $getId = $this->request->getVar('id');
-    //         return $this->userMd->delete($getId);
-    //     }
-
-    //     if ($this->request->getVar('edit')) {
-
-    //         $getId = $this->request->getVar('id');
-    //         return json_encode($this->userMd->find($getId));
-    //     }
-
-    //     $adminId = $this->request->getVar('modal_admin_id');
-    //     $adminName = $this->request->getVar('name');
-    //     $adminEmail = $this->request->getVar('email');
-    //     $adminMobile = $this->request->getVar('mobile');
-    //     $adminCountry = $this->request->getVar('country');
-    //     $adminPassword = $this->request->getVar('pass') ? passwordHash($this->request->getVar('pass')) : NULL;
-    //     // return print_r($clientPassword);
-
-    //     // $this->userMd = new AdminModel();
-    //     $adminData = [
-    //         'name' => $adminName,
-    //         'email' => $adminEmail,
-    //         'time' => time(),
-    //         'mobile' => $adminMobile,
-    //         'country' => $adminCountry,
-    //         'type' => 'admin',
-    //     ];
-    //     if ($adminPassword) {
-    //         $adminData['pass'] = $adminPassword;
-    //     }
-
-    //     if ($adminId > 0) {
-
-    //         $adminData['id'] = $adminId;
-    //     } else {
-    //         // new client here
-    //         // $check = $this->userMd->where('email', $clientEmail)->first();
-    //         // if ($check) {
-    //         //     return redirect()->route('manage_client')->with('error', 'email exist');
-    //         // }
-    //         if (isset($adminData['id'])) {
-    //             unset($adminData['id']);
-    //         }
-    //     }
-    //     // return print_r($clientData);
-    //     $saveQuery = $this->userMd->save($adminData);
-
-    //     if ($saveQuery) {
-    //         $this->session->setFlashdata("success", "This is success message");
-    //         return redirect()->route('manage_admin');
-    //     } else {
-    //         $response['message'] = 'User not found';
-    //     }
-    // }
-    // public function edit_shipping_staff()
-    // {
-    //     if ($this->request->getVar('delete')) {
-
-    //         $getId = $this->request->getVar('id');
-    //         return $this->userMd->delete($getId);
-    //     }
-
-    //     if ($this->request->getVar('edit')) {
-
-    //         $getId = $this->request->getVar('id');
-    //         return json_encode($this->userMd->find($getId));
-    //     }
-
-    //     $shippingId = $this->request->getVar('modal_shipping_id');
-    //     $shippingName = $this->request->getVar('name');
-    //     $shippingEmail = $this->request->getVar('email');
-    //     $shippingMobile = $this->request->getVar('mobile');
-    //     $shippingCountry = $this->request->getVar('country');
-    //     $shippingPassword = passwordHash($this->request->getVar('pass'));
-    //     // return print_r($clientPassword);
-
-    //     // $this->userMd = new AdminModel();
-    //     $shippingData = [
-    //         'name' => $shippingName,
-    //         'email' => $shippingEmail,
-    //         'time' => time(),
-    //         'mobile' => $shippingMobile,
-    //         'country' => $shippingCountry,
-    //         'type' => 'ship',
-    //     ];
-    //     if ($shippingPassword) {
-
-    //         $shippingData['pass'] = $shippingPassword;
-    //     }
-
-    //     if ($shippingId > 0) {
-
-    //         $shippingData['id'] = $shippingId;
-    //     } else {
-    //         // new client here
-    //         // $check = $this->userMd->where('email', $clientEmail)->first();
-    //         // if ($check) {
-    //         //     return redirect()->route('manage_client')->with('error', 'email exist');
-    //         // }
-    //         if (isset($shippingData['id'])) {
-    //             unset($shippingData['id']);
-    //         }
-    //     }
-    //     // return print_r($clientData);
-    //     $saveQuery = $this->userMd->save($shippingData);
-
-    //     if ($saveQuery) {
-    //         $this->session->setFlashdata("success", "This is success message");
-    //         return redirect()->route('shipping_staff');
-    //     } else {
-    //         $response['message'] = 'User not found';
-    //     }
-    // }
-    // public function edit_testing_staff()
-    // {
-    //     if ($this->request->getVar('delete')) {
-
-    //         $getId = $this->request->getVar('id');
-    //         return $this->userMd->delete($getId);
-    //     }
-
-    //     if ($this->request->getVar('edit')) {
-
-    //         $getId = $this->request->getVar('id');
-    //         return json_encode($this->userMd->find($getId));
-    //     }
-
-    //     $testingId = $this->request->getVar('modal_testing_staff_id');
-    //     $testingName = $this->request->getVar('name');
-    //     $testingEmail = $this->request->getVar('email');
-    //     $testingMobile = $this->request->getVar('mobile');
-    //     $testingCountry = $this->request->getVar('country');
-    //     $testingPassword = $this->request->getVar('pass') ? passwordHash($this->request->getVar('pass')) : NULL;
-    //     // return print_r($clientPassword);
-    //     // $this->userMd = new AdminModel();
-    //     $testingData = [
-    //         'name' => $testingName,
-    //         'email' => $testingEmail,
-    //         'time' => time(),
-    //         'mobile' => $testingMobile,
-    //         'country' => $testingCountry,
-    //         'type' => 'staff',
-    //     ];
-
-    //     if ($testingPassword) {
-    //         $testingData['pass'] = $testingPassword;
-    //     }
-
-    //     if ($testingId > 0) {
-
-    //         $testingData['id'] = $testingId;
-    //     } else {
-    //         // new client here
-    //         // $check = $this->userMd->where('email', $clientEmail)->first();
-    //         // if ($check) {
-    //         //     return redirect()->route('manage_client')->with('error', 'email exist');
-    //         // }
-    //         if (isset($testingData['id'])) {
-    //             unset($testingData['id']);
-    //         }
-    //     }
-    //     // return print_r($clientData);
-    //     $saveQuery = $this->userMd->save($testingData);
-
-    //     if ($saveQuery) {
-    //         $this->session->setFlashdata("success", "This is success message");
-    //         return redirect()->route('testing_staff');
-    //     } else {
-    //         $response['message'] = 'User not found';
-    //     }
-    // }
 }

@@ -20,17 +20,12 @@
             <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col nk-tb-col-check">
-                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                <input type="checkbox" class="custom-control-input" id="uid">
-                                <label class="custom-control-label" for="uid"></label>
-                            </div>
-                        </th>
                         <th class="nk-tb-col"><span class="sub-text">Admin ID</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Admin Name</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Mobile No.</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right">Action
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right">
                         </th>
                     </tr>
                 </thead>
@@ -39,12 +34,6 @@
                         $id = $admin['id'];
                     ?>
                         <tr class="nk-tb-item">
-                            <td class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="uid1">
-                                    <label class="custom-control-label" for="uid1"></label>
-                                </div>
-                            </td>
                             <td class="nk-tb-col">
                                 <div class="user-card">
                                     <div class="user-info">
@@ -70,6 +59,13 @@
                             </td>
                             <td class="nk-tb-col tb-col-md">
                                 <span><?= $admin['country'] ?></span>
+                            </td>
+                            <td class="nk-tb-col tb-col-md">
+                                <?php if (intval($admin['status'])) { ?>
+                                    <span class="badge badge-dot badge-dot-xs badge-success">Active</span>
+                                <?php  } else { ?>
+                                    <span class="badge badge-dot badge-dot-xs badge-danger">In-Active</span>
+                                <?php } ?>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
@@ -97,7 +93,7 @@
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
         <form class="modal-content" action="" novalidate="novalidate" method="post">
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+            <a href="javascript:void(0);" class="close"  data-dismiss="modal">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
@@ -141,7 +137,7 @@
                                 <em class="icon ni ni-globe"></em>
                             </div>
                             <!-- <input type="text" class="form-control" name="country" placeholder="Country"> -->
-                            <select name="country" class="country form-control" id="modal_admin_country" required onchange="edituser(this)" placeholder="Country">
+                            <select name="country" class="country form-control" id="modal_admin_country" required placeholder="Country">
                                 <option value="India">India</option>
                                 <option value="australia">Australia</option>
                                 <option value="canada">Canada</option>
@@ -402,6 +398,15 @@
                             <input type="text" class="form-control" id="modal_admin_password" name="pass" required placeholder="Password">
                         </div>
                     </div>
+                    <div class="form-group col-md-6 col-12">
+                        <label class="form-label" for="user_status">Status</label>
+                        <div class="form-control-wrap">
+                            <select class="form-select" id="user_status" name="status" required>
+                                <option value="1">Active</option>
+                                <option value="0">In-Active</option>
+                            </select>
+                        </div>
+                    </div>
                     <input name="add_admin" class="d-none" value="add_admin">
                     <div class="form-group col-12">
                         <label class="form-label" for="user_avatarLabel">Profile Pic</label>
@@ -466,7 +471,7 @@
         console.log(id);
         $.ajax({
             type: 'POST',
-            url: '<?= base_url(route_to('edit_manage_admin')); ?>',
+            url: '',
             data: {
                 edit: 'edit',
                 id: id
@@ -479,8 +484,9 @@
                 $('#modal_admin_name').val(response.name);
                 $('#modal_admin_email').val(response.email);
                 $('#modal_admin_mobile').val(response.mobile);
-                $('#modal_admin_country').val(response.country);
+                $('#modal_admin_country').val(response.country).trigger('change');
                 // $('#modal_client_password').val(response.pass);
+                $('#user_status').val(response.status).trigger('change');
 
                 $('#modalDefault').modal('show')
                 // console.log(result);
@@ -490,12 +496,13 @@
     }
 
     $('#modalDefault').on('hidden.bs.modal', function(event) {
-        $('modal_admin_id').val(0);
-        $('modal_admin_name').val('');
-        $('modal_admin_email').val('');
-        $('modal_admin_mobile').val('');
-        $('modal_admin_country').val('');
-        $('modal_admin_password').val('');
+        $('#modal_admin_id').val(0);
+        $('#modal_admin_name').val('');
+        $('#modal_admin_email').val('');
+        $('#modal_admin_mobile').val('');
+        $('#modal_admin_country').val('');
+        $('#modal_admin_password').val('');
+        $('#user_status').val('');
     })
     <?php if (session()->get("adminsave")) { ?>
         // console.log('adminsave found');

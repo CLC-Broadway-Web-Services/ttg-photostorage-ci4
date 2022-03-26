@@ -15,74 +15,89 @@ class AuthController extends BaseController
         $userDb = new AdminModel();
         // $userDb->createDeveloperAccount();
         if ($this->request->getMethod() == 'post') {
-            $userEmail = $this->request->getVar('email');
-            $userPassword = $this->request->getVar('password');
+            // $userEmail = $this->request->getVar('email');
+            // $userPassword = $this->request->getVar('password');
 
-            $getUser = $userDb->where('email', $userEmail)->first();
-            $response = ['success' => false, 'message' => ''];
-
-            if (password_verify($userPassword, $getUser['pass'])) {
-                // return print_r($getUser);
-                unset($getUser['pass']);
-                unset($getUser['token']);
-                // return print_r($getUser);
-
-                $sessionData['userLoggedIn'] = true;
-                $sessionData['loginType'] = $getUser['type'];
-                $sessionData['user'] = $getUser;
-                session()->set($sessionData);
-
-                if ($getUser['type'] == 'client') {
-                    return redirect()->route('client_index');
-                }
-                return redirect()->route('admin_index');
-            } else {
+            // $getUser = $userDb->where('email', $userEmail)->first();
+            // $response = ['success' => false, 'message' => ''];
+            $loginResponse = user_login($this->request->getVar('email'), $this->request->getVar('password'));
+            
+            if (!$loginResponse['success']) {
                 $sessionData = [
-                    'loginError' => 'Credentials not matched'
+                    'loginError' => $loginResponse['message']
                 ];
-                session()->set($sessionData);
+                session()->setFlashdata($sessionData);
                 return redirect()->back();
-                // return print_r('not match');
-                $response['message'] = 'Password or email not matched.';
+            } else {
+                $user = $loginResponse['user_data'];
+                if ($user == 'client') {
+                    return redirect()->route('client_index');
+                } else {
+                    return redirect()->route('admin_index');
+                }
             }
+
+
+            // if (password_verify($userPassword, $getUser['pass'])) {
+            //     // return print_r($getUser);
+            //     unset($getUser['pass']);
+            //     unset($getUser['token']);
+            //     // return print_r($getUser);
+
+            //     $sessionData['userLoggedIn'] = true;
+            //     $sessionData['loginType'] = $getUser['type'];
+            //     $sessionData['user'] = $getUser;
+            //     session()->set($sessionData);
+
+            //     if ($getUser['type'] == 'client') {
+            //         return redirect()->route('client_index');
+            //     }
+            //     return redirect()->route('admin_index');
+            // } else {
+            //     $sessionData = [
+            //         'loginError' => 'Credentials not matched'
+            //     ];
+            //     session()->set($sessionData);
+            //     return redirect()->back();
+            // }
         }
         return view('Auth/index');
     }
-    public function login_guest()
-    {
+    // public function login_guest()
+    // {
 
-        return print_r($_SERVER);
-        if ($this->request->getMethod() == 'post') {
+    //     return print_r($_SERVER);
+    //     if ($this->request->getMethod() == 'post') {
 
-            $userEmail = $this->request->getVar('email');
-            $userPassword = $this->request->getVar('password');
+    //         $userEmail = $this->request->getVar('email');
+    //         $userPassword = $this->request->getVar('password');
 
-            $userDb = new AdminModel();
-            $getUser = $userDb->where('email', $userEmail)->first();
-            $response = ['success' => false, 'message' => ''];
+    //         $userDb = new AdminModel();
+    //         $getUser = $userDb->where('email', $userEmail)->first();
+    //         $response = ['success' => false, 'message' => ''];
 
-            if (password_verify($userPassword, $getUser['pass'])) {
-                // return print_r($getUser);
-                unset($getUser['pass']);
-                unset($getUser['token']);
-                // return print_r($getUser);
+    //         if (password_verify($userPassword, $getUser['pass'])) {
+    //             // return print_r($getUser);
+    //             unset($getUser['pass']);
+    //             unset($getUser['token']);
+    //             // return print_r($getUser);
 
-                $sessionData['userLoggedIn'] = true;
-                $sessionData['loginType'] = $getUser['type'];
-                $sessionData['user'] = $getUser;
-                session()->set($sessionData);
+    //             $sessionData['userLoggedIn'] = true;
+    //             $sessionData['loginType'] = $getUser['type'];
+    //             $sessionData['user'] = $getUser;
+    //             session()->set($sessionData);
 
-                if ($getUser['type'] == 'client') {
-                    return redirect()->route('client_index');
-                }
-                return redirect()->route('admin_index');
-            } else {
-                return print_r('not match');
-                $response['message'] = 'Password or email not matched.';
-            }
-        }
-        return view('Auth/guest_login');
-    }
+    //             if ($getUser['type'] == 'client') {
+    //                 return redirect()->route('client_index');
+    //             }
+    //             return redirect()->route('admin_index');
+    //         } else {
+    //             return print_r('not match');
+    //             $response['message'] = 'Password or email not matched.';
+    //         }
+    //     }
+    //     return view('Auth/guest_login');
+    // }
     public function client()
     {
         if ($this->request->getMethod() == 'post') {
