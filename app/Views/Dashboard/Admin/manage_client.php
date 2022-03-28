@@ -17,7 +17,7 @@
     </div>
     <div class="card card-preview">
         <div class="card-inner">
-            <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+            <table id="datatableClient" class="nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col"><span class="sub-text">Client ID</span></th>
@@ -75,7 +75,7 @@
                                 <?php } ?>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                    <span class="badge badge-dot badge-dot-xs badge-<?= intval($clients['status']) ? 'success' : 'danger' ?>"><?= intval($clients['status']) ? 'Active' : 'In-Active' ?></span>
+                                <span class="badge badge-dot badge-dot-xs badge-<?= intval($clients['status']) ? 'success' : 'danger' ?>"><?= intval($clients['status']) ? 'Active' : 'In-Active' ?></span>
                             </td>
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
@@ -106,7 +106,7 @@
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
         <form class="modal-content" action="" novalidate="novalidate" method="post" enctype="multipart/form-data">
-            <a href="javascript:void(0);" class="close"  data-dismiss="modal">
+            <a href="javascript:void(0);" class="close" data-dismiss="modal">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
@@ -384,7 +384,7 @@
                                 <option value="Uganda">Uganda</option>
                                 <option value="United Kingdom">United Kingdom</option>
                                 <option value="Ukraine">Ukraine</option>
-                                <option value="United Arab Erimates">United Arab Emirates</option>
+                                <option value="United Arab Emirates">United Arab Emirates</option>
                                 <option value="Uraguay">Uruguay</option>
                                 <option value="Uzbekistan">Uzbekistan</option>
                                 <option value="Vanuatu">Vanuatu</option>
@@ -505,6 +505,13 @@
 
 <?= $this->section('javascript') ?>
 <script>
+    NioApp.DataTable('#datatableClient', {
+        order: [
+            [0, 'desc']
+        ]
+    });
+    $.fn.DataTable.ext.pager.numbers_length = 7;
+
     function deleteData(id) {
         console.log(id);
         swal({

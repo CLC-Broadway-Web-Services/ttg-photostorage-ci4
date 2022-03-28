@@ -15,6 +15,40 @@
             color: #fff;
             font-weight: 700;
         }
+
+        .quick-icon img.icon {
+            border-radius: 50%;
+        }
+
+        .quick-icon {
+            display: inline-flex;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+        }
+
+        .country-list li.active {
+            background: #d7d7d7;
+            border-radius: 15px;
+        }
+
+        .country-list li {
+            padding-left: 7px;
+            padding-right: 7px;
+        }
+
+        /* .country-item {
+            cursor: pointer;
+            flex-grow: 0.7;
+        } */
+
+        /* .country-list .country-item-icon ,
+        .country-list .country-item {
+            display: inline-block;
+        }
+        .country-list .country-item-icon {
+            float: right;
+        } */
     </style>
 
 </head>
@@ -154,83 +188,19 @@ $uri = current_url(true);
                                             <em class="icon ni ni-globe"></em> <?= session()->get('user.country');  ?>
                                         </li>
                                     <?php endif; ?>
-                                    <!-- <li class="dropdown chats-dropdown hide-mb-xs">
-                                        <a href="<?= route_to('app_chats') ?>" class="dropdown-toggle nk-quick-nav-icon" data-toggle="">
-                                            <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
-                                        </a>
-                                    </li> -->
-                                    <!-- <li class="dropdown notification-dropdown">
-                                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
-                                            <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
-                                            <div class="dropdown-head">
-                                                <span class="sub-title nk-dropdown-title">Notifications</span>
-                                                <a href="#">Mark All as Read</a>
-                                            </div>
-                                            <div class="dropdown-body">
-                                                <div class="nk-notification">
-                                                    <div class="nk-notification-item dropdown-inner">
-                                                        <div class="nk-notification-icon">
-                                                            <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                                                        </div>
-                                                        <div class="nk-notification-content">
-                                                            <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
-                                                            <div class="nk-notification-time">2 hrs ago</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nk-notification-item dropdown-inner">
-                                                        <div class="nk-notification-icon">
-                                                            <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                                                        </div>
-                                                        <div class="nk-notification-content">
-                                                            <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
-                                                            <div class="nk-notification-time">2 hrs ago</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nk-notification-item dropdown-inner">
-                                                        <div class="nk-notification-icon">
-                                                            <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                                                        </div>
-                                                        <div class="nk-notification-content">
-                                                            <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
-                                                            <div class="nk-notification-time">2 hrs ago</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nk-notification-item dropdown-inner">
-                                                        <div class="nk-notification-icon">
-                                                            <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                                                        </div>
-                                                        <div class="nk-notification-content">
-                                                            <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
-                                                            <div class="nk-notification-time">2 hrs ago</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nk-notification-item dropdown-inner">
-                                                        <div class="nk-notification-icon">
-                                                            <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                                                        </div>
-                                                        <div class="nk-notification-content">
-                                                            <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
-                                                            <div class="nk-notification-time">2 hrs ago</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nk-notification-item dropdown-inner">
-                                                        <div class="nk-notification-icon">
-                                                            <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                                                        </div>
-                                                        <div class="nk-notification-content">
-                                                            <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
-                                                            <div class="nk-notification-time">2 hrs ago</div>
-                                                        </div>
-                                                    </div>
+                                    <?php if (session()->get('loginType') == 'superadmin') : ?>
+                                        <li class="language-dropdown d-none d-sm-block mr-n1 show">
+                                            <a href="#" data-toggle="modal" data-target="#region" class="nk-quick-nav-icon" aria-expanded="true" title="<?= session()->get('country') ? session()->get('country') : 'Global' ?>">
+                                                <div class="quick-icon">
+                                                    <?php if (session()->get('country') && session()->get('country') != '' && isset(getCountriesListCodes()[session()->get('country')])) : ?>
+                                                        <img class="icon" src="/public/images/flags/<?= getCountriesListCodes()[session()->get('country')] ?>.svg">
+                                                    <?php else : ?>
+                                                        <em class="country-flag ni ni-globe"></em>
+                                                    <?php endif; ?>
                                                 </div>
-                                            </div>
-                                            <div class="dropdown-foot center">
-                                                <a href="<?= route_to('notifications') ?>">View All</a>
-                                            </div>
-                                        </div>
-                                    </li> -->
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
                                     <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
                                             <div class="user-toggle">
@@ -312,9 +282,43 @@ $uri = current_url(true);
         </div>
 
     </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="region">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                <div class="modal-body modal-body-sm">
+                    <h5 class="title mb-4 d-inline">Select Country</h5>
+                    <div class="nk-country-region mt-2">
+                        <ul class="country-list text-center gy-2">
+                            <li class="<?= !session()->get('country') ? 'active' : '' ?>">
+                                <a href="<?= route_to('remove_country') ?>" class="country-item">
+                                    <em class="country-flag ni ni-globe"></em>
+                                    <span class="country-name">Global</span>
+                                </a>
+                            </li>
+                            <?php foreach (getTTGCountriesList() as $value) : ?>
+                                <?php if (isset(getCountriesListCodes()[$value])) : ?>
+                                    <li class="<?= session()->get('country') && session()->get('country') == $value ? 'active' : '' ?>">
+                                        <a href="<?= route_to('change_country', $value) ?>" class="country-item">
+                                            <img src="/public/images/flags/<?= getCountriesListCodes()[$value] ?>.svg" class="country-flag">
+                                            <span class="country-name"><?= $value ?></span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- .modal-content -->
+        </div><!-- .modla-dialog -->
+    </div>
 
     <?= view('globals/scripts') ?>
     <script>
+        $('#user_country_dropdown').select2({
+            dropdownParent: $('.nk-header-tools')
+        });
+
         function copyText(textValue) {
             console.log(textValue);
             /* Copy the text inside the text field */

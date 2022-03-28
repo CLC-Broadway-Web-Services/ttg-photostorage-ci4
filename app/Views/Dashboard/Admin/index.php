@@ -47,7 +47,7 @@
                                             <h6 class="title">Total Shipments</h6>
                                         </div>
                                     </div>
-                                    <div class="data">
+                                    <div class="data" id="total_shipments">
                                         <div class="data-group">
                                             <div class="amount"><?= $shipments['total'] ?></div>
                                             <div class="nk-ecwg6-ck">
@@ -56,7 +56,7 @@
                                         <div class="info">
                                             <span class="change <?= $shipments['percentage'] >= 100 ? 'up' : 'down' ?> text-danger">
                                                 <em class="icon ni ni-arrow-long-<?= $shipments['percentage'] >= 100 ? 'up' : 'down' ?>"></em>
-                                                <?= round($shipments['percentage'], 2) ?> %
+                                                <span class="percentage"><?= round($shipments['percentage'], 2) ?></span> %
                                             </span>
                                             <span> vs. last month</span>
                                         </div>
@@ -75,7 +75,7 @@
                                             <h6 class="title">Total CRN's</h6>
                                         </div>
                                     </div>
-                                    <div class="data">
+                                    <div class="data" id="total_crns">
                                         <div class="data-group">
                                             <div class="amount"><?= $crns['total'] ?></div>
                                             <div class="nk-ecwg6-ck">
@@ -84,7 +84,7 @@
                                         <div class="info">
                                             <span class="change <?= $crns['percentage'] >= 100 ? 'up' : 'down' ?> text-danger">
                                                 <em class="icon ni ni-arrow-long-<?= $crns['percentage'] >= 100 ? 'up' : 'down' ?>"></em>
-                                                <?= round($crns['percentage'], 2) ?> %
+                                                <span class="percentage"><?= round($crns['percentage'], 2) ?></span> %
                                             </span>
                                             <span> vs. last month</span>
                                         </div>
@@ -103,7 +103,7 @@
                                             <h6 class="title">Total Assets</h6>
                                         </div>
                                     </div>
-                                    <div class="data">
+                                    <div class="data" id="total_assets">
                                         <div class="data-group">
                                             <div class="amount"><?= $assets['total'] ?></div>
                                             <div class="nk-ecwg6-ck">
@@ -112,7 +112,7 @@
                                         <div class="info">
                                             <span class="change <?= $assets['percentage'] >= 100 ? 'up' : 'down' ?> text-danger">
                                                 <em class="icon ni ni-arrow-long-<?= $assets['percentage'] >= 100 ? 'up' : 'down' ?>"></em>
-                                                <?= round($assets['percentage'], 2) ?> %
+                                                <span class="percentage"><?= round($assets['percentage'], 2) ?></span> %
                                             </span>
                                             <span> vs. last month</span>
                                         </div>
@@ -131,7 +131,7 @@
                                             <h6 class="title">Total Clients</h6>
                                         </div>
                                     </div>
-                                    <div class="data">
+                                    <div class="data" id="total_clients">
                                         <div class="data-group">
                                             <div class="amount"><?= $clients['total'] ?></div>
                                             <div class="nk-ecwg6-ck">
@@ -140,7 +140,7 @@
                                         <div class="info">
                                             <span class="change <?= $clients['percentage'] >= 100 ? 'up' : 'down' ?> text-danger">
                                                 <em class="icon ni ni-arrow-long-<?= $clients['percentage'] >= 100 ? 'up' : 'down' ?>"></em>
-                                                <?= round($clients['percentage'], 2) ?> %
+                                                <span class="percentage"><?= round($clients['percentage'], 2) ?></span> %
                                             </span>
                                             <span> vs. last month</span>
                                         </div>
@@ -154,10 +154,10 @@
                         <div class="card h-100">
                             <div class="card-inner">
                                 <div class="card-title-group">
-                                    <div class="card-title card-title-sm">
+                                    <div class="card-title">
                                         <h6 class="title">Global Capabilities</h6>
                                     </div>
-                                    <div class="card-tools">
+                                    <!-- <div class="card-tools">
                                         <div class="drodown">
                                             <a href="#" class="dropdown-toggle dropdown-indicator btn btn-sm btn-outline-light btn-white" data-toggle="dropdown">30 Days</a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
@@ -168,7 +168,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="analytics-map row">
                                     <!-- <table class="analytics-map-data-list col-md-4 col-12">
@@ -193,16 +193,16 @@
                                             <td class="percent">5.29%</td>
                                         </tr>
                                     </table> -->
-                                    <div class="vector-map col-12" id="worldMap"></div>
+                                    <div class="vector-map col" style="height: 450px !important;" id="worldMap"></div>
                                 </div>
                             </div>
                         </div><!-- .card -->
                     </div>
 
-                    <div id="packingQualityChartData" class="d-none"><?= json_encode($packagin_quality_data) ?></div>
-                    <div id="crn_statistics" class="d-none"><?= json_encode($crn_statistics) ?></div>
-                    <div id="asset_statistics" class="d-none"><?= json_encode($asset_statistics) ?></div>
-                    <div id="shipment_statistics" class="d-none"><?= json_encode($shipment_statistics) ?></div>
+                    <!-- <div id="packingQualityChartData" class="d-none"><?php // json_encode($packagin_quality_data) ?></div> -->
+                    <!-- <div id="crn_statistics" class="d-none"><?php // json_encode($crn_statistics) ?></div> -->
+                    <!-- <div id="asset_statistics" class="d-none"><?php // json_encode($asset_statistics) ?></div> -->
+                    <!-- <div id="shipment_statistics" class="d-none"><?php // json_encode($shipment_statistics) ?></div> -->
                     <!-- CRN Statistics -->
                     <div class="col-xxl-3 col-md-6">
                         <div class="card h-100">
@@ -295,11 +295,12 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
-<!-- <script src="/public/js/charts/chart-analytics.js"></script> -->
 <script src="/public/js/libs/jqvmap.js"></script>
-<script src="/public/js/charts/crn-chart.js"></script>
+<!-- <script src="/public/js/charts/chart-analytics.js"></script> -->
+<!-- <script src="/public/js/charts/crn-chart.js"></script> -->
+<script src="/public/js/charts/load_charts.js"></script>
 <!-- <script src="/public/js/charts/asset-chart.js"></script> -->
 <!-- <script src="/public/js/charts/shipment-chart.js"></script> -->
-<script src="/public/js/charts/package-quality-chart.js"></script>
+<!-- <script src="/public/js/charts/package-quality-chart.js"></script> -->
 <!-- <script src="/public/js/charts/chart-sales.js"></script> -->
 <?= $this->endSection() ?>

@@ -29,6 +29,9 @@ $routes->setAutoRoute(true);
  * --------------------------------------------------------------------
  */
 
+$routes->add('/change_country/(:any)', 'Common\CommonController::change_country/$1', ['as' => 'change_country']);
+$routes->add('/change_country', 'Common\CommonController::change_country', ['as' => 'remove_country']);
+
 $routes->add('/login', 'AuthController::index', ['as' => 'login']);
 $routes->add('/logout', 'AuthController::logout', ['as' => 'logout']);
 $routes->add('/forget-password', 'AuthController::forget_password', ['as' => 'forget_password']);

@@ -21,7 +21,9 @@ class AuthController extends BaseController
             // $getUser = $userDb->where('email', $userEmail)->first();
             // $response = ['success' => false, 'message' => ''];
             $loginResponse = user_login($this->request->getVar('email'), $this->request->getVar('password'));
-            
+
+            // return print_r($loginResponse);
+
             if (!$loginResponse['success']) {
                 $sessionData = [
                     'loginError' => $loginResponse['message']
@@ -29,8 +31,9 @@ class AuthController extends BaseController
                 session()->setFlashdata($sessionData);
                 return redirect()->back();
             } else {
+                // return print_r($loginResponse);
                 $user = $loginResponse['user_data'];
-                if ($user == 'client') {
+                if ($user['type'] == 'client') {
                     return redirect()->route('client_index');
                 } else {
                     return redirect()->route('admin_index');

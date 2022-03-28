@@ -55,7 +55,7 @@
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Logistic<br>Company</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Packaging<br>Quality</span></th>
-                        <th class="nk-tb-col text-right"></th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right"><span style="display: none;">Link</span></th>
                     </tr>
                 </thead>
                 <tbody>

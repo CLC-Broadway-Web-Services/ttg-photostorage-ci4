@@ -228,14 +228,14 @@ class ManageShipmentController extends BaseController
                     $files = json_decode($shipment['files']);
                     $filesCount = count($files);
                     if ($filesCount) {
-                        $actionsHtml = '<a href="javascript:void(0);" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
+                        $actionsHtml = '<a href="javascript:void(0);" dataLink="' . $popupWindowUrl . '" onclick="openPopup(' . "'" . $popupWindowUrl . "'" . ')" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="copyToClipboard(this)" data-copy="' . $popupWindowUrl . '" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
                         $shipments[$key]['actions'] = $actionsHtml;
                     } else {
-                        $actionsHtml = '<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
+                        $actionsHtml = '<a href="javascript:void(0);" dataLink="' . $popupWindowUrl . '" onclick="showNoFilesError()" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
                         $shipments[$key]['actions'] = $actionsHtml;
                     }
                 } else {
-                    $actionsHtml = '<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
+                    $actionsHtml = '<a href="javascript:void(0);" dataLink="' . $popupWindowUrl . '" onclick="showNoFilesError()" class="after_divider btn btn-icon open_new_window" title="View Details"><em class="icon ni ni-eye"></em></a>/<a href="javascript:void(0);" onclick="showNoFilesError()" class="after_divider btn btn-icon" title="Share"><em class="icon ni ni-share"></em></a>';
                     $shipments[$key]['actions'] = $actionsHtml;
                 }
 

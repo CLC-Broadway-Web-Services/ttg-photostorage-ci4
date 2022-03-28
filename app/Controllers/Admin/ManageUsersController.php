@@ -177,6 +177,8 @@ class ManageUsersController extends BaseController
 
     public function creat_user()
     {
+
+        // return print_r(getCountriesListCodes());
         if (session()->get('loginType') == 'client' && session()->get('user.crn_status') != 'super') {
             return redirect()->route('client_index');
         }
