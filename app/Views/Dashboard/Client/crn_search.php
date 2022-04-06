@@ -395,7 +395,10 @@
             var mainUrl = window.location.origin;
             const _url = mainUrl + url;
             navigator.clipboard.writeText(_url);
-            alert("Copied the text: " + _url);
+            // alert("Copied the text: " + _url);
+            swal({
+                text: "Link copied successfully."
+            })
         }
 
         function ttg_imagepdf(uid) {

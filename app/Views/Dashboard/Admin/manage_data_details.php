@@ -46,42 +46,42 @@
                 $fileKey = 'file' . ($i + 1);
                 $commentKey = 'desc' . ($i + 1); ?>
 
-                <?php if (session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') : ?>
-                    <form action="" method="post">
-                    <?php else : ?>
-                        <div>
-                        <?php endif; ?>
-                        <div class="card">
-                            <div class="card-body lightgallery">
-                                <a href="<?= '/' . $files[$i]->$fileKey ?>" data-lg-size="2400-2400">
-                                    <img src="<?= '/' . $files[$i]->$fileKey ?>">
-                                </a>
-                            </div>
+                <?php if (session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') {
+                    echo '<form action="" method="post">';
+                } else {
+                    echo '<div>';
+                } ?>
+                <div class="card">
+                    <div class="card-body lightgallery">
+                        <a href="<?= '/' . $files[$i]->$fileKey ?>" data-lg-size="2400-2400">
+                            <img src="<?= '/' . $files[$i]->$fileKey ?>">
+                        </a>
+                    </div>
 
-                            <div class="card-footer border-top text-muted">
-                                <label class="form-label" for="full-name-1">Comment</label>
-                                <div class="input-group">
-                                    <textarea type="text" <?= session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin' ? '' : 'disabled style="resize:none;"' ?> class="form-control singleField" name="comment" datakey="<?= $i + 1 ?>" id="<?= $commentKey ?>" placeholder=""><?= $files[$i]->$commentKey ?></textarea>
-                                </div>
-                            </div>
-                            <?php if (session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') : ?>
-                                <div class="card-footer border-top text-muted">
-                                    <?php if (session()->get('user.type') !== 'client') : ?>
-                                        <!-- <button type="button" class="btn btn-sm btn-primary" onclick="return launchEditor('editableimage1','<?= '/' . $files[$i]->$fileKey ?>');">Edit Image</button> -->
-                                    <?php endif ?>
-                                    <button type="button" class="btn btn-sm btn-primary" onclick="updateComment('<?= $commentKey ?>')">Update Comment</button>
-                                    <!-- <button type="button" class="btn btn-sm btn-primary" onclick="openObjectionBox(<?= $i ?>, '<?= $fileKey ?>')">Objection</button> -->
-                                    <?php if (session()->get('user.type') !== 'client') : ?>
-                                        <!-- <button type="button" class="btn btn-sm btn-danger" onclick="deleteImage('<?= $i + 1 ?>')">Delete</button> -->
-                                    <?php endif ?>
-                                </div>
-                            <?php endif; ?>
+                    <div class="card-footer border-top text-muted">
+                        <label class="form-label" for="full-name-1">Comment</label>
+                        <div class="input-group">
+                            <textarea type="text" <?= session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin' ? '' : 'disabled style="resize:none;"' ?> class="form-control singleField" name="comment" datakey="<?= $i + 1 ?>" id="<?= $commentKey ?>" placeholder=""><?= $files[$i]->$commentKey ?></textarea>
                         </div>
-                        <?php if (session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') : ?>
+                    </div>
+                    <?php if (session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') : ?>
+                        <div class="card-footer border-top text-muted">
+                            <?php if (session()->get('user.type') !== 'client') : ?>
+                                <!-- <button type="button" class="btn btn-sm btn-primary" onclick="return launchEditor('editableimage1','<?= '/' . $files[$i]->$fileKey ?>');">Edit Image</button> -->
+                            <?php endif ?>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="updateComment('<?= $commentKey ?>')">Update Comment</button>
+                            <!-- <button type="button" class="btn btn-sm btn-primary" onclick="openObjectionBox(<?= $i ?>, '<?= $fileKey ?>')">Objection</button> -->
+                            <?php if (session()->get('user.type') !== 'client') : ?>
+                                <!-- <button type="button" class="btn btn-sm btn-danger" onclick="deleteImage('<?= $i + 1 ?>')">Delete</button> -->
+                            <?php endif ?>
                         </div>
-                    <?php else : ?>
-                    </form>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+                <?php if (session()->get('loginType') == 'superadmin' || session()->get('loginType') == 'admin') {
+                    echo '</form>';
+                } else {
+                    echo '</div>';
+                } ?>
             <?php } ?>
         </div>
     </div>

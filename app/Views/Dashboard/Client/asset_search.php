@@ -67,44 +67,44 @@
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#shipment_data_tab">Shipment Data</a> </li>
                 </ul> -->
                 <!-- <div class="tab-content"> -->
-                    <!-- <div class="tab-pane active" id="crn_data_tab"> -->
-                        <table class="nk-tb-list nk-tb-ulist nowrap dtr-inline table" id="datatableX" data-auto-responsive="true">
-                            <thead>
-                                <tr class="nk-tb-item nk-tb-head">
-                                    <th class="nk-tb-col nk-tb-col-check">
-                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                            <input type="checkbox" class="custom-control-input" id="uid">
-                                            <label class="custom-control-label" for="uid"></label>
-                                        </div>
-                                    </th>
-                                    <th class="nk-tb-col"><span class="sub-text">Staff ID</span></th>
-                                    <th class="nk-tb-col tb-col-mb"><span class="sub-text">CRN</span></th>
-                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Asset ID</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Time</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Files</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Country</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
-                                    <th class="nk-tb-col nk-tb-col-tools text-right"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($manageData as $key => $value) : ?>
-                                    <tr class="nk-tb-item" id="tableRow_<?= $key ?>" dataId="<?= $value['id'] ?>">
-                                        <td><?= $value['id'] ?></td>
-                                        <td><?= $value['userid'] ?></td>
-                                        <td><?= $value['crn'] ?></td>
-                                        <td><?= $value['uid'] ?></td>
-                                        <td><?= $value['time'] ?></td>
-                                        <td><?= $value['files'] ?></td>
-                                        <td><?= $value['userCountry'] ?></td>
-                                        <td><?= $value['verifyStatus'] ?></td>
-                                        <td><?= $value['actions'] ?></td>
-                                    </tr>
-                                <?php endforeach ?>
-                            </tbody>
-                        </table>
-                    <!-- </div> -->
-                    <!-- <div class="tab-pane" id="shipment_data_tab">
+                <!-- <div class="tab-pane active" id="crn_data_tab"> -->
+                <table class="nk-tb-list nk-tb-ulist nowrap dtr-inline table" id="datatableX" data-auto-responsive="true">
+                    <thead>
+                        <tr class="nk-tb-item nk-tb-head">
+                            <th class="nk-tb-col nk-tb-col-check">
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input type="checkbox" class="custom-control-input" id="uid">
+                                    <label class="custom-control-label" for="uid"></label>
+                                </div>
+                            </th>
+                            <th class="nk-tb-col"><span class="sub-text">Staff ID</span></th>
+                            <th class="nk-tb-col tb-col-mb"><span class="sub-text">CRN</span></th>
+                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Asset ID</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Time</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Files</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Country</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status</span></th>
+                            <th class="nk-tb-col nk-tb-col-tools text-right"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($manageData as $key => $value) : ?>
+                            <tr class="nk-tb-item" id="tableRow_<?= $key ?>" dataId="<?= $value['id'] ?>">
+                                <td><?= $value['id'] ?></td>
+                                <td><?= $value['userid'] ?></td>
+                                <td><?= $value['crn'] ?></td>
+                                <td><?= $value['uid'] ?></td>
+                                <td><?= $value['time'] ?></td>
+                                <td><?= $value['files'] ?></td>
+                                <td><?= $value['userCountry'] ?></td>
+                                <td><?= $value['verifyStatus'] ?></td>
+                                <td><?= $value['actions'] ?></td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+                <!-- </div> -->
+                <!-- <div class="tab-pane" id="shipment_data_tab">
                         <table class="nk-tb-list nk-tb-ulist nowrap dtr-inline table" id="datatableShipment" data-auto-responsive="true">
                             <thead>
                                 <tr class="nk-tb-item nk-tb-head">
@@ -377,7 +377,10 @@
             var mainUrl = window.location.origin;
             const _url = mainUrl + url;
             navigator.clipboard.writeText(_url);
-            alert("Copied the text: " + _url);
+            // alert("Copied the text: " + _url);
+            swal({
+                text: "Link copied successfully."
+            })
         }
 
         function ttg_imagepdf(uid) {

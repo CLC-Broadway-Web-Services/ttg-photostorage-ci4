@@ -227,7 +227,7 @@ if (!function_exists('getCountriesList')) {
             "Sweden",
             "Switzerland",
             "Syrian Arab Republic",
-            "Taiwan, Province of China",
+            "Taiwan",
             "Tajikistan",
             "Tanzania, United Republic of",
             "Thailand",
@@ -1375,7 +1375,7 @@ if (!function_exists('getCountriesListCodes')) {
             array(
                 "Code" => "TW",
 
-                "Name" => "Taiwan, Province of China"
+                "Name" => "Taiwan"
             ),
             array(
                 "Code" => "TJ",
@@ -2968,7 +2968,7 @@ if (!function_exists('globalCapabilities')) {
             array(
                 "Code" => "TW",
                 "data" => 0,
-                "Name" => "Taiwan, Province of China"
+                "Name" => "Taiwan"
             ),
             array(
                 "Code" => "TJ",
