@@ -90,6 +90,7 @@ class ReportsController extends BaseController
             $this->data['dataper'] = $this->performanceReport->distinct()
                 ->select('ttg_objections.*, ttg_login.type, ttg_login.id, ttg_login.name, ttg_login.email, ttg_login.country as userCountry')
                 ->join('ttg_login', 'ttg_login.id = ttg_objections.userid')
+                ->where('ttg_login.country', $country)
                 ->orderBy('ttg_objections.id', 'desc')->findAll();
         } else {
             $this->data['dataper'] = $this->performanceReport->distinct()

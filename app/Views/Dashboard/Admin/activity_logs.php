@@ -45,18 +45,18 @@
         buttons: [{
                 extend: 'excel',
                 titleAttr: 'Download Excel',
-                exportOptions: {
-                    columns: [1, 2, 3, 4, 5, 6, 7, 8],
-                    orthogonal: 'export'
-                },
+                // exportOptions: {
+                //     columns: [1, 2, 3, 4, 5, 6, 7, 8],
+                //     orthogonal: 'export'
+                // },
             },
             {
                 extend: 'print',
                 titleAttr: 'Print Data',
-                exportOptions: {
-                    columns: [1, 2, 3, 4, 5, 6, 7],
-                    orthogonal: 'export'
-                },
+                // exportOptions: {
+                //     columns: [1, 2, 3, 4, 5, 6, 7],
+                //     orthogonal: 'export'
+                // },
             }
         ],
         // select: {

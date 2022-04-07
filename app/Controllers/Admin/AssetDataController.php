@@ -25,62 +25,143 @@ class AssetDataController extends BaseController
         if ($this->request->getVar('verifyData')) {
             return $this->verifyData($this->request->getVar('verifyData'));
         }
-        $search_value = isset($_GET['search']) ? explode(',', $_GET['search']) : [];
-        $search_type = isset($_GET['searchType']) ? $_GET['searchType'] : 'crn';
-        if ($this->request->getMethod() == 'post') {
-            if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'del') {
-                $getId = $this->request->getVar('id');
-                return $this->manageDataDb->where('uid', $getId)->delete();
-            }
-            if ($this->request->getVar('replace_data')) {
-                $dataType = $this->request->getVar('replace_data');
-                $replaceText = $this->request->getVar('replaceText');
-                $dataIds = explode(',', $this->request->getVar('replaceDataIds'));
-                $numberOfData = count($dataIds);
-                $completedData = 0;
-                foreach ($dataIds as $key => $id) {
-                    $data = [
-                        'id' => $id,
-                        $dataType => $replaceText
-                    ];
-                    $updateData = $this->manageDataDb->save($data);
-                    if ($updateData) {
-                        $completedData = intval($completedData + 1);
-                    }
+        $search_value = isset($_GET['search']) && $_GET['searchType'] != 'country' ? explode(',', $_GET['search']) : [];
+        foreach ($search_value as $key => $value) {
+            $search_value[$key] = trim($value);
+        }
+        $search_type = isset($_GET['searchType']) && $_GET['searchType'] != 'country' ? $_GET['searchType'] : 'crn';
+        // $search_value = isset($_GET['search']) ? explode(',', $_GET['search']) : [];
+        // $search_type = isset($_GET['searchType']) ? $_GET['searchType'] : 'crn';
+        $countrySearch = isset($_GET['search']) && $_GET['searchType'] == 'country' ? explode(',', $_GET['search']) : [];
+        foreach ($countrySearch as $key => $value) {
+            $countrySearch[$key] = trim($value);
+        }
+        // if ($this->request->getMethod() == 'post') {
+        if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'del') {
+            $getId = $this->request->getVar('id');
+            return $this->manageDataDb->where('uid', $getId)->delete();
+        }
+        if ($this->request->getVar('replace_data')) {
+            $dataType = $this->request->getVar('replace_data');
+            $replaceText = $this->request->getVar('replaceText');
+            $dataIds = explode(',', $this->request->getVar('replaceDataIds'));
+            $numberOfData = count($dataIds);
+            $completedData = 0;
+            foreach ($dataIds as $key => $id) {
+                $data = [
+                    'id' => $id,
+                    $dataType => $replaceText
+                ];
+                $updateData = $this->manageDataDb->save($data);
+                if ($updateData) {
+                    $completedData = intval($completedData + 1);
                 }
-                $response = ['success' => false];
-                if ($numberOfData == $completedData) {
-                    $response['success'] = true;
-                } else {
-                    $response['success'] = false;
-                    $response['data'] = intval($numberOfData - $completedData);
-                }
-                return json_encode($response);
-                // return $this->manageDataDb->where('uid', $getId)->delete();
             }
-            if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'multiDelete') {
-                $ids = $this->request->getVar('id');
-                foreach ($ids as $key => $value) {
-                    // return $value;
-                    $this->manageDataDb->delete($value);
-                }
-                // return json_encode($this->request->getVar('id'));
-                // $getId = $this->request->getVar('id');
-                return true;
+            $response = ['success' => false];
+            if ($numberOfData == $completedData) {
+                $response['success'] = true;
+            } else {
+                $response['success'] = false;
+                $response['data'] = intval($numberOfData - $completedData);
             }
-            $manageData = array();
-            $count = 0;
+            return json_encode($response);
+            // return $this->manageDataDb->where('uid', $getId)->delete();
+        }
+        if ($this->request->getVar('delete') && $this->request->getVar('delete') == 'multiDelete') {
+            $ids = $this->request->getVar('id');
+            foreach ($ids as $key => $value) {
+                // return $value;
+                $this->manageDataDb->delete($value);
+            }
+            // return json_encode($this->request->getVar('id'));
+            // $getId = $this->request->getVar('id');
+            return true;
+        }
+        $manageData = array();
+        $count = 0;
 
+        if ($this->request->getVar('draw')) {
             $params['draw'] = $_REQUEST['draw'];
             $start = $_REQUEST['start'];
             $length = $_REQUEST['length'];
-            // $search_value = $_REQUEST['search']['value'] ? explode(',', $_REQUEST['search']['value']) : [];
-
-
             $startDate = $this->request->getGet('start_date') ? date('Y-m-d ', strtotime($this->request->getGet('start_date'))) . '00:00:00' : null;
             $endDate = $this->request->getGet('end_date') ? date('Y-m-d ', strtotime($this->request->getGet('end_date'))) . '00:00:00' : null;
 
-            if (session()->get('loginType') == 'admin') {
+            if (session()->get('loginType') == 'superadmin') {
+                if ($startDate && $endDate) {
+                    if (count($search_value)) {
+                        $manageData = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->whereIn('ttg_post.' . $search_type, $search_value)
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->whereIn('ttg_post.' . $search_type, $search_value)
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    } else if (count($countrySearch)) {
+                        $manageData = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->whereIn("ttg_login.country", $countrySearch)
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->whereIn("ttg_login.country", $countrySearch)
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    } else {
+                        $manageData = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    }
+                } else {
+                    if (count($search_value)) {
+                        $manageData = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->whereIn('ttg_post.' . $search_type, $search_value)
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->whereIn('ttg_post.' . $search_type, $search_value)
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    } else  if (count($countrySearch)) {
+                        $manageData = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->whereIn("ttg_login.country", $countrySearch)
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->whereIn("ttg_login.country", $countrySearch)
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    } else {
+                        $manageData = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    }
+                }
+            } else {
                 $country = session()->get('user.country');
                 if ($startDate && $endDate) {
                     if (count($search_value)) {
@@ -89,10 +170,6 @@ class AssetDataController extends BaseController
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)
                             ->whereIn('ttg_post.' . $search_type, $search_value)
-                            // ->orWhereIn('ttg_post.crn', $search_value)
-                            // ->orWhereIn('ttg_post.uid', $search_value)
-                            // ->orWhereIn('ttg_login.country', $search_value)
-                            // ->orWhereIn('ttg_post.verifyStatus', $search_value)
                             ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
                         $count = $this->manageDataDb->distinct()
@@ -100,10 +177,6 @@ class AssetDataController extends BaseController
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)
                             ->whereIn('ttg_post.' . $search_type, $search_value)
-                            // ->orWhereIn('ttg_post.crn', $search_value)
-                            // ->orWhereIn('ttg_post.uid', $search_value)
-                            // ->orWhereIn('ttg_login.country', $search_value)
-                            // ->orWhereIn('ttg_post.verifyStatus', $search_value)
                             ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->countAllResults();
                     } else {
@@ -127,20 +200,12 @@ class AssetDataController extends BaseController
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)
                             ->whereIn('ttg_post.' . $search_type, $search_value)
-                            // ->orWhereIn('ttg_post.crn', $search_value)
-                            // ->orWhereIn('ttg_post.uid', $search_value)
-                            // ->orWhereIn('ttg_login.country', $search_value)
-                            // ->orWhereIn('ttg_post.verifyStatus', $search_value)
                             ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
                         $count = $this->manageDataDb->distinct()
                             ->select('ttg_post.*, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)
                             ->whereIn('ttg_post.' . $search_type, $search_value)
-                            // ->orWhereIn('ttg_post.crn', $search_value)
-                            // ->orWhereIn('ttg_post.uid', $search_value)
-                            // ->orWhereIn('ttg_login.country', $search_value)
-                            // ->orWhereIn('ttg_post.verifyStatus', $search_value)
                             ->orderBy('ttg_post.time', 'desc')->countAllResults();
                     } else {
                         $manageData = $this->manageDataDb->distinct()
@@ -152,72 +217,6 @@ class AssetDataController extends BaseController
                             ->select('ttg_post.*, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)
-                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
-                    }
-                }
-            } else {
-                if ($startDate && $endDate) {
-                    if (count($search_value)) {
-                        $manageData = $this->manageDataDb->distinct()
-                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
-                            ->whereIn('ttg_post.' . $search_type, $search_value)
-                            // ->orWhereIn('ttg_post.crn', $search_value)
-                            // ->orWhereIn('ttg_post.uid', $search_value)
-                            // ->orWhereIn('ttg_login.country', $search_value)
-                            // ->orWhereIn('ttg_post.verifyStatus', $search_value)
-                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                        $count = $this->manageDataDb->distinct()
-                            ->select('ttg_post.*, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
-                            ->whereIn('ttg_post.' . $search_type, $search_value)
-                            // ->orWhereIn('ttg_post.crn', $search_value)
-                            // ->orWhereIn('ttg_post.uid', $search_value)
-                            // ->orWhereIn('ttg_login.country', $search_value)
-                            // ->orWhereIn('ttg_post.verifyStatus', $search_value)
-                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
-                    } else {
-                        $manageData = $this->manageDataDb->distinct()
-                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
-                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                        $count = $this->manageDataDb->distinct()
-                            ->select('ttg_post.*, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
-                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
-                    }
-                } else {
-                    if (count($search_value)) {
-                        $manageData = $this->manageDataDb->distinct()
-                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_post.uid, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->whereIn('ttg_post.' . $search_type, $search_value)
-                            // ->orWhereIn('ttg_post.crn', $search_value)
-                            // ->orWhereIn('ttg_post.uid', $search_value)
-                            // ->orWhereIn('ttg_login.country', $search_value)
-                            // ->orWhereIn('ttg_post.verifyStatus', $search_value)
-                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                        $count = $this->manageDataDb->distinct()
-                            ->select('ttg_post.*, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->whereIn('ttg_post.' . $search_type, $search_value)
-                            // ->orWhereIn('ttg_post.crn', $search_value)
-                            // ->orWhereIn('ttg_post.uid', $search_value)
-                            // ->orWhereIn('ttg_login.country', $search_value)
-                            // ->orWhereIn('ttg_post.verifyStatus', $search_value)
-                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
-                    } else {
-                        $manageData = $this->manageDataDb->distinct()
-                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.verifyStatus, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                        $count = $this->manageDataDb->distinct()
-                            ->select('ttg_post.*, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->orderBy('ttg_post.time', 'desc')->countAllResults();
                     }
                 }
@@ -495,7 +494,7 @@ class AssetDataController extends BaseController
                 return json_encode(false);
             }
         }
-        if ($this->request->getMethod() == 'post' && $this->request->getVar('delete_image')) {
+        if ($this->request->getVar('delete_image')) {
             $index = $this->request->getVar('index');
 
             $thisFiles = json_decode($manage_data_details['files']);
@@ -513,87 +512,179 @@ class AssetDataController extends BaseController
 
     public function defect_analysis()
     {
-        // $testData = $this->manageDataDb->selectCount('defect')->select('device_type','crn')->where('crn', 'EOL-000002711')->groupBy(['device_type'])->findAll();
-        // $testData = $this->manageDataDb->select('device_type, defect')->where('crn', 'EOL-000002711')->findAll();
-        // $testData = $this->manageDataDb->select('device_type, defect')->where('crn', 'EOL-000000589')->groupBy(['device_type', 'defect'])->findAll();
-        // return print_r($testData);
-        // SELECT * FROM `ttg_post` WHERE `crn` = 'EOL-000000685' GROUP BY `device_type`
 
         $deviceType = isset($_GET['deviceType']) ? $_GET['deviceType'] : '';
         $defectType = isset($_GET['defectType']) ? $_GET['defectType'] : '';
+        
+        $startDate = $this->request->getVar('start_date') ? date('Y-m-d ', strtotime($this->request->getVar('start_date'))) . '00:00:00' : '';
+        $endDate = $this->request->getVar('end_date') ? date('Y-m-d ', strtotime($this->request->getVar('end_date'))) . '00:00:00' : '';
+        
+        // $search_value = $this->request->getVar('search') && $this->request->getVar('search.value') ? $this->request->getVar('search.value') : '';
 
-        $total = [
-            'desktops' => $this->manageDataDb->distinct()
-                ->select('ttg_post.id, ttg_login.country as userCountry')
-                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                ->where('ttg_post.device_type', 'Desktop')
-                ->where('ttg_post.defect !=', NULL)->countAllResults(),
-            // $this->manageDataDb->where('device_type', 'Desktop')->countAllResults(),
-            'notebooks' => $this->manageDataDb->distinct()
-                ->select('ttg_post.id, ttg_login.country as userCountry')
-                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                ->where('ttg_post.device_type', 'Notebook')
-                ->where('ttg_post.defect !=', NULL)->countAllResults(),
+        if(!empty($startDate)) {
+            $total = [
+                'desktops' => $this->manageDataDb->distinct()
+                    ->select('ttg_post.id, ttg_login.country as userCountry')
+                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                    ->where('ttg_post.device_type', 'Desktop')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                    ->where('ttg_post.defect !=', NULL)->countAllResults(),
+                'notebooks' => $this->manageDataDb->distinct()
+                    ->select('ttg_post.id, ttg_login.country as userCountry')
+                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                    ->where('ttg_post.device_type', 'Notebook')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                    ->where('ttg_post.defect !=', NULL)->countAllResults(),
+                'other_devices' => $this->manageDataDb->distinct()
+                    ->select('ttg_post.id, ttg_login.country as userCountry')
+                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                    ->where('ttg_post.device_type', 'Other Device')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                    ->where('ttg_post.defect !=', NULL)->countAllResults()
+            ];
+            if ($deviceType == 'Desktop') {
+                $defectTotals = [
+                    'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Motherboard Faulty')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'cpu_missing_faulty' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'CPU Missing/Faulty')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'chasis_broken_cracked' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Chassis Broken/Cracked')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'permanent_marking_stained_discolor' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Permanent Marking/Stained/Discolor')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'bios_locked_security_feature_type' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'BIOS Locked/Security Feature Type')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'does_not_power_up' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Does Not Power-up')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'engraving_scratch' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Engraving/Scratch')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'other_defect' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Other Defect')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'no_defect' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'No Defect Found')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                ];
+                $this->data['defectTotals'] = $defectTotals;
+            }
+            if ($deviceType == 'Notebook') {
+                $defectTotals = [
+                    'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Motherboard Faulty')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'cpu_missing_faulty' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'CPU Missing/Faulty')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'chasis_broken' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Chassis Broken')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'chasis_cracked' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Chassis Cracked')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'permanent_marking_stained_discolor' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Permanent Marking/Stained/Discolor')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'bios_locked_security_feature_type' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'BIOS Locked/Security Feature Type')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'does_not_power_up' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Does Not Power-up')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'engraving_scratch' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Engraving/Scratch')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'screen_spot_blemish' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Screen Spots/Blemish')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'screen_broken_line_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Screen Broken/Line/Missing')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'keyword_faulty_key_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Keyboard Faulty/Key Missing')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'keyboard_panel_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Keyboard Panel Missing')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'other_defect' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Other Defect')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'no_defect' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'No Defect Found')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                ];
+                $this->data['defectTotals'] = $defectTotals;
+            }
+            if ($deviceType == 'Other Device') {
+                $defectTotals = [
+                    'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Motherboard Faulty')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'does_not_power_up' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Does Not Power-up')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'parts_missing_faulty' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Parts Missing/Faulty')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'broken_cracked' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Broken/Cracked')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'other_defect' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Other Defect')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                    'no_defect' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'No Defect Found')
+                    ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")->countAllResults(),
+                ];
+                $this->data['defectTotals'] = $defectTotals;
+            }
+        } else {
+            $total = [
+                'desktops' => $this->manageDataDb->distinct()
+                    ->select('ttg_post.id, ttg_login.country as userCountry')
+                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                    ->where('ttg_post.device_type', 'Desktop')
+                    ->where('ttg_post.defect !=', NULL)->countAllResults(),
+                'notebooks' => $this->manageDataDb->distinct()
+                    ->select('ttg_post.id, ttg_login.country as userCountry')
+                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                    ->where('ttg_post.device_type', 'Notebook')
+                    ->where('ttg_post.defect !=', NULL)->countAllResults(),
+                'other_devices' => $this->manageDataDb->distinct()
+                    ->select('ttg_post.id, ttg_login.country as userCountry')
+                    ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                    ->where('ttg_post.device_type', 'Other Device')
+                    ->where('ttg_post.defect !=', NULL)->countAllResults()
+            ];
+            if ($deviceType == 'Desktop') {
+                $defectTotals = [
+                    'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Motherboard Faulty')->countAllResults(),
+                    'cpu_missing_faulty' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'CPU Missing/Faulty')->countAllResults(),
+                    'chasis_broken_cracked' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Chassis Broken/Cracked')->countAllResults(),
+                    'permanent_marking_stained_discolor' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Permanent Marking/Stained/Discolor')->countAllResults(),
+                    'bios_locked_security_feature_type' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'BIOS Locked/Security Feature Type')->countAllResults(),
+                    'does_not_power_up' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Does Not Power-up')->countAllResults(),
+                    'engraving_scratch' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Engraving/Scratch')->countAllResults(),
+                    'other_defect' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Other Defect')->countAllResults(),
+                    'no_defect' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'No Defect Found')->countAllResults(),
+                ];
+                $this->data['defectTotals'] = $defectTotals;
+            }
+            if ($deviceType == 'Notebook') {
+                $defectTotals = [
+                    'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Motherboard Faulty')->countAllResults(),
+                    'cpu_missing_faulty' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'CPU Missing/Faulty')->countAllResults(),
+                    'chasis_broken' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Chassis Broken')->countAllResults(),
+                    'chasis_cracked' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Chassis Cracked')->countAllResults(),
+                    'permanent_marking_stained_discolor' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Permanent Marking/Stained/Discolor')->countAllResults(),
+                    'bios_locked_security_feature_type' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'BIOS Locked/Security Feature Type')->countAllResults(),
+                    'does_not_power_up' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Does Not Power-up')->countAllResults(),
+                    'engraving_scratch' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Engraving/Scratch')->countAllResults(),
+                    'screen_spot_blemish' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Screen Spots/Blemish')->countAllResults(),
+                    'screen_broken_line_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Screen Broken/Line/Missing')->countAllResults(),
+                    'keyword_faulty_key_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Keyboard Faulty/Key Missing')->countAllResults(),
+                    'keyboard_panel_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Keyboard Panel Missing')->countAllResults(),
+                    'other_defect' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Other Defect')->countAllResults(),
+                    'no_defect' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'No Defect Found')->countAllResults(),
+                ];
+                $this->data['defectTotals'] = $defectTotals;
+            }
+            if ($deviceType == 'Other Device') {
+                $defectTotals = [
+                    // 'motherboard_faulty' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Motherboard Faulty')->countAllResults(),
+                    // 'does_not_power_up' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Does Not Power-up')->countAllResults(),
+                    // 'parts_missing_faulty' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Parts Missing/Faulty')->countAllResults(),
+                    // 'broken_cracked' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Broken/Cracked')->countAllResults(),
+                    // 'other_defect' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Other Defect')->countAllResults(),
+                    // 'no_defect' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'No Defect Found')->countAllResults(),
+                    'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Motherboard Faulty')->countAllResults(),
+                    'does_not_power_up' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Does Not Power-up')->countAllResults(),
+                    'parts_missing_faulty' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Parts Missing/Faulty')->countAllResults(),
+                    'broken_cracked' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Broken/Cracked')->countAllResults(),
+                    'other_defect' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Other Defect')->countAllResults(),
+                    'no_defect' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'No Defect Found')->countAllResults(),
+                ];
+                $this->data['defectTotals'] = $defectTotals;
+            }
+        }
 
-            // $this->manageDataDb->where('device_type', 'Notebook')->countAllResults(),
-            'other_devices' => $this->manageDataDb->distinct()
-                ->select('ttg_post.id, ttg_login.country as userCountry')
-                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                ->where('ttg_post.device_type', 'Other Device')
-                ->where('ttg_post.defect !=', NULL)->countAllResults(),
-            // $this->manageDataDb->where('device_type', 'Other Device')->countAllResults()
-            // 'other_devices' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->countAllResults()
-        ];
-        if ($deviceType == 'Desktop') {
-            $defectTotals = [
-                'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Motherboard Faulty')->countAllResults(),
-                'cpu_missing_faulty' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'CPU Missing/Faulty')->countAllResults(),
-                'chasis_broken_cracked' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Chassis Broken/Cracked')->countAllResults(),
-                'permanent_marking_stained_discolor' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Permanent Marking/Stained/Discolor')->countAllResults(),
-                'bios_locked_security_feature_type' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'BIOS Locked/Security Feature Type')->countAllResults(),
-                'does_not_power_up' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Does Not Power-up')->countAllResults(),
-                'engraving_scratch' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Engraving/Scratch')->countAllResults(),
-                'other_defect' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'Other Defect')->countAllResults(),
-                'no_defect' => $this->manageDataDb->where('device_type', 'Desktop')->like('defect', 'No Defect Found')->countAllResults(),
-            ];
-            $this->data['defectTotals'] = $defectTotals;
-        }
-        if ($deviceType == 'Notebook') {
-            $defectTotals = [
-                'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Motherboard Faulty')->countAllResults(),
-                'cpu_missing_faulty' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'CPU Missing/Faulty')->countAllResults(),
-                'chasis_broken' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Chassis Broken')->countAllResults(),
-                'chasis_cracked' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Chassis Cracked')->countAllResults(),
-                'permanent_marking_stained_discolor' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Permanent Marking/Stained/Discolor')->countAllResults(),
-                'bios_locked_security_feature_type' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'BIOS Locked/Security Feature Type')->countAllResults(),
-                'does_not_power_up' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Does Not Power-up')->countAllResults(),
-                'engraving_scratch' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Engraving/Scratch')->countAllResults(),
-                'screen_spot_blemish' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Screen Spot/Blemish')->countAllResults(),
-                'screen_broken_line_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Screen Broken/Line/Missing')->countAllResults(),
-                'keyword_faulty_key_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Keyboard Faulty/Key Missing')->countAllResults(),
-                'keyboard_panel_missing' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Keyboard Panel Missing')->countAllResults(),
-                'other_defect' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'Other Defect')->countAllResults(),
-                'no_defect' => $this->manageDataDb->where('device_type', 'Notebook')->like('defect', 'No Defect Found')->countAllResults(),
-            ];
-            $this->data['defectTotals'] = $defectTotals;
-        }
-        if ($deviceType == 'Other Device') {
-            $defectTotals = [
-                // 'motherboard_faulty' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Motherboard Faulty')->countAllResults(),
-                // 'does_not_power_up' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Does Not Power-up')->countAllResults(),
-                // 'parts_missing_faulty' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Parts Missing/Faulty')->countAllResults(),
-                // 'broken_cracked' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Broken/Cracked')->countAllResults(),
-                // 'other_defect' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'Other Defect')->countAllResults(),
-                // 'no_defect' => $this->manageDataDb->where(['device_type !=' => 'Desktop', 'device_type !=' => 'Notebook'])->like('defect', 'No Defect Found')->countAllResults(),
-                'motherboard_faulty' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Motherboard Faulty')->countAllResults(),
-                'does_not_power_up' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Does Not Power-up')->countAllResults(),
-                'parts_missing_faulty' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Parts Missing/Faulty')->countAllResults(),
-                'broken_cracked' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Broken/Cracked')->countAllResults(),
-                'other_defect' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'Other Defect')->countAllResults(),
-                'no_defect' => $this->manageDataDb->where('device_type', 'Other Device')->like('defect', 'No Defect Found')->countAllResults(),
-            ];
-            $this->data['defectTotals'] = $defectTotals;
-        }
 
         $this->data['totals'] = $total;
         // return print_r($this->data);
@@ -609,37 +700,24 @@ class AssetDataController extends BaseController
             // return json_encode($this->manageDataDb->where('crn', $getCrn)->countAllResults());
         }
 
-        if ($this->request->getMethod() == 'post') {
+        // if ($this->request->getMethod() == 'post') {
+        if ($this->request->getVar('draw')) {
 
-            $params['draw'] = $_REQUEST['draw'];
-            $start = $_REQUEST['start'];
-            $length = $_REQUEST['length'];
-            /* If we pass any extra data in request from ajax */
-            //$value1 = isset($_REQUEST['key1'])?$_REQUEST['key1']:"";
+            $params['draw'] = $this->request->getVar('draw');
+            $start = $this->request->getVar('start');
+            $length = $this->request->getVar('length');
+            
+            $search_value = $this->request->getVar('search') && $this->request->getVar('search.value') ? $this->request->getVar('search.value') : '';
 
-            /* Value we will get from typing in search */
-            $search_value = $_REQUEST['search']['value'];
-
-            $defectData = $this->getDefectData($start, $length, $search_value, $deviceType, $defectType);
+            $defectData = $this->getDefectData($start, $length, $search_value, $deviceType, $defectType, $startDate, $endDate);
 
             $defect_analysis = $defectData['data'];
             $count = $defectData['count'];
 
-            // $checkBoxHtml = '<div class="custom-control custom-control-sm custom-checkbox notext">
-            //             <input type="checkbox" class="custom-control-input" value="uid1" id="uid1">
-            //             <label class="custom-control-label" for="uid1"></label>
-            //         </div>';
-
             foreach ($defect_analysis as $key => $defect) {
                 $crnDetail = $defect['crn'];
-                // $defect_analysis[$key]['id'] = str_replace("uid1", $defect['id'], $checkBoxHtml);
-                // $defect_analysis[$key]['actions'] = $actionsHtml;
-
                 $defect_analysis[$key]['time'] = '<span>' . date("d-M-Y g:s A", $defect['time']) . '</span>';
                 $defect_analysis[$key]['crn'] = '<a data-toggle="modal" data-target="#crnData" href="javascript:void(0);" onclick="openPopup(' . "'" . $crnDetail . "'" . ')">' . $defect['crn'] . '</a>';
-                // $files = json_decode($defect['files']);
-                // $filesCount = count($files);
-                // $defect_analysis[$key]['files'] = $filesCount;
             }
 
             $json_data = array(
@@ -688,86 +766,176 @@ class AssetDataController extends BaseController
         return redirect()->route('manage_data');
     }
 
-    private function getDefectData($start = 0, $length = 10, $search_value = '', $deviceType = '', $defectType = '')
+    private function getDefectData($start = 0, $length = 10, $search_value = '', $deviceType = '', $defectType = '', $startDate = '', $endDate = '')
     {
-        if (!empty($deviceType)) {
-            if (!empty($defectType)) {
-                if (session()->get('loginType') == 'admin') {
-                    $country = session()->get('user.country');
-                    if (!empty($search_value)) {
-                        $defect_analysis = $this->manageDataDb->distinct()
-                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->where('ttg_post.device_type', $deviceType)
-                            ->like('ttg_post.defect', $defectType, 'both')
-                            ->like('ttg_post.userid', $search_value)
-                            ->orlike('ttg_post.crn', $search_value)
-                            ->orlike('ttg_post.uid', $search_value)
-                            ->orlike('ttg_post.defect', $search_value)
-                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                        $count = $this->manageDataDb->distinct()
-                            ->select('ttg_post.*, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->where('ttg_post.device_type', $deviceType)
-                            ->like('ttg_post.defect', $defectType, 'both')
-                            ->like('ttg_post.userid', $search_value)
-                            ->orlike('ttg_post.crn', $search_value)
-                            ->orlike('ttg_post.uid', $search_value)
-                            ->orlike('ttg_post.defect', $search_value)
-                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+        // ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+        if (!empty($startDate) && !empty($endDate)) {
+            if (!empty($deviceType)) {
+                if (!empty($defectType)) {
+                    if (session()->get('loginType') == 'admin') {
+                        $country = session()->get('user.country');
+                        if (!empty($search_value)) {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        } else {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        }
                     } else {
-                        $defect_analysis = $this->manageDataDb->distinct()
-                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->where('ttg_post.device_type', $deviceType)
-                            ->like('ttg_post.defect', $defectType, 'both')
-                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                        $count = $this->manageDataDb->distinct()
-                            ->select('ttg_post.*, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->where('ttg_post.device_type', $deviceType)
-                            ->like('ttg_post.defect', $defectType, 'both')
-                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        if (!empty($search_value)) {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        } else {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        }
                     }
                 } else {
-                    if (!empty($search_value)) {
-                        $defect_analysis = $this->manageDataDb->distinct()
-                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->like('ttg_post.defect', $defectType, 'both')
-                            ->like('ttg_post.userid', $search_value)
-                            ->orlike('ttg_post.crn', $search_value)
-                            ->orlike('ttg_post.uid', $search_value)
-                            ->orlike('ttg_post.defect', $search_value)
-                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                        $count = $this->manageDataDb->distinct()
-                            ->select('ttg_post.*, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->like('ttg_post.defect', $defectType, 'both')
-                            ->like('ttg_post.userid', $search_value)
-                            ->orlike('ttg_post.crn', $search_value)
-                            ->orlike('ttg_post.uid', $search_value)
-                            ->orlike('ttg_post.defect', $search_value)
-                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    if (session()->get('loginType') == 'admin') {
+                        $country = session()->get('user.country');
+                        if (!empty($search_value)) {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        } else {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        }
                     } else {
-                        $defect_analysis = $this->manageDataDb->distinct()
-                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->like('ttg_post.defect', $defectType, 'both')
-                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                        $count = $this->manageDataDb->distinct()
-                            ->select('ttg_post.*, ttg_login.country as userCountry')
-                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->like('ttg_post.defect', $defectType, 'both')
-                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        if (!empty($search_value)) {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        } else {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        }
                     }
                 }
             } else {
@@ -778,34 +946,36 @@ class AssetDataController extends BaseController
                             ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->where('ttg_post.device_type', $deviceType)
                             ->like('ttg_post.userid', $search_value)
                             ->orlike('ttg_post.crn', $search_value)
                             ->orlike('ttg_post.uid', $search_value)
+                            ->orlike('ttg_post.device_type', $search_value)
                             ->orlike('ttg_post.defect', $search_value)
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
                         $count = $this->manageDataDb->distinct()
                             ->select('ttg_post.*, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->where('ttg_post.device_type', $deviceType)
                             ->like('ttg_post.userid', $search_value)
                             ->orlike('ttg_post.crn', $search_value)
                             ->orlike('ttg_post.uid', $search_value)
+                            ->orlike('ttg_post.device_type', $search_value)
                             ->orlike('ttg_post.defect', $search_value)
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->countAllResults();
                     } else {
                         $defect_analysis = $this->manageDataDb->distinct()
                             ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->where('ttg_post.device_type', $deviceType)
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
                         $count = $this->manageDataDb->distinct()
                             ->select('ttg_post.*, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
                             ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                            ->where('ttg_post.device_type', $deviceType)
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->countAllResults();
                     }
                 } else {
@@ -813,185 +983,268 @@ class AssetDataController extends BaseController
                         $defect_analysis = $this->manageDataDb->distinct()
                             ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
                             ->like('ttg_post.userid', $search_value)
                             ->orlike('ttg_post.crn', $search_value)
                             ->orlike('ttg_post.uid', $search_value)
+                            ->orlike('ttg_post.device_type', $search_value)
                             ->orlike('ttg_post.defect', $search_value)
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
                         $count = $this->manageDataDb->distinct()
                             ->select('ttg_post.*, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
                             ->like('ttg_post.userid', $search_value)
                             ->orlike('ttg_post.crn', $search_value)
                             ->orlike('ttg_post.uid', $search_value)
+                            ->orlike('ttg_post.device_type', $search_value)
                             ->orlike('ttg_post.defect', $search_value)
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->countAllResults();
                     } else {
                         $defect_analysis = $this->manageDataDb->distinct()
                             ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
                         $count = $this->manageDataDb->distinct()
                             ->select('ttg_post.*, ttg_login.country as userCountry')
                             ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                            ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->where("ttg_post.created_at BETWEEN '$startDate' AND '$endDate'")
                             ->orderBy('ttg_post.time', 'desc')->countAllResults();
                     }
                 }
             }
         } else {
-            if (session()->get('loginType') == 'admin') {
-                $country = session()->get('user.country');
-                if (!empty($search_value)) {
-                    $defect_analysis = $this->manageDataDb->distinct()
-                        ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                        ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                        ->like('ttg_post.userid', $search_value)
-                        ->orlike('ttg_post.crn', $search_value)
-                        ->orlike('ttg_post.uid', $search_value)
-                        ->orlike('ttg_post.device_type', $search_value)
-                        ->orlike('ttg_post.defect', $search_value)
-                        ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                    $count = $this->manageDataDb->distinct()
-                        ->select('ttg_post.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                        ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                        ->like('ttg_post.userid', $search_value)
-                        ->orlike('ttg_post.crn', $search_value)
-                        ->orlike('ttg_post.uid', $search_value)
-                        ->orlike('ttg_post.device_type', $search_value)
-                        ->orlike('ttg_post.defect', $search_value)
-                        ->orderBy('ttg_post.time', 'desc')->countAllResults();
+            if (!empty($deviceType)) {
+                if (!empty($defectType)) {
+                    if (session()->get('loginType') == 'admin') {
+                        $country = session()->get('user.country');
+                        if (!empty($search_value)) {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        } else {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        }
+                    } else {
+                        if (!empty($search_value)) {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        } else {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.defect', $defectType, 'both')
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        }
+                    }
                 } else {
-                    $defect_analysis = $this->manageDataDb->distinct()
-                        ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                        ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                        ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                    $count = $this->manageDataDb->distinct()
-                        ->select('ttg_post.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                        ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                        ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    if (session()->get('loginType') == 'admin') {
+                        $country = session()->get('user.country');
+                        if (!empty($search_value)) {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        } else {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->where('ttg_post.device_type', $deviceType)
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        }
+                    } else {
+                        if (!empty($search_value)) {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->like('ttg_post.userid', $search_value)
+                                ->orlike('ttg_post.crn', $search_value)
+                                ->orlike('ttg_post.uid', $search_value)
+                                ->orlike('ttg_post.defect', $search_value)
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        } else {
+                            $defect_analysis = $this->manageDataDb->distinct()
+                                ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                            $count = $this->manageDataDb->distinct()
+                                ->select('ttg_post.*, ttg_login.country as userCountry')
+                                ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                                ->where('ttg_post.device_type', $deviceType)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                                ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                        }
+                    }
                 }
             } else {
-                if (!empty($search_value)) {
-                    $defect_analysis = $this->manageDataDb->distinct()
-                        ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                        ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                        ->like('ttg_post.userid', $search_value)
-                        ->orlike('ttg_post.crn', $search_value)
-                        ->orlike('ttg_post.uid', $search_value)
-                        ->orlike('ttg_post.device_type', $search_value)
-                        ->orlike('ttg_post.defect', $search_value)
-                        ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                    $count = $this->manageDataDb->distinct()
-                        ->select('ttg_post.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                        ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                        ->like('ttg_post.userid', $search_value)
-                        ->orlike('ttg_post.crn', $search_value)
-                        ->orlike('ttg_post.uid', $search_value)
-                        ->orlike('ttg_post.device_type', $search_value)
-                        ->orlike('ttg_post.defect', $search_value)
-                        ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                if (session()->get('loginType') == 'admin') {
+                    $country = session()->get('user.country');
+                    if (!empty($search_value)) {
+                        $defect_analysis = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->like('ttg_post.userid', $search_value)
+                            ->orlike('ttg_post.crn', $search_value)
+                            ->orlike('ttg_post.uid', $search_value)
+                            ->orlike('ttg_post.device_type', $search_value)
+                            ->orlike('ttg_post.defect', $search_value)
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->like('ttg_post.userid', $search_value)
+                            ->orlike('ttg_post.crn', $search_value)
+                            ->orlike('ttg_post.uid', $search_value)
+                            ->orlike('ttg_post.device_type', $search_value)
+                            ->orlike('ttg_post.defect', $search_value)
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    } else {
+                        $defect_analysis = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_login.country", $country)->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    }
                 } else {
-                    $defect_analysis = $this->manageDataDb->distinct()
-                        ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                        ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                        ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
-                    $count = $this->manageDataDb->distinct()
-                        ->select('ttg_post.*, ttg_login.country as userCountry')
-                        ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
-                        ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
-                        ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    if (!empty($search_value)) {
+                        $defect_analysis = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->like('ttg_post.userid', $search_value)
+                            ->orlike('ttg_post.crn', $search_value)
+                            ->orlike('ttg_post.uid', $search_value)
+                            ->orlike('ttg_post.device_type', $search_value)
+                            ->orlike('ttg_post.defect', $search_value)
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->like('ttg_post.userid', $search_value)
+                            ->orlike('ttg_post.crn', $search_value)
+                            ->orlike('ttg_post.uid', $search_value)
+                            ->orlike('ttg_post.device_type', $search_value)
+                            ->orlike('ttg_post.defect', $search_value)
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    } else {
+                        $defect_analysis = $this->manageDataDb->distinct()
+                            ->select('ttg_post.id, ttg_post.userid, ttg_post.files, ttg_post.time, ttg_post.uid, ttg_post.crn, ttg_post.device_type, ttg_post.defect, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->orderBy('ttg_post.time', 'desc')->offset($start)->findAll($length);
+                        $count = $this->manageDataDb->distinct()
+                            ->select('ttg_post.*, ttg_login.country as userCountry')
+                            ->join('ttg_login', 'ttg_login.id = ttg_post.userid')
+                            ->where("ttg_post.defect !=", NULL)->where("ttg_post.device_type !=", NULL)
+                            ->orderBy('ttg_post.time', 'desc')->countAllResults();
+                    }
                 }
             }
         }
 
         return ['data' => $defect_analysis, 'count' => $count];
-
-        // $defectMd = new Defectanalysis();
-        // if (session()->get('loginType') == 'admin') {
-        //     $country = session()->get('user.country');
-        //     if (!empty($search_value)) {
-        //         $defect_analysis = $defectMd->distinct()
-        //             ->select('defect_analysis.id, defect_analysis.staff_id, defect_analysis.time, defect_analysis.asset_id, defect_analysis.crn, defect_analysis.device_type, defect_analysis.defect, ttg_login.country as userCountry')
-        //             ->join('ttg_login', 'ttg_login.id = defect_analysis.staff_id')
-        //             ->where("ttg_login.country", $country)
-        //             ->like('defect_analysis.staff_id', $search_value)
-        //             ->orlike('defect_analysis.crn', $search_value)
-        //             ->orlike('defect_analysis.asset_id', $search_value)
-        //             ->orlike('defect_analysis.device_type', $search_value)
-        //             ->orlike('defect_analysis.defect', $search_value)
-        //             ->orderBy('defect_analysis.id', 'desc')
-        //             ->groupby('defect_analysis.asset_id')->offset($start)->findAll($length);
-        //         $count = $defectMd->distinct()
-        //             ->select('defect_analysis.*, ttg_login.country as userCountry')
-        //             ->join('ttg_login', 'ttg_login.id = defect_analysis.staff_id')
-        //             ->where("ttg_login.country", $country)
-        //             ->like('defect_analysis.staff_id', $search_value)
-        //             ->orlike('defect_analysis.crn', $search_value)
-        //             ->orlike('defect_analysis.asset_id', $search_value)
-        //             ->orlike('defect_analysis.device_type', $search_value)
-        //             ->orlike('defect_analysis.defect', $search_value)
-        //             ->orderBy('defect_analysis.id', 'desc')
-        //             ->groupby('defect_analysis.asset_id')->countAllResults();
-        //     } else {
-        //         $defect_analysis = $defectMd->distinct()
-        //             ->select('defect_analysis.id, defect_analysis.staff_id, defect_analysis.time, defect_analysis.asset_id, defect_analysis.crn, defect_analysis.device_type, defect_analysis.defect, ttg_login.country as userCountry')
-        //             ->join('ttg_login', 'ttg_login.id = defect_analysis.staff_id')
-        //             ->where("ttg_login.country", $country)
-        //             ->orderBy('defect_analysis.id', 'desc')
-        //             ->groupby('defect_analysis.asset_id')->offset($start)->findAll($length);
-        //         $count = $defectMd->distinct()
-        //             ->select('defect_analysis.*, ttg_login.country as userCountry')
-        //             ->join('ttg_login', 'ttg_login.id = defect_analysis.staff_id')
-        //             ->where("ttg_login.country", $country)
-        //             ->orderBy('defect_analysis.id', 'desc')
-        //             ->groupby('defect_analysis.asset_id')->countAllResults();
-        //     }
-        // } else {
-        //     if (!empty($search_value)) {
-        //         $defect_analysis = $defectMd->distinct()
-        //             ->select('defect_analysis.id, defect_analysis.staff_id, defect_analysis.time, defect_analysis.asset_id, defect_analysis.crn, defect_analysis.device_type, defect_analysis.defect, ttg_login.country as userCountry')
-        //             ->join('ttg_login', 'ttg_login.id = defect_analysis.staff_id')
-        //             ->like('defect_analysis.staff_id', $search_value)
-        //             ->orlike('defect_analysis.crn', $search_value)
-        //             ->orlike('defect_analysis.asset_id', $search_value)
-        //             ->orlike('defect_analysis.device_type', $search_value)
-        //             ->orlike('defect_analysis.defect', $search_value)
-        //             ->orderBy('defect_analysis.id', 'desc')
-        //             ->groupby('defect_analysis.asset_id')->offset($start)->findAll($length);
-        //         $count = $defectMd->distinct()
-        //             ->select('defect_analysis.*, ttg_login.country as userCountry')
-        //             ->join('ttg_login', 'ttg_login.id = defect_analysis.staff_id')
-        //             ->like('defect_analysis.staff_id', $search_value)
-        //             ->orlike('defect_analysis.crn', $search_value)
-        //             ->orlike('defect_analysis.asset_id', $search_value)
-        //             ->orlike('defect_analysis.device_type', $search_value)
-        //             ->orlike('defect_analysis.defect', $search_value)
-        //             ->orderBy('defect_analysis.id', 'desc')
-        //             ->groupby('defect_analysis.asset_id')->countAllResults();
-        //     } else {
-        //         $defect_analysis = $defectMd->distinct()
-        //             ->select('defect_analysis.id, defect_analysis.staff_id, defect_analysis.time, defect_analysis.asset_id, defect_analysis.crn, defect_analysis.device_type, defect_analysis.defect, ttg_login.country as userCountry')
-        //             ->join('ttg_login', 'ttg_login.id = defect_analysis.staff_id')
-        //             ->orderBy('defect_analysis.id', 'desc')
-        //             ->groupby('defect_analysis.asset_id')->offset($start)->findAll($length);
-        //         $count = $defectMd->distinct()
-        //             ->select('defect_analysis.*, ttg_login.country as userCountry')
-        //             ->join('ttg_login', 'ttg_login.id = defect_analysis.staff_id')
-        //             ->orderBy('defect_analysis.id', 'desc')
-        //             ->groupby('defect_analysis.asset_id')
-        //             ->countAllResults();
-        //     }
-        // }
     }
 }

@@ -10,35 +10,36 @@
     </div>
     <div class="card card-preview">
         <div class="card-inner">
-            <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+            <table class="nk-tb-list nk-tb-ulist" id="performance_report">
                 <thead>
-                    <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col nk-tb-col-check">
+                    <tr class=" nk-tb-item nk-tb-head">
+                        <!-- <th class="nk-tb-col nk-tb-col-check">
                             <div class="custom-control custom-control-sm custom-checkbox notext">
                                 <input type="checkbox" class="custom-control-input" id="uid">
                                 <label class="custom-control-label" for="uid"></label>
                             </div>
-                        </th>
+                        </th> -->
                         <th class="nk-tb-col"><span class="sub-text">Staff Id</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Staff Name</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Total Data</span></th>
-                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Objected Data</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Varified Data</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right">Action
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Total</span></th>
+                        <th class="nk-tb-col tb-col-lg"><span class="sub-text">Objected</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Verified</span></th>
+                        <!-- <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th> -->
+                        <th class="nk-tb-col"><span class="sub-text">Date-time</span></th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right">
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($dataper as $key => $performance) : ?>
                         <tr class="nk-tb-item">
-                            <td class="nk-tb-col nk-tb-col-check">
+                            <!-- <td class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
                                     <input type="checkbox" class="custom-control-input" id="uid1">
                                     <label class="custom-control-label" for="uid1"></label>
                                 </div>
-                            </td>
+                            </td> -->
                             <td class="nk-tb-col">
                                 <div class="user-card">
                                     <div class="user-info">
@@ -51,7 +52,7 @@
                             <td class="nk-tb-col">
                                 <div class="user-card">
                                     <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span><?= substr($performance['name'], 0,2) ?></span>
+                                        <span><?= substr($performance['name'], 0, 2) ?></span>
                                     </div>
                                     <div class="user-info">
                                         <span class="tb-lead"><?= $performance['name'] ?> <span class="dot dot-success d-md-none ml-1"></span></span>
@@ -73,22 +74,14 @@
                                 <span><?= count((array) json_decode($performance['objectionContent'])); ?></span>
                             </td>
 
-                            <td class="nk-tb-col tb-col-md">
+                            <!-- <td class="nk-tb-col tb-col-md">
                                 <span class="tb-status text-success">Active</span>
+                            </td> -->
+                            <td class="nk-tb-col">
+                                <span><?= date('d M, Y g:s A', strtotime($performance['datetimes'])) ?></span>
                             </td>
-                            <td class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-1">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                            <td class="nk-tb-col text-end">
+                                <a href="javascript:void(0);" class="text-danger fs-5"><em class="icon ni ni-trash"></em></a>
                             </td>
                         </tr><!-- .nk-tb-item  -->
                     <?php endforeach; ?>
@@ -98,4 +91,17 @@
     </div><!-- .card-preview -->
 </div> <!-- nk-block -->
 
+<?= $this->endSection() ?>
+<?= $this->section('javascript') ?>
+<script>
+    NioApp.DataTable('#performance_report', {
+        bFilter: true,
+        responsive: {
+            details: false
+        },
+        order: [
+            [7, 'desc']
+        ],
+    });
+</script>
 <?= $this->endSection() ?>

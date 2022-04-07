@@ -27,6 +27,7 @@ class ManageUsersController extends BaseController
 
     public function manage_client()
     {
+        $response = ['success' => false, 'message' => ''];
         if (session()->get('loginType') == 'admin') {
             $country = session()->get('user.country');
             $this->data['manage_client'] = $this->userMd->where('type', 'client')->where('country', $country)->orderBy('id', 'desc')->findAll();
@@ -37,25 +38,61 @@ class ManageUsersController extends BaseController
         if ($this->request->getVar('delete')) {
             $getId = $this->request->getVar('id');
             return $this->userMd->delete($getId);
+            // if ($this->crnAssign->save($crnData)) {
+            //     $response['success'] = true;
+            //     $response['message'] = 'Crn assigned succesfully';
+            // } else {
+            //     $response['success'] = false;
+            //     $response['message'] = 'Error assigning crn, please try again later.';
+            // }
+            // session()->set('clientsave', $response);
+            // return redirect()->route('manage_client');
         }
 
-        if ($this->request->getVar('assign')) {
-            $getId = $this->request->getVar('id');
-            $new_crn = $this->request->getVar('superheroAlias');
+        if ($this->request->getVar('assign_crn')) {
+            // return print_r($this->request->getVar());
+            $getId = $this->request->getVar('client_id');
+            $new_crn = $this->request->getVar('assign_crn');
             $crnData = [
                 'crn' => $new_crn,
                 'userid' => $getId,
                 'time' => time(),
             ];
             //   return print_r(json_encode($crnData));
-            $this->crnAssign->save($crnData);
-            $assi = $this->crnAssign->where('userid', $getId)->find();
-            return print_r(json_encode($assi));
-            // return json_encode(array_merge($assignedCrn,$assi));
-            // if ($assignedCrn) {
-            //     $this->session->setFlashdata("success", "This is success message");
-            //     return redirect()->route('manage_client');
-            // }
+            $oldCrn = $this->crnAssign->where(['crn' => $new_crn, 'userid' => $getId])->first();
+            if (!$oldCrn) {
+                if ($this->crnAssign->save($crnData)) {
+                    $response['success'] = true;
+                    $response['message'] = 'Crn assigned succesfully';
+                } else {
+                    $response['success'] = false;
+                    $response['message'] = 'Error assigning crn, please try again later.';
+                }
+            } else {
+                $response['success'] = false;
+                $response['message'] = 'CRN already assigned to this user, please assign different CRN.';
+            }
+            session()->set('clientsave', $response);
+            return redirect()->route('manage_client');
+        }
+
+        if ($this->request->getVar('delete_crn')) {
+            $crnMd = new CrnModel();
+            if ($crnMd->deleteCRN($this->request->getVar('id'), $this->request->getVar('delete_crn'))) {
+                $response['success'] = true;
+                $response['message'] = 'Crn delete succesfully';
+            } else {
+                $response['success'] = false;
+                $response['message'] = 'Error delete crn, please try again later.';
+            }
+            session()->set('clientsave', $response);
+            return redirect()->route('manage_client');
+            // return json_encode($crnMd->deleteCRN($this->request->getVar('id'), $this->request->getVar('crn')));
+        }
+        if ($this->request->getVar('get_crn_list')) {
+            $crnMd = new CrnModel();
+            $crnLists = count($crnMd->getCrnList($this->request->getVar('id'))) ? $crnMd->getCrnList($this->request->getVar('id')) : NULL;
+            return json_encode($crnLists);
         }
 
         if ($this->request->getVar('edit')) {
@@ -68,12 +105,13 @@ class ManageUsersController extends BaseController
                 'name' => $this->request->getVar('name') ? $this->request->getVar('name') : NULL,
                 'email' => $this->request->getVar('email') ? $this->request->getVar('email') : NULL,
                 'mobile' => $this->request->getVar('mobile') ? $this->request->getVar('mobile') : NULL,
-                'country' => $this->request->getVar('country') ? $this->request->getVar('country') : NULL,
+                'country' => $this->request->getVar('country') ? $this->request->getVar('country') : ' ',
                 'crn_status' => $this->request->getVar('crn_status') ? $this->request->getVar('crn_status') : NULL,
                 'pass' => $this->request->getVar('pass') ? $this->request->getVar('pass') : NULL,
                 'status' => $this->request->getVar('status'),
                 'profile_pic' => $this->request->getFile('profile_pic')
             ];
+            // return print_r($clientData);
             $saveClient = $this->createUser($clientData, 'client', intval($this->request->getVar('client_id')));
             // session()->set('clientsave', $saveClient);
             // return print_r($clientData);
@@ -290,7 +328,7 @@ class ManageUsersController extends BaseController
                 unset($clientData['name']);
             }
             // if ($data['status'] && intval($data['status']) != intval($user['status'])) {
-                $clientData['status'] = $data['status'];
+            $clientData['status'] = $data['status'];
             // } else {
             //     unset($clientData['status']);
             // }
@@ -338,7 +376,7 @@ class ManageUsersController extends BaseController
         if ($data['pass']) {
             $clientData['pass'] = passwordHash($data['pass']);
         }
-        
+
         // save data to database
         if ($response['success']) {
             if ($haveProfilePic) {

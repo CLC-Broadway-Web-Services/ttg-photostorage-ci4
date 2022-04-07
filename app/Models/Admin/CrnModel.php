@@ -24,10 +24,18 @@ class CrnModel extends Model
     ];
 
     // // Dates
-    protected $useTimestamps = true;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
+    // protected $useTimestamps = true;
+    // protected $dateFormat    = 'datetime';
+    // protected $createdField  = 'created_at';
+    // protected $updatedField  = 'updated_at';
     // protected $deletedField  = 'deleted_at';
 
+    public function getCrnList($userId)
+    {
+        return $this->select('crn')->where('userid', $userId)->findAll();
+    }
+    public function deleteCRN($userId, $crn)
+    {
+        return $this->where(['userid' => $userId, 'crn' => $crn])->delete();
+    }
 }

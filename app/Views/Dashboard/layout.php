@@ -353,6 +353,17 @@ $uri = current_url(true);
                 // dangerMode: true,
             })
         }
+
+        var modalElements = document.getElementsByClassName('modal');
+        modalElements.forEach(element => {
+            // var crnModal = bootstrap.Modal.getOrCreateInstance(element);
+            element.addEventListener('hidden.bs.modal', function(event) {
+                document.body.style.overflow = "auto";
+            });
+            element.addEventListener('shown.bs.modal', function(event) {
+                document.body.style.overflow = "hidden";
+            });
+        });
     </script>
 
     <?= $this->renderSection('javascript') ?>

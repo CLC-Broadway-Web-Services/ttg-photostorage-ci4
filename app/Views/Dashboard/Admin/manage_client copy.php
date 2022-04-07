@@ -51,11 +51,19 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="nk-tb-col tb-col-lg">
-                                <?= intval($clients['mobile']) ? intval($clients['mobile']) : NULL ?>
+                            <!-- <td class="nk-tb-col tb-col-mb" data-order="35040.34">
+                                <span class="tb-amount"><?= $clients['name'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <?= trim($clients['country']) ? $clients['country'] : NULL ?>
+                                <span><?= $clients['email'] ?></span>
+                            </td> -->
+                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                <ul class="list-status">
+                                    <li> <span><?= $clients['mobile'] ?></span></li>
+                                </ul>
+                            </td>
+                            <td class="nk-tb-col tb-col-md">
+                                <span><?= $clients['country'] ?></span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
                                 <?php if ($clients['crn_status'] == 'super') { ?>
@@ -69,21 +77,28 @@
                             <td class="nk-tb-col tb-col-md">
                                 <span class="badge badge-dot badge-dot-xs badge-<?= intval($clients['status']) ? 'success' : 'danger' ?>"><?= intval($clients['status']) ? 'Active' : 'In-Active' ?></span>
                             </td>
-                            <td class="nk-tb-col text-end">
-                                <?php if ($clients['crn_status'] != 'super') : ?>
-                                    <a href="javascript:void(0);" onclick="assignCrnModal('<?= $clients['id'] ?>')" class="text-info fs-6 me-2">
-                                        <em class="icon ni ni-user-check-fill"></em>
-                                        <!-- <span>Assign CRN</span> -->
-                                    </a>
-                                <?php endif; ?>
-                                <a href="javascript:void(0);" onclick="editData(' <?= $clients['id']; ?>')" class="text-success fs-6 me-2">
-                                    <em class="icon ni ni-pen"></em>
-                                    <!-- <span>Edit</span> -->
-                                </a>
-                                <a href="javascript:void(0);" onclick="deleteData('<?= $clients['id']; ?>')" class="text-danger fs-6">
-                                    <em class="icon ni ni-trash"></em>
-                                    <!-- <span>Delete</span> -->
-                                </a>
+                            <td class="nk-tb-col nk-tb-col-tools">
+                                <ul class="nk-tb-actions gx-1">
+                                    <li>
+                                        <div class="drodown">
+                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <?php if ($clients['crn_status'] != 'super') : ?>
+                                                        <li>
+                                                            <a href="javascript:void(0);" onclick="assignCrnModal('<?= $clients['id'] ?>')">
+                                                                <em class="icon ni ni-user-check-fill"></em>
+                                                                <span>Assign CRN</span>
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                    <li><a href="javascript:void(0);" onclick="editData(' <?= $clients['id']; ?>')"><em class="icon ni ni-pen"></em><span>Edit</span></a></li>
+                                                    <li><a href="javascript:void(0);" onclick="deleteData('<?= $clients['id']; ?>')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </td>
                         </tr><!-- .nk-tb-item  -->
                     <?php endforeach; ?>
@@ -96,7 +111,7 @@
 <div class="modal fade" tabindex="-1" id="modalDefault">
     <div class="modal-dialog" role="document">
         <form class="modal-content" action="" novalidate="novalidate" method="post" enctype="multipart/form-data">
-            <a href="javascript:void(0);" class="close" data-bs-dismiss="modal">
+            <a href="javascript:void(0);" class="close" data-dismiss="modal">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
@@ -439,10 +454,13 @@
     </div>
 </div>
 
+
+
+<!-- Modal Content Code -->
 <div class="modal fade" tabindex="-1" id="assignCrn">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <a href="javascript:void(0);" class="close" data-bs-dismiss="modal">
+            <a href="javascript:void(0);" class="close" data-dismiss="modal">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
@@ -450,34 +468,45 @@
             </div>
             <div class="modal-body">
                 <form action="" class="input-group" method="POST">
-                    <input class="d-none" name="assign_crn" value="assign_crn">
-                    <input id="assign_crn_client_id" type="number" name="client_id" class="d-none" value="0">
+                    <input class="d-none" name="asign" value="assign">
+                    <input id="assign_crn_client_id" name="client_id" class="d-none" value="0">
                     <input type="text" id="assign_crn" name="assign_crn" class="form-control">
                     <button class="btn btn-dim btn-primary ml-2" type="submit">Assign</button>
                 </form>
-                <!-- <div class="card card-preview mt-4"> -->
-                <div class="mt-3">
-                    <table class="nk-tb-list table-sm table-bordered" id="crnTable">
-                        <thead>
-                            <tr class="nk-tb-item nk-tb-head">
-                                <th class="nk-tb-col"><span class="sub-text">CRN</span></th>
-                                <th class="nk-tb-col tb-col-lg text-end"><span class="sub-text">Action</span></th>
-                            </tr>
-                        </thead>
-                        <tbody id="crnTableBody">
-                        </tbody>
-                    </table>
+                <div class="card card-preview mt-4 bg-light">
+                    <div class="card-inner">
+                        <table class="nk-tb-list nk-tb-ulist" id="datatableX" data-auto-responsive="false">
+                            <thead>
+                                <tr class="nk-tb-item nk-tb-head">
+                                    <th class="nk-tb-col"><span class="sub-text">CRN</span></th>
+                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Action</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="nk-tb-col tb-col-md">
+                                        <span>nskjncs</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <span><a href="#" class="btn btn-dim btn-sm btn-outline-danger">Remove</a></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
+                    </div><!-- .card-preview -->
+                </div> <!-- nk-block -->
+                <div class="mt-2">
                 </div>
-                <!-- </div> -->
-                <!-- <div class="mt-2"> -->
-                <!-- </div> -->
+            </div>
+            <div class="modal-footer bg-light">
+
             </div>
         </div>
     </div>
 </div>
-
 <?= $this->endSection() ?>
+
 
 <?= $this->section('javascript') ?>
 <script>
@@ -487,68 +516,10 @@
         ]
     });
     $.fn.DataTable.ext.pager.numbers_length = 7;
-    var crnModalEl = document.getElementById('assignCrn');
-    var crnModal = bootstrap.Modal.getOrCreateInstance(crnModalEl);
-    crnModalEl.addEventListener('hidden.bs.modal', function(event) {
-        $('#assign_crn_client_id').val(0);
-        // document.body.style.overflow = "auto";
-    });
-    // crnModalEl.addEventListener('shown.bs.modal', function(event) {
-    //     document.body.style.overflow = "hidden";
-    // });
 
     function assignCrnModal(clientId) {
         console.log(clientId);
         // get crn assigned list
-        $.ajax({
-            url: '',
-            type: 'post',
-            data: {
-                get_crn_list: 'get_crn_list',
-                id: clientId
-            },
-            success: function(data) {
-                console.log(data);
-                var crnTableBody = $('#crnTableBody');
-                if ($.fn.dataTable.isDataTable('#crnTable')) {
-                    $('#crnTable').DataTable().destroy();
-                }
-                if (data != 'null') {
-                    var crns = JSON.parse(data);
-                    var tableData = '';
-                    crns.forEach(element => {
-                        var currenntRoute = '<?= route_to('manage_client') ?>';
-                        var tableRow = '';
-                        tableRow += `<tr>`;
-                        tableRow += `<td class="nk-tb-col tb-col-md">`;
-                        tableRow += `<span>` + element.crn + `</span>`;
-                        tableRow += `</td>`;
-                        tableRow += `<td class="nk-tb-col tb-col-lg text-end">`;
-                        tableRow += `<span><a href="` + currenntRoute + `?delete_crn=` + element.crn + `&id=` + clientId + `" class="btn btn-dim btn-sm btn-outline-danger">Remove</a></span>`;
-                        tableRow += `</td>`;
-                        tableRow += `</tr>`;
-                        tableData += tableRow;
-                    });
-                    crnTableBody.html(tableData);
-                } else {
-                    crnTableBody.html('');
-                }
-                NioApp.DataTable('#crnTable', {
-                    responsive: {
-                        details: false
-                    }
-                });
-            },
-            error: function(error) {
-                console.log(error)
-            }
-        });
-        $('#assign_crn_client_id').val(clientId);
-        crnModal.show();
-    }
-
-    function deleteCrn(userId, crn) {
-        window.location.href = '?delete_crn=' + crn + '&id=' + userId;
     }
 
     function deleteData(id) {

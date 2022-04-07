@@ -21,6 +21,7 @@ class ClientController extends BaseController
     {
         if ($this->request->getMethod() == 'post') {
 
+            return print_r($this->request->getVar());
 
             if ($this->request->getVar('delete')) {
 
@@ -58,7 +59,7 @@ class ClientController extends BaseController
             $clientName = $this->request->getVar('name');
             $clientEmail = $this->request->getVar('email');
             $clientMobile = $this->request->getVar('mobile');
-            $clientCountry = $this->request->getVar('country');
+            $clientCountry = $this->request->getVar('country') ? $this->request->getVar('country') : '';
             $clientPassword = passwordHash($this->request->getVar('pass'));
             $clientCrnStatus = $this->request->getVar('crn_status');
             // return print_r($clientPassword);
