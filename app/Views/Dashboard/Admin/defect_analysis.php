@@ -82,15 +82,15 @@
                 <div class="card-header border-bottom">Select device type</div>
                 <div class="card-body">
                     <div class="preview-block">
-                        <div class="custom-control custom-switch me-1">
+                        <div class="custom-control custom-control-sm custom-switch me-1">
                             <input type="radio" name="deviceType" class="custom-control-input deviceType" <?= isset($_GET['deviceType']) && $_GET['deviceType'] == 'Desktop' ? 'checked' : '' ?> id="deviceDesktop" value="Desktop">
                             <label class="custom-control-label" for="deviceDesktop">Desktop <b>(<?= $totals['desktops'] ?>)</b></label>
                         </div>
-                        <div class="custom-control custom-switch me-1">
+                        <div class="custom-control custom-control-sm custom-switch me-1">
                             <input type="radio" name="deviceType" class="custom-control-input deviceType" <?= isset($_GET['deviceType']) && $_GET['deviceType'] == 'Notebook' ? 'checked' : '' ?> id="deviceNotebook" value="Notebook">
                             <label class="custom-control-label" for="deviceNotebook">Notebook <b>(<?= $totals['notebooks'] ?>)</b></label>
                         </div>
-                        <div class="custom-control custom-switch me-1">
+                        <div class="custom-control custom-control-sm custom-switch me-1">
                             <input type="radio" name="deviceType" class="custom-control-input deviceType" <?= isset($_GET['deviceType']) && $_GET['deviceType'] == 'Other Device' ? 'checked' : '' ?> id="deviceOther" value="Other Device">
                             <label class="custom-control-label" for="deviceOther">Other Device <b>(<?= $totals['other_devices'] ?>)</b></label>
                         </div>
@@ -105,100 +105,100 @@
                     <div class="card-body">
                         <div class="preview-block">
                             <?php if ($_GET['deviceType'] == 'Desktop' || $_GET['deviceType'] == 'Notebook' || $_GET['deviceType'] == 'Other Device') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Motherboard Faulty' ? 'checked' : '' ?> id="motherboard_faulty" value="Motherboard Faulty">
                                     <label class="custom-control-label" for="motherboard_faulty">Motherboard Faulty <b>(<?= $defectTotals['motherboard_faulty'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Desktop' || $_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'CPU Missing/Faulty' ? 'checked' : '' ?> id="cpu_missing_faulty" value="CPU Missing/Faulty">
                                     <label class="custom-control-label" for="cpu_missing_faulty">CPU Missing/Faulty <b>(<?= $defectTotals['cpu_missing_faulty'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Desktop') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Chassis Broken/Cracked' ? 'checked' : '' ?> id="chasis_broken_cracked" value="Chassis Broken/Cracked">
                                     <label class="custom-control-label" for="chasis_broken_cracked">Chassis Broken/Cracked <b>(<?= $defectTotals['chasis_broken_cracked'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Chassis Broken' ? 'checked' : '' ?> id="chasis_broken" value="Chassis Broken">
                                     <label class="custom-control-label" for="chasis_broken">Chassis Broken <b>(<?= $defectTotals['chasis_broken'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Chassis Cracked' ? 'checked' : '' ?> id="chasis_cracked" value="Chassis Cracked">
                                     <label class="custom-control-label" for="chasis_cracked">Chassis Cracked <b>(<?= $defectTotals['chasis_cracked'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Desktop' || $_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Permanent Marking/Stained/Discolor' ? 'checked' : '' ?> id="permanent_marking_stained_discolor" value="Permanent Marking/Stained/Discolor">
                                     <label class="custom-control-label" for="permanent_marking_stained_discolor">Permanent Marking/Stained/Discolor <b>(<?= $defectTotals['permanent_marking_stained_discolor'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Desktop' || $_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'BIOS Locked/Security Feature Type' ? 'checked' : '' ?> id="bios_locked_security_feature_type" value="BIOS Locked/Security Feature Type">
                                     <label class="custom-control-label" for="bios_locked_security_feature_type">BIOS Locked/Security Feature Type <b>(<?= $defectTotals['bios_locked_security_feature_type'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Desktop' || $_GET['deviceType'] == 'Notebook' || $_GET['deviceType'] == 'Other Device') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Does Not Power-up' ? 'checked' : '' ?> id="does_not_power_up" value="Does Not Power-up">
                                     <label class="custom-control-label" for="does_not_power_up">Does Not Power-up <b>(<?= $defectTotals['does_not_power_up'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Desktop' || $_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Engraving/Scratch' ? 'checked' : '' ?> id="engraving_scratch" value="Engraving/Scratch">
                                     <label class="custom-control-label" for="engraving_scratch">Engraving/Scratch <b>(<?= $defectTotals['engraving_scratch'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Screen Spots/Blemish' ? 'checked' : '' ?> id="screen_spot_blemish" value="Screen Spots/Blemish">
                                     <label class="custom-control-label" for="screen_spot_blemish">Screen Spots/Blemish <b>(<?= $defectTotals['screen_spot_blemish'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Screen Broken/Line/Missing' ? 'checked' : '' ?> id="screen_broken_line_missing" value="Screen Broken/Line/Missing">
                                     <label class="custom-control-label" for="screen_broken_line_missing">Screen Broken/Line/Missing <b>(<?= $defectTotals['screen_broken_line_missing'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Keyboard Faulty/Key Missing' ? 'checked' : '' ?> id="keyword_faulty_key_missing" value="Keyboard Faulty/Key Missing">
                                     <label class="custom-control-label" for="keyword_faulty_key_missing">Keyboard Faulty/Key Missing <b>(<?= $defectTotals['keyword_faulty_key_missing'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Notebook') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Keyboard Panel Missing' ? 'checked' : '' ?> id="keyboard_panel_missing" value="Keyboard Panel Missing">
                                     <label class="custom-control-label" for="keyboard_panel_missing">Keyboard Panel Missing <b>(<?= $defectTotals['keyboard_panel_missing'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Other Device') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Parts Missing/Faulty' ? 'checked' : '' ?> id="parts_missing_faulty" value="Parts Missing/Faulty">
                                     <label class="custom-control-label" for="parts_missing_faulty">Parts Missing/Faulty <b>(<?= $defectTotals['parts_missing_faulty'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
                             <?php if ($_GET['deviceType'] == 'Other Device') : ?>
-                                <div class="custom-control custom-switch me-3 mt-2">
+                                <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                     <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Broken/Cracked' ? 'checked' : '' ?> id="broken_cracked" value="Broken/Cracked">
                                     <label class="custom-control-label" for="broken_cracked">Broken/Cracked <b>(<?= $defectTotals['broken_cracked'] ?>)</b></label>
                                 </div>
                             <?php endif; ?>
-                            <div class="custom-control custom-switch me-3 mt-2">
+                            <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                 <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'Other Defect' ? 'checked' : '' ?> id="other_defect" value="Other Defect">
                                 <label class="custom-control-label" for="other_defect">Other Defect <b>(<?= $defectTotals['other_defect'] ?>)</b></label>
                             </div>
-                            <div class="custom-control custom-switch me-3 mt-2">
+                            <div class="custom-control custom-control-sm custom-switch me-3 mt-2">
                                 <input type="radio" name="defectType" class="custom-control-input defectType" <?= isset($_GET['defectType']) && $_GET['defectType'] == 'No Defect Found' ? 'checked' : '' ?> id="no_defect" value="No Defect Found">
                                 <label class="custom-control-label" for="no_defect">No Defects <b>(<?= $defectTotals['no_defect'] ?>)</b></label>
                             </div>

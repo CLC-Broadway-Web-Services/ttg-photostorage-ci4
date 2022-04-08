@@ -85,7 +85,7 @@ class AssetDataController extends BaseController
             $start = $_REQUEST['start'];
             $length = $_REQUEST['length'];
             $startDate = $this->request->getGet('start_date') ? date('Y-m-d ', strtotime($this->request->getGet('start_date'))) . '00:00:00' : null;
-            $endDate = $this->request->getGet('end_date') ? date('Y-m-d ', strtotime($this->request->getGet('end_date'))) . '00:00:00' : null;
+            $endDate = $this->request->getGet('end_date') ? date('Y-m-d ', strtotime($this->request->getGet('end_date'))) . '23:59:59' : null;
 
             if (session()->get('loginType') == 'superadmin') {
                 if ($startDate && $endDate) {
@@ -517,7 +517,7 @@ class AssetDataController extends BaseController
         $defectType = isset($_GET['defectType']) ? $_GET['defectType'] : '';
         
         $startDate = $this->request->getVar('start_date') ? date('Y-m-d ', strtotime($this->request->getVar('start_date'))) . '00:00:00' : '';
-        $endDate = $this->request->getVar('end_date') ? date('Y-m-d ', strtotime($this->request->getVar('end_date'))) . '00:00:00' : '';
+        $endDate = $this->request->getVar('end_date') ? date('Y-m-d ', strtotime($this->request->getVar('end_date'))) . '23:59:59' : '';
         
         // $search_value = $this->request->getVar('search') && $this->request->getVar('search.value') ? $this->request->getVar('search.value') : '';
 

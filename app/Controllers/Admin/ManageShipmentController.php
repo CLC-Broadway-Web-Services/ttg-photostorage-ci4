@@ -52,7 +52,7 @@ class ManageShipmentController extends BaseController
             $search_value = $_REQUEST['search']['value'];
 
             $startDate = $this->request->getGet('start_date') ? date('Y-m-d ', strtotime($this->request->getGet('start_date'))) . '00:00:00' : null;
-            $endDate = $this->request->getGet('end_date') ? date('Y-m-d ', strtotime($this->request->getGet('end_date'))) . '00:00:00' : null;
+            $endDate = $this->request->getGet('end_date') ? date('Y-m-d ', strtotime($this->request->getGet('end_date'))) . '23:59:59' : null;
 
             if (session()->get('loginType') == 'admin') {
                 $country = session()->get('user.country');
